@@ -1,0 +1,196 @@
+import React, { useState, useContext, useEffect } from 'react'
+import{ Container, ButtonStyle2, InputStyle, MaxDate} from "components/misc/CustomTheme";
+import { RiAddLine,RiEdit2Line } from "react-icons/ri"
+import { VscError } from "react-icons/vsc"
+import { AddModal, EditModal, DeleteModal } from "components/intro/modals/infoTwoModal"
+import { useHistory } from "react-router-dom"
+import UserContext from "global/UserContext"
+import { useParams } from "react-router-dom"
+import axios from "global/axiosbase";
+
+const InfoTwo = () => {
+    const history = useHistory();
+    const param = useParams().id;
+    const ctx = useContext(UserContext);
+    const [ errText, setErrText ] = useState(false);
+    const [ mainData, setMainData ] = useState(null);
+    const [ addModal, setAddModal ] = useState(false);
+    const [ editModal, setEditModal ] = useState(false);
+    const [ deleteModal, setDeleteModal ] = useState(false);
+    const [ activityData, setActivityData ] = useState([]);
+    const [ selected, setSelected ] = useState({});
+    
+    useEffect(()=>{
+        fetchData();
+        fetchDataActivity();
+    },[]);
+
+    const fetchData = async () =>{
+      await axios.get(`infotwos?idd=${param}`).then(res=>{
+          setMainData(res.data[0]);
+      });
+    }
+
+    const fetchDataActivity = async () =>{
+      await axios.get(`infotwodetails?idd=${param}`).then(res=>{
+          setActivityData(res.data);
+      });
+    }
+
+    const onSubmit = (e) =>{
+        e.preventDefault();
+        let inp = document.querySelectorAll(".getInpp"); let arr = Array.from(inp); let final = {};
+        arr.map(el=>{
+            final[el.name] = el.value;
+        });
+        final["idd"] = param
+
+        if(activityData.length !== 0){
+            ctx.loadFunc(true);
+            setErrText(false);
+            if(mainData?.id){
+                axios.put(`infotwos/${mainData.id}`, final).then(res=>{
+                    ctx.alertFunc('green','Амжилттай',true );
+                    ctx.loadFunc(false);
+                    history.push(`/${param}/intro/4`);
+                }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+                activityData.map((el)=>{
+                    if(el.id){
+                        axios.put(`infotwodetails/${el.id}`, el);   
+                    }else{
+                        axios.post(`infotwodetails`, el);
+                    }
+                })
+            }else{
+                axios.post(`infotwos`, final).then(res=>{
+                    axios.put(`totals/${ctx.total?.id}`, { infotwo: true, idd: param }).then(res=>{
+                        ctx.alertFunc('green','Амжилттай',true );
+                        ctx.loadFunc(false);
+                        history.push(`/${param}/intro/4`);
+                    }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+                }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+    
+                activityData.map((el)=>{
+                    axios.post(`infotwodetails`, el);
+                })
+            }
+        }else{
+            setErrText(true);
+        }
+    }
+
+    return (
+        <Container className="contianer-fluid">
+            <form onSubmit={onSubmit}>
+                <div className="row">
+                    <div className="col-md-5 col-sm-5 col-12">
+                        <InputStyle>
+                            <div className="label">Регистерийн дугаар</div>
+                            <input defaultValue={mainData?.register} className="getInpp" name="register" type="number" required />
+                        </InputStyle>
+                    </div>
+                    <div className="col-md-1 col-sm-1 col-12"></div>
+                    <div className="col-md-5 col-sm-5 col-12">
+                        <InputStyle>
+                            <div className="label">Оноосон нэр</div>
+                            <input defaultValue={mainData?.comp_name} className="getInpp" name="comp_name" type="text" required />
+                        </InputStyle>
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="col-md-5 col-sm-5 col-12">
+                        <InputStyle>
+                            <div className="label">Бүртгэсэн огноо</div>
+                            <input className="getInpp" defaultValue={mainData?.approve_date} name="approve_date" max={MaxDate} type="text" onFocus={(e) => e.target.type = 'date'}
+                            //  placeholder="өдөр-сар-жил"
+                            required />
+                        </InputStyle>
+                    </div>
+                    <div className="col-md-1 col-sm-1 col-12"></div>
+                    <div className="col-md-5 col-sm-5 col-12">
+                        <InputStyle>
+                            <div className="label">Хэлбэр</div>
+                            <input className="getInpp" defaultValue={mainData?.sort} name="sort" type="text" required />
+                        </InputStyle>
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="col-md-5 col-sm-5 col-12">
+                        <InputStyle>
+                            <div className="label">Төрөл</div>
+                            <input className="getInpp" defaultValue={mainData?.type} name="type" type="text" required />
+                        </InputStyle>
+                    </div>
+                    <div className="col-md-1 col-sm-1 col-12"></div>
+                    <div className="col-md-5 col-sm-5 col-12">
+                        <InputStyle>
+                            <div className="label">Хувьцаа эзэмшигчдийн тоо</div>
+                            <input className="getInpp" defaultValue={mainData?.count} name="count" type="number" required />
+                        </InputStyle>
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="col-md-6 col-sm-6 col-12">
+                        <InputStyle>
+                            <div className="label">Хуулийн этгээдийн хаяг</div>
+                            <input className="getInpp" defaultValue={mainData?.address} name="address" type="text" required />
+                        </InputStyle>
+                    </div>
+                    <div className="col-md-1 col-sm-1 col-12"></div>
+                </div>
+
+                <div className="customTable">
+                    <div className="headPar">
+                        <div className="title">Үйл ажиллагааны мэдээлэл</div>
+                        <div onClick={()=>setAddModal(true)} className="addBtn"><RiAddLine /><span>Нэмэх</span></div>
+                    </div>
+                    
+                    <table >
+                        <tr>
+                            <th>дд</th>
+                            <th>Үйл ажиллагааны код</th>
+                            <th>Үйл ажиллагааны чиглэл</th>
+                            <th></th>
+                        </tr>
+                        {activityData.map((el,i)=>{
+                            return(
+                                <tr key={i}>
+                                    <td>{i+1}</td>
+                                    <td>{el.code}</td>
+                                    <td>{el.direct}</td>
+                                    <td className="editDelete">
+                                        <div className="editDeletePar">
+                                            <div onClick={()=> { setSelected(el); setEditModal(true); }} className="smBtn"><RiEdit2Line /></div>
+                                            <div onClick={()=> { if(el.id){ setSelected(el); setDeleteModal(true) }else{ setActivityData(prev=>prev.filter(items=>items.code!==el.code))}}} className="smBtn"><VscError /></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            )
+                        })}
+                        {activityData.length===0&&<tr className="ghost">
+                                <td>1</td>
+                                <td>1010</td>
+                                <td>Мах, махан бүтээгдэхүүний үйлдвэрлэл</td>
+                                <td></td>
+                            </tr>}
+                    </table>
+                </div>
+
+                <ButtonStyle2>
+                    <div className="errTxt">{errText&&`Үйл ажиллагааны мэдээлэлээ оруулна уу...`}</div>
+                    <button type="submit" className="myBtn">Хадгалах</button>
+                </ButtonStyle2>
+            </form>
+            
+            {addModal&&<AddModal setActivityData={setActivityData} setAddModal={setAddModal} />}
+            {editModal&&<EditModal selected={selected} setActivityData={setActivityData} setEditModal={setEditModal} />}
+            {deleteModal&&<DeleteModal selected={selected} setActivityData={setActivityData} setDeleteModal={setDeleteModal} />}
+            
+        </Container>
+    )
+}
+
+export default InfoTwo

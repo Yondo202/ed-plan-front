@@ -1,0 +1,11 @@
+export const Color = "#036";
+export const ColorRgb = "0, 51, 102";
+export const Color2 = "#fff"
+export const textColor = "0, 18, 41";
+export const fontSize = '13px'
+export const fontSize2 = '15px'
+export const fontSizeMobile = '13px'
+export const fontSizeMobile2 = '15px'
+export const fontFamily2 = "'Montserrat', sans-serif";
+// export const fontFamily = "'Rubik', sans-serif";
+export const fontFamily = "'Roboto', sans-serif";
