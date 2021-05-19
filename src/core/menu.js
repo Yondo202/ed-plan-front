@@ -10,7 +10,6 @@ function Menu() {
     const context = useContext(UserContext);
     const param = useParams().id;
     const [ paramC, setParamCond ] = useState(null);
-    const [ activeMenu, setActiveMenu ] = useState({ one:true, two:false, three:false,  });
     
     useEffect(()=>{
         if(parseInt(param)){
@@ -53,7 +52,6 @@ function Menu() {
                     </div>
                 </a>
             </PreviewTools>}
-
         </>
     )
 }
