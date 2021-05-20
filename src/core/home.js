@@ -77,15 +77,15 @@ function Home() {
                  <div className="col-md-2 col-sm-2 itemsCol">
                      <div className="itemsPar">
                          <div className="mains">
-                             <div className="items">Бүтээгдэхүүн</div>
+                             <Link to={`/${paramC}/marketing/1`} className={ctx.total?.m_one?`itemsActive`:`items`}>Бүтээгдэхүүн</Link>
                              <div className="line " ></div>
-                             <div className="items">Үнэ</div>
+                             <Link to={`/${paramC}/marketing/2`} className={ctx.total?.m_two?`itemsActive`:`items`}>Үнэ</Link>
                              <div className="line " ></div>
-                             <div className="items">Зах зээлд нэвтрэлт, хуваарилалтын сувгууд</div>
+                             <Link to={`/${paramC}/marketing/3`} className={ctx.total?.m_three?`itemsActive`:`items`}>Зах зээлд нэвтрэлт, хуваарилалтын сувгууд</Link>
                              <div className="line " ></div>
-                             <div className="items">Идэвхижүүлэлт</div>
+                             <Link to={`/${paramC}/marketing/4`} className={ctx.total?.m_four?`itemsActive`:`items`}>Идэвхижүүлэлт</Link>
                              <div className="line " ></div>
-                             <div className="items">Үйл явц</div>
+                             <Link to={`/${paramC}/marketing/5`} className={ctx.total?.m_five?`itemsActive`:`items`}>Үйл явц</Link>
                          </div>
                      </div>
                  </div>
@@ -93,16 +93,13 @@ function Home() {
                  <div className="col-md-2 col-sm-2 itemsCol">
                      <div className="itemsPar">
                          <div className="mains">
-                             <div className="items">Үйл ажиллагаа болон санхүүгийн төлөвлөгөө</div>
+                             <Link to={`/${paramC}/report/1`} className={ctx.total?.financeplan?`itemsActive`:`items`}>Үйл ажиллагаа болон санхүүгийн төлөвлөгөө</Link>
                              <div className="line " ></div>
                              <div className="items">Удирдлагын багийн уулзалт, тайлан</div>
                       
                          </div>
                      </div>
                  </div>
-                
-                 
-                
              </div>
      </HomeComponent>
      </>

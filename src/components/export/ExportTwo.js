@@ -107,30 +107,22 @@ const ExportTwo = () => {
         <Container>
             <div className="customTable T3">
                     <div className="headPar">
-                        <div className="title">Экспорт болон дотоодын борлуулалт</div>
+                        <div className="title">1 кг жерки хийх өртөг</div>
                         {/* <div onClick={()=>setAddModal(true)} className="addBtn"><RiAddLine /><span>Нэмэх</span></div> */}
                     </div>
                     <form onSubmit={submitHandle}>
                         <table >
                                 <tr>
                                     <th >дд</th>
-                                    <th >Санхүүгийн үзүүлэлтүүд</th>
-                                    <th  style={{textAlign:'center'}}>{MaxDate.three}</th>
-                                    <th style={{textAlign:'center'}} >{MaxDate.two}</th>
-                                    <th style={{textAlign:'center'}} >{MaxDate.one}</th>
+                                    <th >1 кг жерки хийх орц</th>
+                                    <th  style={{textAlign:'center'}}>Хэмжээ</th>
+                                    <th style={{textAlign:'center'}} >Өртөг, ам. доллар /АНУ/</th>
+                                    <th style={{textAlign:'center'}} >Өртөг, ам. доллар /Монголд/</th>
                                     <th ></th>
                                 </tr>
                                 {staticData.map((el,i)=>{
                                     return(
                                         <>
-                                       {el.code === 10&&<tr>
-                                            <th ></th>
-                                            <th >Санхүүгийн үзүүлэлтүүд</th>
-                                            <th  style={{textAlign:'center'}}>{MaxDate.three}</th>
-                                            <th style={{textAlign:'center'}} >{MaxDate.two}</th>
-                                            <th style={{textAlign:'center'}} >{MaxDate.one}</th>
-                                            <th ></th>
-                                        </tr>}
                                         <tr className="parent">
                                             <td style={{width:"2rem"}}>{el.code}</td>
                                             <td style={{width:"22rem"}}>{el.desc}</td>
@@ -186,21 +178,8 @@ const ExportTwo = () => {
 export default ExportTwo
 
 const Data = [
-    { code : 1, desc: "Нийт хөрөнгө C1", year_one: null, year_two: null,  year_three: null, finance: true, idd: null, inp:false },
-    { code : 2, desc: "Нийт хөрөнгө С2", year_one: null, year_two: null,  year_three: null, finance: true, idd: null, inp:false  },
-    { code : 3, desc: "Эргэлтийн хөрөнгө", year_one: null, year_two: null,  year_three: null, finance: true, idd: null, inp:false  },
-    { code : 4, desc: "Нийт өр төлбөр", year_one: null, year_two: null,  year_three: null, finance: true, idd: null, inp:false  },
-    { code : 5, desc: "Богино хугацаат өр төлбөр", year_one: null, year_two: null,  year_three: null, finance: true, idd: null, inp:false  },
-    { code : 6, desc: "Нийт эзэмшигчдийн өмч", year_one: null, year_two: null,  year_three: null, finance: true, idd: null, inp:false  },
-    { code : 7, desc: "Нийт борлуулалт", year_one: null, year_two: null,  year_three: null, finance: true, idd: null, inp:false  },
-    { code : 8, desc: "Нийт ашиг", year_one: null, year_two: null,  year_three: null, finance: true, idd: null, inp:false  },
-    { code : 9, desc: "Цэвэр ашиг", year_one: null, year_two: null,  year_three: null, finance: true, idd: null, inp:false  },
-
-    { code : 10, desc: "Debt to equity (4/6)", year_one: null, year_two: null,  year_three: null, finance: false, idd: null, inp:false  },
-    { code : 11, desc: "Current ratio (3/5)", year_one: null, year_two: null,  year_three: null, finance: false, idd: null, inp:false  },
-    { code : 12, desc: "ROE (9/6)", year_one: null, year_two: null,  year_three: null, finance: false, idd: null, inp:false  },
-    { code : 13, desc: "Gross margin (8/7)", year_one: null, year_two: null,  year_three: null, finance: false, idd: null, inp:false  },
-    { code : 14, desc: "Asset turnover (7/(1+2)/2)", year_one: null, year_two: null,  year_three: null, finance: false, idd: null, inp:false  },
+    { code : 1, desc: "Үхрийн гуя, кг", size: null, usd: null,  mnt: null, idd: null, inp:false },
+    { code : 2, desc: "Хар перц, гр", size: null, usd: null,  mnt: null, idd: null, inp:false },
 ]
 
 

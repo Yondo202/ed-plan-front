@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState  } from 'react'
+import React from 'react'
 import ProjectIntro from 'components/intro/ProjectIntro'
 import { HeaderTwo } from "components/misc/CustomTheme"
 import { BrowserRouter as Switch, Route, useHistory, useLocation, useParams } from "react-router-dom";
@@ -30,17 +30,12 @@ function Intro_main() {
                 <button onClick={()=>clickHanlde("show2")} className={`itemsPar ${loc.pathname===`/${params}/intro/2`&&`itemsPar2`}`} ><span>Бүтэц, зохион байгуулалт</span></button>
                 <button onClick={()=>clickHanlde("show3")} className={`itemsPar ${loc.pathname===`/${params}/intro/3`&&`itemsPar2`}`}><span>Гэрчилгээ, үйл ажиллагааны мэдээлэл</span></button>
                 <button onClick={()=>clickHanlde("show4")} className={`itemsPar ${loc.pathname===`/${params}/intro/4`&&`itemsPar2`}`}><span>Эцсийн өмчлөгчдийн мэдээлэл</span></button>
-                {/* <button onClick={()=>clickHanlde("show5")} className={`itemsPar ${loc.pathname===`/${params}/intro/5`&&`itemsPar2`}`}><span>Төслийн баг</span></button> */}
             </div>
 
             <Route exact path="/:id/intro/1"><ProjectIntro /></Route>
             <Route exact path="/:id/intro/2"><InfoOne /></Route>
             <Route exact path="/:id/intro/3"><InfoTwo /></Route>
             <Route exact path="/:id/intro/4"><InfoThree /></Route>
-            {/* <Route exact path="/intro/2" ><motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} ><IntroTwo /></motion.div></Route> */}
-            {/* <Route exact path="/intro/3" ><motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} ><IntroThree /></motion.div></Route> */}
-            {/* <Route path="/intro/4" ><motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} ><IntroFour /></motion.div></Route> */}
-            {/* <Route exact path="/intro/5" ><motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} ><IntroFive /></motion.div></Route> */}
         </HeaderTwo>
     )
 }

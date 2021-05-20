@@ -2,13 +2,14 @@ import React, { useState, useContext, useEffect } from 'react'
 import{ Container, ButtonStyle2} from "components/misc/CustomTheme";
 import { RiAddLine,RiEdit2Line } from "react-icons/ri"
 import { VscError } from "react-icons/vsc"
-import { AddModal, EditModal, DeleteModal } from "components/intro/modals/InfoThreeModal"
+import { AddModal, EditModal, DeleteModal } from "components/plan_report/modals/FinanceModal"
 import { useHistory } from "react-router-dom"
 import UserContext from "global/UserContext"
 import { useParams } from "react-router-dom"
 import axios from "global/axiosbase";
+import { NumberComma } from "components/misc/NumberComma"
 
-const InfoThree = () => {
+const FinancePlan = () => {
     const history = useHistory();
     const param = useParams().id;
     const ctx = useContext(UserContext);
@@ -18,14 +19,26 @@ const InfoThree = () => {
     const [ deleteModal, setDeleteModal ] = useState(false);
     const [ activityData, setActivityData ] = useState([]);
     const [ selected, setSelected ] = useState({});
+    const [ total, setTotal ] = useState(0);
     
     useEffect(()=>{
         fetchDataActivity();
+        
     },[]);
+    useEffect(()=>{
+        if(activityData.length){
+            let arr = [];
+            activityData.map(el=>{arr.push(el.budget)});
+            setTotal(arr.reduce((a, b)=> a + b));
+        }
+    },[activityData])
 
     const fetchDataActivity = async () =>{
-      await axios.get(`infothrees?idd=${param}`).then(res=>{
-          setActivityData(res.data);
+      await axios.get(`finance-plans?idd=${param}`).then(res=>{
+          if(res.data.length){
+            setActivityData(res.data);
+            
+          }
       });
     }
 
@@ -36,19 +49,19 @@ const InfoThree = () => {
             setErrText(false);
                 activityData.map(el=>{
                     if(el.id){
-                        axios.put(`infothrees/${el.id}`, el).then(res=>{
-                                axios.put(`totals/${ctx.total?.id}`, { infothree: true, idd: param }).then(res=>{
+                        axios.put(`finance-plans/${el.id}`, { ...el, total}).then(res=>{
+                                axios.put(`totals/${ctx.total?.id}`, { financeplan: true, idd: param }).then(res=>{
                                     ctx.alertFunc('green','Амжилттай',true );
                                     ctx.loadFunc(false);
-                                    history.push(`/${param}/businessinfo/1`);
+                                    history.push(`/${param}/report/2`);
                                 }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                         }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                     }else{
-                        axios.post(`infothrees`, el).then(res=>{
-                                axios.put(`totals/${ctx.total?.id}`, { infothree: true, idd: param }).then(res=>{
+                        axios.post(`finance-plans`,{ ...el, total}).then(res=>{
+                                axios.put(`totals/${ctx.total?.id}`, { financeplan: true, idd: param }).then(res=>{
                                     ctx.alertFunc('green','Амжилттай',true );
                                     ctx.loadFunc(false);
-                                    history.push(`/${param}/businessinfo/1`);
+                                    history.push(`/${param}/report/2`);
                                 }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                         }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                     }
@@ -63,30 +76,26 @@ const InfoThree = () => {
             <form onSubmit={onSubmit}>
                 <div className="customTable">
                     <div className="headPar">
-                        <div className="title">Эцсийн өмчлөгчдийн мэдээлэл</div>
+                        <div className="title">Үйл ажиллагаа болон санхүүгийн төлөвлөгөө</div>
                         <div onClick={()=>setAddModal(true)} className="addBtn"><RiAddLine /><span>Нэмэх</span></div>
                     </div>
                     <table >
                         <tr>
                             <th>дд</th>
-                            <th>Ангилал</th>
-                            <th>Улсын нэр</th>
-                            <th>Эцэг /эх/-ийн нэр</th>
-                            <th>Нэр</th>
-                            <th>Бүртгэсэн огноо</th>
-                            <th>Эзэмшлийн хувь </th>
+                            <th>Үйл ажиллагаа</th>
+                            <th style={{textAlign:"center"}}>Төсөв ам.дол</th>
+                            <th>Хугацаа</th>
+                            <th>Хариуцах хүн</th>
                             <th></th>
                         </tr>
                         {activityData.map((el,i)=>{
                             return(
                                 <tr key={i}>
                                     <td>{i+1}</td>
-                                    <td>{el.category}</td>
-                                    <td>{el.country}</td>
-                                    <td>{el.parent_name}</td>
-                                    <td>{el.name}</td>
-                                    <td>{el.approve_date}</td>
-                                    <td>{el.possess_percent}%</td>
+                                    <td>{el.titile}</td>
+                                    <td style={{textAlign:"right"}}>{NumberComma(el.budget)}</td>
+                                    <td>{el.time}</td>
+                                    <td>{el.response_person}</td>
                                     <td className="editDelete">
                                         <div className="editDeletePar">
                                             <div onClick={()=> { setSelected(el); setEditModal(true); }} className="smBtn"><RiEdit2Line /></div>
@@ -96,14 +105,22 @@ const InfoThree = () => {
                                 </tr>
                             )
                         })}
+                        {activityData.length!==0&&
+                            <tr >
+                                <th style={{backgroundColor:"white"}}></th>
+                                <th style={{backgroundColor:"white"}}>Нийт</th>
+                                <th style={{backgroundColor:"white", textAlign:"right"}}>{total}</th>
+                                <th style={{backgroundColor:"white"}}></th>
+                                <th style={{backgroundColor:"white"}}></th>
+                                <th style={{backgroundColor:"white"}}></th>
+                            </tr>}
+
                         {activityData.length===0&&<tr className="ghost">
                                 <td>1</td>
-                                <td>Иргэн</td>
-                                <td>Монгол</td>
-                                <td>Бат-Эрдэнэ</td>
-                                <td>Тэмүүлэн</td>
-                                <td>2018.01.01</td>
-                                <td>51%</td>
+                                <td>Вэбсайт хөгжүүлэх</td>
+                                <td>10,000</td>
+                                <td>8-9 сар</td>
+                                <td>Маркетингийн менежер</td>
                                 <td></td>
                             </tr>}
                     </table>
@@ -123,4 +140,4 @@ const InfoThree = () => {
     )
 }
 
-export default InfoThree
+export default FinancePlan

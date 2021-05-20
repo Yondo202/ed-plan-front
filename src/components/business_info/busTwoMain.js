@@ -36,6 +36,7 @@ const BusTwoMain = () => {
             }), ...prev]);
         })
     }
+    
     const FetchCount = async () =>{
         await axios.get(`businessinfothrees/count?idd=${param}`).then(res=>{
             setDatalength(res.data);
@@ -64,9 +65,6 @@ const BusTwoMain = () => {
             }
         });
         let keys = Object.keys(child).length;
-
-        console.log(`child`, child);
-        console.log(`final`, final);
         if(keys > 2 ){
             final["idd"] = param; final.year_one = child.year_one; final.year_three = child.year_three; final.year_two = child.year_two;
             if(final.id){

@@ -20,8 +20,10 @@ const ProjectIntro = () => {
 
     const fetchData = () =>{
         axios.get(`projectinfos?idd=${param}`, ).then(res=>{
-            setData(res.data[0]);
-            setFetchID(res.data[0]?.id);
+            if(res.data.length){
+                setData(res.data[0]);
+                setFetchID(res.data[0]?.id);
+            }
         })
     }
     const clickHandle = () =>{

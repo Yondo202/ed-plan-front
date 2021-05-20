@@ -27,7 +27,7 @@ export const AddModal = ({ setAddModal, setCond }) => {
             let detailInp = document.querySelectorAll(`.gettInppDetail${i + 1}`); let arr2 = Array.from(detailInp);
             arr2.map(el=>{
                 if(el.name !== "desc"){
-                    obj[el.name] = parseInt(el.value.replaceAll(',',''));; 
+                    obj[el.name] = parseInt(el.value.replaceAll(',',''));
                 }else{
                     obj[el.name] = el.value;
                 }
@@ -38,13 +38,16 @@ export const AddModal = ({ setAddModal, setCond }) => {
         ctx.loadFunc(true);
         axios.post(`busones`, final).then(res=>{
             if(res.data.id){
-                finalDetail.map(el=>{
+                let myLeng = finalDetail.length
+                finalDetail.map((el, ind)=>{
                     el["busone"] = res.data.id;
                     axios.post(`busonedetails`, el).then(res=>{
-                        ctx.alertFunc('green','Амжилттай',true );
-                        ctx.loadFunc(false);
-                        setClose('contentParent2');
-                        setTimeout(() => { setAddModal(false); setClose(''); setCond(true); }, 300);
+                        if(myLeng - 1 === ind){
+                            ctx.alertFunc('green','Амжилттай',true );
+                            ctx.loadFunc(false);
+                            setClose('contentParent2');
+                            setTimeout(() => { setAddModal(false); setClose(''); setCond(true); }, 300);
+                        }
                     }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                 });
                 setCond(prev=>!prev);
@@ -151,13 +154,18 @@ export const EditModal = ({ setAddModal, setCond, setDataOne }) => {
         ctx.loadFunc(true);
         axios.put(`busones/${setDataOne[0]?.id}`, final).then(res=>{
             if(res.data.id){
-                finalDetail.map(el=>{
+                let myLeng = finalDetail.length
+                finalDetail.map((el, ind)=>{
                     el["busone"] = res.data.id;
                     axios.put(`busonedetails/${el.id}`, el).then(res=>{
-                        ctx.alertFunc('green','Амжилттай',true );
-                        ctx.loadFunc(false);
-                        setClose('contentParent2');
-                        setTimeout(() => { setAddModal(false); setClose(''); setCond(true); }, 300);
+
+                        if(myLeng - 1 === ind){
+                            ctx.alertFunc('green','Амжилттай',true );
+                            ctx.loadFunc(false);
+                            setClose('contentParent2');
+                            setTimeout(() => { setAddModal(false); setClose(''); setCond(true); }, 300);
+                        }
+                        
                     }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                 });
                 setCond(prev=>!prev);
