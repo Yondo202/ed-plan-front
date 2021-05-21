@@ -51,6 +51,7 @@ const BusOneMain = () => {
                 cond={cond}
                 setCond={setCond}
             />
+
             <BusinessInfoTwo
                 title={"Экспортын борлуулалтын задаргаа"}
                 subTitle={{ one: "Экспортын борлуулалтын голлох бүтээгдэхүүн (ам.дол)", two: "Экспорт хийгдсэн улсаар (ам.дол)" }}
@@ -61,6 +62,7 @@ const BusOneMain = () => {
                 cond={cond}
                 setCond={setCond}
             />
+            
             <ButtonStyle2 >
                 <div className="errTxt"></div>
                 <button onClick={clickHandle}  className="myBtn">Дараагийн</button>

@@ -51,9 +51,9 @@ function Home() {
                  <div className="col-md-2 col-sm-2 itemsCol">
                      <div className="itemsPar">
                          <div className="mains">
-                             <Link to={`/${paramC}/export/1`} className={ctx.total?.exportone?`itemsActive`:`items`}>Экспортын бүтээгдэхүүн</Link>
+                             <Link to={`/${paramC}/export`} className={ctx.total?.exportone?`itemsActive`:`items`}>Экспортын бүтээгдэхүүн</Link>
                              <div className="line " ></div>
-                             <Link to={`/${paramC}/export/2`} className={ctx.total?.exporttwo?`itemsActive`:`items`}>Өртгийн тооцоолол</Link>
+                             <Link to={`/${paramC}/export`} className={ctx.total?.exporttwo?`itemsActive`:`items`}>Өртгийн тооцоолол</Link>
                          </div>
                      </div>
                  </div>

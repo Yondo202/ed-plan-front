@@ -13,10 +13,14 @@ export const AddModal = ({ setAddModal, setCond, urlDetail, url, title, customTi
     const ctx = useContext(UserContext);
     const [ close,setClose ] = useState('');
     const [ details, setDetails ] = useState([]);
+
     const closeHandle = () =>{
         setClose('contentParent2');
         setTimeout(() => { setAddModal(false); setClose('') }, 300);
     }
+
+    console.log(`url`, url);
+
     const SubmitHandle = (e) =>{
         e.preventDefault();
         let inp = document.querySelectorAll(".gettInppe"); let arr = Array.from(inp); let final = {};
@@ -42,6 +46,9 @@ export const AddModal = ({ setAddModal, setCond, urlDetail, url, title, customTi
                 const datalength = finalDetail.length
                 finalDetail.map((el, ind)=>{
                     el[helpField] = res.data.id;
+                    if(url === "busthrees" && length === 0){
+                        axios.post(`export-products`, { idd: param, name: el.desc })
+                    }
                     axios.post(urlDetail, el).then(res=>{
                         if(datalength - 1 === ind){
                             ctx.alertFunc('green','Амжилттай',true );

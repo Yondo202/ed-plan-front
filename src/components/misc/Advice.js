@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom"
 import axios from "global/axiosbase"
 import UserContext from "global/UserContext"
 import { BsArrowUpLeft } from "react-icons/bs";
+import {MaxDate} from "components/misc/BeforeYears"
 
 
 const Advice = () => {
@@ -33,9 +34,10 @@ const Advice = () => {
 
     const NextStep = () =>{
       setSwitchCont(prev=>prev + 1);
-      axios.put(`approves/${ctx.approve.id}`,{ seen: true })
+      axios.put(`approves/${ctx.approve.id}`,{ seen: true, year_one: MaxDate.one.toString(), year_two: MaxDate.two.toString(),  year_three: MaxDate.three.toString() })
     }
 
+    console.log(`ctx.approve.`, ctx.approve);
 
     return (
         <>

@@ -7,26 +7,33 @@ import { default as NumberFormat } from 'react-number-format';
 import axios from "global/axiosbase"
 import { useParams, useHistory } from 'react-router-dom';
 import UserContext from "global/UserContext"
-import { MaxDate } from "components/misc/BeforeYears"
 import { NumberComma, NumberComma2 } from "components/misc/NumberComma"
 
+// code gesen talbar oorchlogdoj bolohgui
+
 const BusTwoMain = () => {
-    const [ staticData, setStaticData ] = useState(Data);
-    const [ dataLength, setDatalength ] = useState(null);
     const param = useParams().id;
     const ctx = useContext(UserContext);
     const history = useHistory();
+    const [ staticData, setStaticData ] = useState(Data);
+    const [ dataLength, setDatalength ] = useState(null);
+    const [ resultData, setResultData ] = useState(ResultData);
+    const [ customDate, setCustomDate ] = useState(ctx?.approve);
+    const [ HeadEdit, setHeadEdit ] = useState(false);
+    
 
     useEffect(()=>{
         FetchData();
         FetchCount();
+        fetchResult();
     },[]);
 
-    const FetchData = async () =>{
-       await axios.get(`businessinfothrees?idd=${param}`).then(res=>{
-            setStaticData(prev=>[...prev.filter(item=>{
+    const fetchResult = async () => {
+        await axios.get(`businessresults?idd=${param}`).then(res=>{
+            setResultData(prev=>[...prev.filter(item=>{
                 res.data.map(el=>{
                     if(item.code === parseInt(el.code) ){
+                       item.desc = el.desc
                        item.year_one = el.year_one
                        item.year_two = el.year_two
                        item.year_three = el.year_three
@@ -35,6 +42,63 @@ const BusTwoMain = () => {
                 })
             }), ...prev]);
         })
+    }
+
+    const FetchData = async () =>{
+       await axios.get(`businessinfothrees?idd=${param}`).then(res=>{
+            setStaticData(prev=>[...prev.filter(item=>{
+                res.data.map(el=>{
+                    if(item.code === parseInt(el.code) ){
+                       item.desc = el.desc
+                       item.year_one = el.year_one
+                       item.year_two = el.year_two
+                       item.year_three = el.year_three
+                       item.id = el.id
+                    }
+                })
+            }), ...prev]);
+        })
+    }
+
+    useEffect(()=>{
+        resultData.map(el=>{
+            if(el.code !== 14){
+                AllResult(el.code, el.val1, el.val2);
+            }else{
+                AllResult(el.code, el.val1, el.val2, el.val3);
+            }
+        })
+    },[staticData]);
+
+    const AllResult = ( code, val1, val2, val3 ) =>{
+        let obj1 = {}; let obj2 = {};
+        if(!val3){
+            staticData.map((el)=>{
+                if(el.code === val1){ obj1 = el }
+                if(el.code === val2){ obj2 = el }
+            });
+            setResultData(prev=>[ ...prev.filter(item=>{
+                if(item.code === code){
+                    item.year_three = obj1.year_three / obj2.year_three
+                    item.year_two = obj1.year_two / obj2.year_two
+                    item.year_one = obj1.year_one / obj2.year_one
+                }
+            }), ...prev ]);
+        }else{
+            let obj3 = {};
+            staticData.map((el)=>{
+                if(el.code === val1){ obj1 = el }
+                if(el.code === val2){ obj2 = el } 
+                if(el.code === val3){ obj3 = el }
+            });
+            setResultData(prev=>[ ...prev.filter(item=>{
+                if(item.code === code){
+                    item.year_three = obj1.year_three / (obj2.year_three + obj3.year_three) / obj3.year_three
+                    item.year_two = obj1.year_two / (obj2.year_two + obj3.year_two) / obj3.year_two
+                    item.year_one = obj1.year_one / (obj2.year_one + obj3.year_one) / obj3.year_one
+                }
+            }), ...prev ]);
+        }
     }
     
     const FetchCount = async () =>{
@@ -56,13 +120,14 @@ const BusTwoMain = () => {
                 }
             }), ...prev]);
     }
+    const shitchInp2 = (cond) =>{
+        setHeadEdit(cond);
+    }
 
     const SelectItem = ( el ) =>{
         let inp = document.querySelectorAll(".inpGet"); let arr = Array.from(inp); let child = {}; let final = el
         arr.map(el=>{
-            if(el.value){child[el.name] = parseFloat(el.value.replaceAll(',','')); 
-                // +el.value
-            }
+            if(el.value){child[el.name] = parseFloat(el.value.replaceAll(',','')); }
         });
         let keys = Object.keys(child).length;
         if(keys > 2 ){
@@ -71,34 +136,57 @@ const BusTwoMain = () => {
                 axios.put(`businessinfothrees/${final.id}`, final).then(res=>{
                     ctx.alertFunc('green','',true );
                     setStaticData(prev=> [...prev.filter(item=>{ item.inp = false; }), ...prev]);
+                    resultData.map((el)=>{ el.idd = param;  if(el.id){ axios.put(`businessresults/${el.id}`, el) }else{ axios.post(`businessresults`, el ) } });
                 }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
             }else{
-                console.log(`------------`, )
-                console.log(`final`, final);
                 axios.post(`businessinfothrees`, final).then(res=>{
-                    console.log(`res`, res);
                     ctx.alertFunc('green','',true );
                     setStaticData(prev=> [...prev.filter(item=>{ item.inp = false; }), ...prev]);
                 }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
             }
         }
-    } 
+    }
 
     const submitHandle = (e) =>{
         e.preventDefault();
     }
     
     const clickHandle = () =>{
-        if(dataLength > 13){
+        if(dataLength > 8){
             ctx.loadFunc(true);
             axios.put(`totals/${ctx.total?.id}`, { bustwo: true, idd: param }).then(res=>{
                 ctx.alertFunc('green','Амжилттай',true );
                 ctx.loadFunc(false);
                 history.push(`/${param}/export/1`);
-            })
+            });
+            resultData.map((el)=>{
+                el.idd = param;
+                if(el.id){
+                    axios.put(`businessresults/${el.id}`, el)
+                }else{
+                    axios.post(`businessresults`, el )
+                }
+            });
         }else{
             ctx.alertFunc('orange','Мэдээллийг гүйцэд оруулна уу', true );
         }
+    }
+
+    const HeadHandle = (e) =>{
+        let inp = document.querySelectorAll(".inpGettt"); let arr = Array.from(inp); let child = {};
+        arr.map(el=>{
+            if(el.value) {child[el.name] = el.value; }
+        });
+        setCustomDate({
+            id: customDate.id,
+            year_one: child.year_one,
+            year_two: child.year_two,
+            year_three: child.year_three,
+        });
+        axios.put(`approves/${customDate.id}`, child).then(res=>{
+            console.log(`res`, res);
+            setHeadEdit(false);
+        });
     }
 
     return (
@@ -113,22 +201,93 @@ const BusTwoMain = () => {
                                 <tr>
                                     <th >дд</th>
                                     <th >Санхүүгийн үзүүлэлтүүд</th>
-                                    <th  style={{textAlign:'center'}}>{MaxDate.three}</th>
-                                    <th style={{textAlign:'center'}} >{MaxDate.two}</th>
-                                    <th style={{textAlign:'center'}} >{MaxDate.one}</th>
-                                    <th ></th>
+                                    {HeadEdit?
+                                    <>
+                                        <th style={{textAlign:'center'}} >
+                                            <InputStyle  style={{marginBottom:0}} className="inputt">
+                                                <input type="text" defaultValue={customDate?.year_three} className="cash inpGettt" autoFocus name={`year_three`} placeholder="0" required />
+                                            </InputStyle>
+                                        </th>
+                                        <th style={{textAlign:'center'}} >
+                                            <InputStyle  style={{marginBottom:0}} className="inputt">
+                                                <input type="text" defaultValue={customDate?.year_two} className="cash inpGettt" name={`year_two`} placeholder="0" required />
+                                            </InputStyle>
+                                        </th>
+                                        <th style={{textAlign:'center'}} >
+                                            <InputStyle  style={{marginBottom:0}} className="inputt">
+                                                <input type="text" defaultValue={customDate?.year_one} className="cash inpGettt" name={`year_one`} placeholder="0" required />
+                                            </InputStyle>
+                                        </th>
+                                    </>
+                                    :<>
+                                        <th style={{textAlign:'center'}} >{customDate?.year_three}</th>
+                                        <th style={{textAlign:'center'}} >{customDate?.year_two}</th>
+                                        <th style={{textAlign:'center'}} >{customDate?.year_one}</th>
+                                     </>
+                                    }
+
+                                    <th style={{width:"6rem"}} className="editDelete">
+                                                <div className="editDeletePar">
+                                                    {HeadEdit?<>
+                                                        <button onClick={HeadHandle} type="submit" className="smBtn"><IoMdCheckmark /></button>
+                                                        <div onClick={()=>shitchInp2(false)} className="smBtn"><VscError /></div></>
+                                                    :<div onClick={()=>shitchInp2(true)} className="smBtn"><RiEdit2Line /></div>}
+                                                    {/* {!el.id&&<div onClick={()=>setAddModal(true)} className="smBtn"><RiAddLine /></div>} */}
+                                                </div>
+                                    </th>
                                 </tr>
-                                {staticData.map((el,i)=>{
+                                {staticData.map(el=>{
                                     return(
                                         <>
-                                       {el.code === 10&&<tr>
-                                            <th ></th>
-                                            <th >Санхүүгийн үзүүлэлтүүд</th>
-                                            <th  style={{textAlign:'center'}}>{MaxDate.three}</th>
-                                            <th style={{textAlign:'center'}} >{MaxDate.two}</th>
-                                            <th style={{textAlign:'center'}} >{MaxDate.one}</th>
-                                            <th ></th>
-                                        </tr>}
+                                        <tr className="parent">
+                                            <td style={{width:"2rem"}}>{el.code}</td>
+                                            <td style={{width:"22rem"}}>{el.desc}</td>
+                                            {el.inp?<>
+                                                <td style={{textAlign:'right', width:"13rem"}}>
+                                                    <InputStyle  style={{marginBottom:0}} className="inputt">
+                                                        <NumberFormat defaultValue={el.year_three} className="cash inpGet" autoFocus name={`year_three`} thousandSeparator={true} placeholder="0" required />
+                                                    </InputStyle>
+                                                </td>
+                                                <td style={{textAlign:'right', width:"13rem"}}>
+                                                    <InputStyle style={{marginBottom:0}} className="inputt">
+                                                        <NumberFormat defaultValue={el.year_two} className="cash inpGet" name={`year_two`} thousandSeparator={true} placeholder="0" required />
+                                                    </InputStyle>
+                                                </td>
+                                                <td style={{textAlign:'right', width:"13rem"}}>
+                                                    <InputStyle style={{marginBottom:0}} className="inputt">
+                                                        <NumberFormat defaultValue={el.year_one} className="cash inpGet" name={`year_one`} thousandSeparator={true} placeholder="0" required />
+                                                    </InputStyle>
+                                                </td>
+                                            </>
+                                            :<>
+                                                <td style={{textAlign:'right'}}>{NumberComma(el.year_three)}</td>
+                                                <td style={{textAlign:'right'}}>{NumberComma(el.year_two)}</td>
+                                                <td style={{textAlign:'right'}}>{NumberComma(el.year_one)}</td>
+                                            </>}
+
+                                            <td style={{width:"6rem"}} className="editDelete">
+                                                <div className="editDeletePar">
+                                                    {el.inp?<>
+                                                    <button type="submit" onClick={()=>SelectItem(el)} className="smBtn"><IoMdCheckmark /></button>
+                                                    <div onClick={()=>shitchInp(el, false)} className="smBtn"><VscError /></div></>
+                                                    :<div onClick={()=>shitchInp(el, true)} className="smBtn"><RiEdit2Line /></div>}
+                                                    {/* {!el.id&&<div onClick={()=>setAddModal(true)} className="smBtn"><RiAddLine /></div>} */}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </>
+                                    )
+                                })}
+                                <tr>
+                                    <th ></th>
+                                    <th >Санхүүгийн үзүүлэлтүүд</th>
+                                    <th  style={{textAlign:'center'}}>{customDate?.year_three}</th>
+                                    <th style={{textAlign:'center'}} >{customDate?.year_two}</th>
+                                    <th style={{textAlign:'center'}} >{customDate?.year_one}</th>
+                                    <th ></th>
+                                </tr>
+                                {resultData.map(el=>{
+                                    return(
                                         <tr className="parent">
                                             <td style={{width:"2rem"}}>{el.code}</td>
                                             <td style={{width:"22rem"}}>{el.desc}</td>
@@ -150,26 +309,15 @@ const BusTwoMain = () => {
                                                 </td>
                                             </>
                                             :<>
-                                                <td style={{textAlign:'right'}}>{el.finance?NumberComma(el.year_three):NumberComma2(el.year_three)} {el.code==12||el.code==13?`%` :``}</td>
-                                                <td style={{textAlign:'right'}}>{el.finance?NumberComma(el.year_two):NumberComma2(el.year_three)} {el.code==12||el.code==13?`%` :``}</td>
-                                                <td style={{textAlign:'right'}}>{el.finance?NumberComma(el.year_one):NumberComma2(el.year_three)} {el.code==12||el.code==13?`%` :``}</td>
+                                                <td style={{textAlign:'right'}}>{NumberComma2(el.year_three)} {el.code==12||el.code==13?`%`:``}</td>
+                                                <td style={{textAlign:'right'}}>{NumberComma2(el.year_two)} {el.code==12||el.code==13?`%`:``}</td>
+                                                <td style={{textAlign:'right'}}>{NumberComma2(el.year_one)} {el.code==12||el.code==13?`%`:``}</td>
                                             </>}
 
-                                            <td style={{width:"6rem"}} className="editDelete">
-                                                <div className="editDeletePar">
-                                                    {el.inp?<>
-                                                    <button type="submit" onClick={()=>SelectItem(el)} className="smBtn"><IoMdCheckmark /></button>
-                                                    <div onClick={()=>shitchInp(el, false)} className="smBtn"><VscError /></div></>
-                                                    :<div onClick={()=>shitchInp(el, true)} className="smBtn"><RiEdit2Line /></div>}
-                                                    {/* {!el.id&&<div onClick={()=>setAddModal(true)} className="smBtn"><RiAddLine /></div>} */}
-                                                    
-                                                </div>
-                                            </td>
+                                            <td style={{width:"6rem"}} className="editDelete"></td>
                                         </tr>
-                                        </>
                                     )
                                 })}
-                                
                         </table>
                     </form>
             </div>
@@ -193,12 +341,14 @@ const Data = [
     { code : 7, desc: "Нийт борлуулалт", year_one: null, year_two: null,  year_three: null, finance: true, idd: null, inp:false  },
     { code : 8, desc: "Нийт ашиг", year_one: null, year_two: null,  year_three: null, finance: true, idd: null, inp:false  },
     { code : 9, desc: "Цэвэр ашиг", year_one: null, year_two: null,  year_three: null, finance: true, idd: null, inp:false  },
+]
 
-    { code : 10, desc: "Debt to equity (4/6)", year_one: null, year_two: null,  year_three: null, finance: false, idd: null, inp:false  },
-    { code : 11, desc: "Current ratio (3/5)", year_one: null, year_two: null,  year_three: null, finance: false, idd: null, inp:false  },
-    { code : 12, desc: "ROE (9/6)", year_one: null, year_two: null,  year_three: null, finance: false, idd: null, inp:false  },
-    { code : 13, desc: "Gross margin (8/7)", year_one: null, year_two: null,  year_three: null, finance: false, idd: null, inp:false  },
-    { code : 14, desc: "Asset turnover (7/(1+2)/2)", year_one: null, year_two: null,  year_three: null, finance: false, idd: null, inp:false  },
+const ResultData = [
+    { code : 10, desc: "Debt to equity (4/6)", val1:4, val2:6, year_one: null, year_two: null,  year_three: null, finance: false, idd: null, inp:false  },
+    { code : 11, desc: "Current ratio (3/5)", val1:3, val2:5, year_one: null, year_two: null,  year_three: null, finance: false, idd: null, inp:false  },
+    { code : 12, desc: "ROE (9/6)", val1:9, val2:6, year_one: null, year_two: null,  year_three: null, finance: false, idd: null, inp:false  },
+    { code : 13, desc: "Gross margin (8/7)", val1:8, val2:7, year_one: null, year_two: null,  year_three: null, finance: false, idd: null, inp:false  },
+    { code : 14, desc: "Asset turnover (7/(1+2)/2)", val1:7, val2:1, val3:2, year_one: null, year_two: null,  year_three: null, finance: false, idd: null, inp:false  },
 ]
 
 

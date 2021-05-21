@@ -53,42 +53,42 @@ const BusinessInfoTwo = ( { title, subTitle, url, urlDetail, helpField, helpFiel
                             {dataOne.length?dataOne.map((el,i)=>{
                                 return(
                                     <>
-                                    <tr key={el.id} className="parent">
-                                        <td>{i+1}</td>
-                                        <td>{el.desc}</td>
-                                        <td style={{textAlign:'right'}}>{NumberComma(el.year_three)}</td>
-                                        <td style={{textAlign:'right'}}>{NumberComma(el.year_two)}</td>
-                                        <td style={{textAlign:'right'}}>{NumberComma(el.year_one)}</td>
-                                        <td className="editDelete">
-                                            <div className="editDeletePar">
-                                                {!el.id&&<div onClick={()=>setAddModal(true)} className="smBtn"><RiAddLine /></div>} 
-                                                <div onClick={()=>editShow(el)} className="smBtn"><RiEdit2Line /></div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    {helpField2==="bustwodetails"?el.bustwodetails.map((elem, ind)=>{
-                                        return(
-                                            <tr key={elem.id} className="child">
-                                                <td></td>
-                                                <td className="title">{elem.desc}</td>
-                                                <td style={{textAlign:'right'}}>{NumberComma(elem.year_three)}</td>
-                                                <td style={{textAlign:'right'}}>{NumberComma(elem.year_two)}</td>
-                                                <td style={{textAlign:'right'}}>{NumberComma(elem.year_one)}</td>
-                                                <td></td>
-                                            </tr>
-                                        )
-                                    }):el.busthreedetails.map((elem, ind)=>{
-                                        return(
-                                            <tr key={elem.id} className="child">
-                                                <td></td>
-                                                <td className="title">{elem.desc}</td>
-                                                <td style={{textAlign:'right'}}>{NumberComma(elem.year_three)}</td>
-                                                <td style={{textAlign:'right'}}>{NumberComma(elem.year_two)}</td>
-                                                <td style={{textAlign:'right'}}>{NumberComma(elem.year_one)}</td>
-                                                <td></td>
-                                            </tr>
-                                        )
-                                    })}
+                                        <tr key={el.id} className="parent">
+                                            <td>{i+1}</td>
+                                            <td>{el.desc}</td>
+                                            <td style={{textAlign:'right'}}>{NumberComma(el.year_three)}</td>
+                                            <td style={{textAlign:'right'}}>{NumberComma(el.year_two)}</td>
+                                            <td style={{textAlign:'right'}}>{NumberComma(el.year_one)}</td>
+                                            <td className="editDelete">
+                                                <div className="editDeletePar">
+                                                    {!el.id&&<div onClick={()=>setAddModal(true)} className="smBtn"><RiAddLine /></div>} 
+                                                    <div onClick={()=>editShow(el)} className="smBtn"><RiEdit2Line /></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {helpField2==="bustwodetails"?el.bustwodetails.map((elem, ind)=>{
+                                            return(
+                                                <tr key={elem.id} className="child">
+                                                    <td></td>
+                                                    <td className="title">{elem.desc}</td>
+                                                    <td style={{textAlign:'right'}}>{NumberComma(elem.year_three)}</td>
+                                                    <td style={{textAlign:'right'}}>{NumberComma(elem.year_two)}</td>
+                                                    <td style={{textAlign:'right'}}>{NumberComma(elem.year_one)}</td>
+                                                    <td></td>
+                                                </tr>
+                                            )
+                                        }):el.busthreedetails.map((elem, ind)=>{
+                                            return(
+                                                <tr key={elem.id} className="child">
+                                                    <td></td>
+                                                    <td className="title">{elem.desc}</td>
+                                                    <td style={{textAlign:'right'}}>{NumberComma(elem.year_three)}</td>
+                                                    <td style={{textAlign:'right'}}>{NumberComma(elem.year_two)}</td>
+                                                    <td style={{textAlign:'right'}}>{NumberComma(elem.year_one)}</td>
+                                                    <td></td>
+                                                </tr>
+                                            )
+                                        })}
                                     </>
                                 )
                             }):<></>}
@@ -107,6 +107,7 @@ const BusinessInfoTwo = ( { title, subTitle, url, urlDetail, helpField, helpFiel
                                         </div>
                                     </td>
                                 </tr>}
+
                                 {dataOne.length===1||dataOne.length===2? ``:<tr className="ghost child">
                                         <td></td>
                                         <td className="title">+</td>
@@ -129,6 +130,7 @@ const BusinessInfoTwo = ( { title, subTitle, url, urlDetail, helpField, helpFiel
                                         </div>
                                     </td>
                                 </tr>}
+
                                 {dataOne.length===2? ``:<tr className="ghost child">
                                         <td></td>
                                         <td className="title">+</td>

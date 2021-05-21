@@ -7,7 +7,6 @@ import { default as NumberFormat } from 'react-number-format';
 import axios from "global/axiosbase"
 import { useParams, useHistory } from 'react-router-dom';
 import UserContext from "global/UserContext"
-import { MaxDate } from "components/misc/BeforeYears"
 import { NumberComma, NumberComma2 } from "components/misc/NumberComma"
 
 const ExportTwo = () => {
@@ -36,6 +35,7 @@ const ExportTwo = () => {
             }), ...prev]);
         })
     }
+
     const FetchCount = async () =>{
         await axios.get(`businessinfothrees/count?idd=${param}`).then(res=>{
             setDatalength(res.data);
@@ -75,8 +75,6 @@ const ExportTwo = () => {
                     setStaticData(prev=> [...prev.filter(item=>{ item.inp = false; }), ...prev]);
                 }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
             }else{
-                console.log(`------------`, )
-                console.log(`final`, final);
                 axios.post(`businessinfothrees`, final).then(res=>{
                     console.log(`res`, res);
                     ctx.alertFunc('green','',true );

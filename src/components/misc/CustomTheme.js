@@ -372,7 +372,7 @@ export const Container = styled.div`
                 align-items:center;
                 .smBtn{
                     cursor:pointer;
-                    padding:6px;
+                    padding:5px;
                     background-color: #fff;
                     border-color: #ddd;
                     color: #333;
@@ -382,7 +382,7 @@ export const Container = styled.div`
                     display:flex;
                     align-items:center;
                     svg{
-                        font-size:18px;
+                        font-size:16px;
                     }
                     &:hover{
                         background-color:#ddd;
@@ -491,10 +491,14 @@ export const CustomModal = styled.div`
                 display:flex;
                 justify-content:space-between;
                 align-items:center;
+                padding-left:30px;
+                margin-bottom:15px;
                 &:first-child{
-                    margin-bottom:15px;
+                    padding-left:0px;
+                    margin-bottom:30px;
                     border-bottom:1px solid rgba(0,0,0,0.1);
                 }
+                
                 .title{
                     width:20%;
                     font-weight:500;

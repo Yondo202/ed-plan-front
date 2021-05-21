@@ -41,31 +41,31 @@ const BusinessInfoOne = ({ cond, setCond }) => {
                             {dataOne.length?dataOne.map((el,i)=>{
                                 return(
                                     <>
-                                    <tr key={el.id} className="parent">
-                                        <td>{i+1}</td>
-                                        <td>Борлуулалт (ам.дол)</td>
-                                        <td style={{textAlign:'right'}}>{NumberComma(el.year_three)}</td>
-                                        <td style={{textAlign:'right'}}>{NumberComma(el.year_two)}</td>
-                                        <td style={{textAlign:'right'}}>{NumberComma(el.year_one)}</td>
-                                        <td className="editDelete">
-                                            <div className="editDeletePar">
-                                                {!el.id&&<div onClick={()=>setAddModal(true)} className="smBtn"><RiAddLine /></div>}
-                                                <div onClick={()=>setEditModal(true)} className="smBtn"><RiEdit2Line /></div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    {el.busonedetails.map((elem, ind)=>{
-                                        return(
-                                            <tr key={elem.id} className="child">
-                                                <td></td>
-                                                <td className="title">{elem.desc}</td>
-                                                <td style={{textAlign:'right'}}>{NumberComma(elem.year_three)}</td>
-                                                <td style={{textAlign:'right'}}>{NumberComma(elem.year_two)}</td>
-                                                <td style={{textAlign:'right'}}>{NumberComma(elem.year_one)}</td>
-                                                <td></td>
-                                            </tr>
-                                        )
-                                    })}
+                                        <tr key={el.id} className="parent">
+                                            <td>{i+1}</td>
+                                            <td>Борлуулалт (ам.дол)</td>
+                                            <td style={{textAlign:'right'}}>{NumberComma(el.year_three)}</td>
+                                            <td style={{textAlign:'right'}}>{NumberComma(el.year_two)}</td>
+                                            <td style={{textAlign:'right'}}>{NumberComma(el.year_one)}</td>
+                                            <td className="editDelete">
+                                                <div className="editDeletePar">
+                                                    {!el.id&&<div onClick={()=>setAddModal(true)} className="smBtn"><RiAddLine /></div>}
+                                                    <div onClick={()=>setEditModal(true)} className="smBtn"><RiEdit2Line /></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {el.busonedetails.map((elem, ind)=>{
+                                            return(
+                                                <tr key={elem.id} className="child">
+                                                    <td></td>
+                                                    <td className="title">{elem.desc}</td>
+                                                    <td style={{textAlign:'right'}}>{NumberComma(elem.year_three)}</td>
+                                                    <td style={{textAlign:'right'}}>{NumberComma(elem.year_two)}</td>
+                                                    <td style={{textAlign:'right'}}>{NumberComma(elem.year_one)}</td>
+                                                    <td></td>
+                                                </tr>
+                                            )
+                                        })}
                                     </>
                                 )
                             }):<>
