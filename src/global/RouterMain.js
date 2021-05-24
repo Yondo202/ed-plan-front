@@ -9,6 +9,8 @@ import LoginMsg from "components/misc/LoginMsg"
 import ExportMain from "core/contents/export_service"
 import Marketing from 'core/contents/marketing'
 import PlanReport from "core/contents/plan_report"
+import Analysis from "core/contents/market_analysis"
+
 
 
 const RouterMain = () => {
@@ -22,6 +24,7 @@ const RouterMain = () => {
             <Route path="/:id/businessinfo" component={BusinessMain} />
             <Route path="/:id/intro" component={IntroMain} />
             <Route path="/:id/export" component={ExportMain} />
+            <Route path="/:id/analysis" component={Analysis} />
             <Route path="/:id/marketing" component={Marketing} />
             <Route path="/:id/report" component={PlanReport} />
             </>: <LoginMsg />:

@@ -37,7 +37,7 @@ const ExportOne = ({setProductName}) => {
                 setProductName(res.data[0].name);
             }
         })
-     }
+    }
 
     const clickHandle = () =>{
         if(data.length){

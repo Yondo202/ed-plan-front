@@ -4,6 +4,7 @@ import { BrowserRouter as Switch, Link, Route, useLocation, useParams } from "re
 import ExportOne from "components/export/ExportOne"
 import{ Container } from "components/misc/CustomTheme";
 import ExportTwo from "components/export/ExportTwo"
+import ExportThree from "components/export/ExportThree"
 import styled from 'styled-components';
 import { MdKeyboardArrowRight } from "react-icons/md"
 import axios from 'global/axiosbase';
@@ -26,13 +27,13 @@ function Intro_main() {
            setProducts(res.data);
        })
     }
-    console.log(`object`, Products)
 
     return (
         <HeaderTwo className="container">
             <div className="smMenuPar">
                 <button className={`itemsPar ${loc.pathname.includes(`/export/1`)&&`itemsPar2`}`}><span>Экспортын бүтээгдэхүүн {ProductName&&` - ${ProductName}`} </span></button>
                 <button className={`itemsPar ${loc.pathname.includes(`/export/2`)&&`itemsPar2`}`} ><span>Өртгийн тооцоолол</span></button>
+                <button className={`itemsPar ${loc.pathname.includes(`/export/3`)&&`itemsPar2`}`} ><span>Өртгийн задаргаа</span></button>
                 {/* <button onClick={()=>clickHanlde("show5")} className={`itemsPar ${loc.pathname===`/${params}/export/5`&&`itemsPar2`}`}><span>Төслийн баг</span></button> */}
             </div>
             
@@ -53,6 +54,7 @@ function Intro_main() {
 
             <Route exact path="/:id/export/1/:slug/"><ExportOne setProductName={setProductName} /></Route>
             <Route exact path="/:id/export/2/:slug/"><ExportTwo setProductName={setProductName} /></Route>
+            <Route exact path="/:id/export/3/:slug/"><ExportThree setProductName={setProductName} /></Route>
         </HeaderTwo>
     )
 }

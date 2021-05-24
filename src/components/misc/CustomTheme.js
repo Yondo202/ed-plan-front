@@ -220,7 +220,7 @@ export const InputStyle = styled.div`
             }
         }
         .red{
-            border-bottom:1px solid rgba(255,0,0,0.8);
+            border:1px solid rgba(255,0,0,0.8);
         }
 
         .cash{
@@ -357,6 +357,15 @@ export const Container = styled.div`
                 animation: ${rowAnimation} 0.5s ease;
                 &:last-child{
                     padding:8px 0px;
+                }
+            }
+            .right{
+                text-align:right;
+            }
+            .center{
+                text-align:center;
+                th{
+                    text-align:center;
                 }
             }
             .ghost{

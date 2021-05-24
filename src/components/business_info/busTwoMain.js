@@ -120,6 +120,7 @@ const BusTwoMain = () => {
                 }
             }), ...prev]);
     }
+
     const shitchInp2 = (cond) =>{
         setHeadEdit(cond);
     }
@@ -184,7 +185,6 @@ const BusTwoMain = () => {
             year_three: child.year_three,
         });
         axios.put(`approves/${customDate.id}`, child).then(res=>{
-            console.log(`res`, res);
             setHeadEdit(false);
         });
     }
@@ -227,13 +227,13 @@ const BusTwoMain = () => {
                                     }
 
                                     <th style={{width:"6rem"}} className="editDelete">
-                                                <div className="editDeletePar">
-                                                    {HeadEdit?<>
-                                                        <button onClick={HeadHandle} type="submit" className="smBtn"><IoMdCheckmark /></button>
-                                                        <div onClick={()=>shitchInp2(false)} className="smBtn"><VscError /></div></>
-                                                    :<div onClick={()=>shitchInp2(true)} className="smBtn"><RiEdit2Line /></div>}
-                                                    {/* {!el.id&&<div onClick={()=>setAddModal(true)} className="smBtn"><RiAddLine /></div>} */}
-                                                </div>
+                                            <div className="editDeletePar">
+                                                {HeadEdit?<>
+                                                    <button onClick={HeadHandle} type="submit" className="smBtn"><IoMdCheckmark /></button>
+                                                    <div onClick={()=>shitchInp2(false)} className="smBtn"><VscError /></div></>
+                                                :<div onClick={()=>shitchInp2(true)} className="smBtn"><RiEdit2Line /></div>}
+                                                {/* {!el.id&&<div onClick={()=>setAddModal(true)} className="smBtn"><RiAddLine /></div>} */}
+                                            </div>
                                     </th>
                                 </tr>
                                 {staticData.map(el=>{
