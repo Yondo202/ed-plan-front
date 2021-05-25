@@ -8,6 +8,7 @@ import { useHistory } from "react-router-dom"
 import UserContext from "global/UserContext"
 import { useParams } from "react-router-dom"
 import axios from "global/axiosbase";
+import CkEditor from 'components/misc/CkEditor';
 
 const AnalysisMain = () => {
     const history = useHistory();
@@ -24,21 +25,43 @@ const AnalysisMain = () => {
     const [ deleteModal, setDeleteModal ] = useState(false);
     const [ activityData, setActivityData ] = useState([]);
     const [ selected, setSelected ] = useState({});
+    const [ data, setData ] = useState('');
+    const [ parentName, setParentName ] = useState({});
+    const [ source, setSource ] = useState('');
+    const [ fetchID, setFetchID ] = useState(null);
     
     useEffect(()=>{
         fetchDataActivity();
+        FetchProductsOne();
     },[cond]);
+
+    const FetchProductsOne = async () =>{
+        axios.post(`graphql`, { query: `query{
+            exportProducts(where: { id : "${slug}", idd:"${param}" }){
+              name
+            }
+          }` }).then(res=>{
+              if(res.data.data.exportProducts.length){
+                setParentName(res.data.data.exportProducts[0])
+              }
+        });
+    }
 
     const fetchDataActivity = async () =>{
       await axios.get(`analysisones?parent=${slug}&idd=${param}`).then(res=>{
           console.log(`res`, res);
-          if(res.data.length){
+        if(res.data.length){
             setHeader({ title: res.data[0]?.head_title, measure: res.data[0]?.head_measure });
             setParentId(res.data[0].id);
             if(res.data[0].analysisonedetails.length){
                 setActivityData(res.data[0].analysisonedetails);
             }
-          }
+            if(res.data[0].analysisonebody){
+                setSource(res.data[0].analysisonebody.source);
+                setFetchID(res.data[0].analysisonebody?.id);
+                setData(res.data[0].analysisonebody.body);
+            }
+        }
       });
     }
 
@@ -49,13 +72,13 @@ const AnalysisMain = () => {
             setErrText(false);
                 activityData.map(el=>{
                     if(el.id){
-                        axios.put(`analysisonedetails/${el.id}`,{ ...el, analysisone: ParentId}).then(res=>{
+                        axios.put(`analysisonedetails/${el.id}`,{ ...el, analysisone: ParentId, parent: slug}).then(res=>{
                                 ctx.alertFunc('green','Амжилттай',true );
                                 ctx.loadFunc(false);
                                 history.push(`/${param}/analysis/2/${slug}`);
                         }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                     }else{
-                        axios.post(`analysisonedetails`, { ...el, analysisone: ParentId}).then(res=>{
+                        axios.post(`analysisonedetails`, { ...el, analysisone: ParentId, parent: slug}).then(res=>{
                                 axios.put(`totals/${ctx.total?.id}`, { analysisone: true, idd: param }).then(res=>{
                                     ctx.alertFunc('green','Амжилттай',true );
                                     ctx.loadFunc(false);
@@ -63,7 +86,13 @@ const AnalysisMain = () => {
                                 }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                         }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                     }
-                })
+                });
+                if(fetchID){
+                    axios.put(`analysisonebodies/${fetchID}`, { body: data, analysisone: ParentId, parent: slug, idd: param, source: source  })
+                }else{
+                    axios.post(`analysisonebodies`, { body: data, analysisone: ParentId, parent: slug, idd: param, source: source  })
+                }
+                
         }else{
             setErrText(true);
             setTimeout(() => {
@@ -98,7 +127,6 @@ const AnalysisMain = () => {
         }
     }
 
-
     const AddHandle = () =>{
         if(Header.title && Header.measure){
             setAddModal(true);
@@ -110,9 +138,9 @@ const AnalysisMain = () => {
     return (
         <Container className="contianer-fluid">
             <form onSubmit={onSubmit}>
-                <div className="customTable T3">
+                <div style={{marginBottom:14}} className="customTable T3">
                     <div className="headPar">
-                        <div className="title">Экспортын зах зээлийн судалгаа</div>
+                        <div className="title">Ази болон ойрх дорнодын {parentName?.name} - импорт</div>
                         <div onClick={()=>AddHandle()} className="addBtn"><RiAddLine /><span>Нэмэх</span></div>
                     </div>
                     <table >
@@ -177,6 +205,15 @@ const AnalysisMain = () => {
                             </tr>}
                     </table>
                 </div>
+
+                <InputStyle  style={{marginBottom:25}} className="inputt">
+                    <div className="label">Эх үүсвэр</div >
+                    <input value={source} type="text" className="inpHead" onChange={(e)=> { setSource(e.target.value) }} placeholder="https://example.com" />
+                </InputStyle>
+
+                <div style={{marginBottom:10}} className="label">Нэмэлт тайлбар оруулах:</div >
+
+                <CkEditor data={data} setData={setData} />
 
                 <ButtonStyle2>
                     <div className="errTxt">{errText&&`Мэдээлэлээ оруулна уу...`}</div>

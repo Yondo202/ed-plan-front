@@ -2,11 +2,13 @@ import React, { useState, useEffect, useContext } from 'react'
 import UserContext from "global/UserContext"
 import styled, { keyframes } from 'styled-components'
 import { Link, useParams  } from "react-router-dom";
+import axios from 'global/axiosbase';
 
 function Home() {
     const ctx = useContext(UserContext);
     const param = useParams().id;
     const [ paramC, setParamCond ] = useState(null);
+
     useEffect(()=>{
         if(parseInt(param)){ setParamCond(param);  }
     },[param]);
@@ -51,9 +53,11 @@ function Home() {
                  <div className="col-md-2 col-sm-2 itemsCol">
                      <div className="itemsPar">
                          <div className="mains">
-                             <Link to={`/${paramC}/export`} className={ctx.total?.exportone?`itemsActive`:`items`}>Экспортын бүтээгдэхүүн</Link>
+                             <Link to={ctx.productId?`/${paramC}/export/1/${ctx.productId}`:`/${paramC}/export`} className={ctx.total?.exportone?`itemsActive`:`items`}>Экспортын бүтээгдэхүүн</Link>
                              <div className="line " ></div>
-                             <Link to={`/${paramC}/export`} className={ctx.total?.exporttwo?`itemsActive`:`items`}>Өртгийн тооцоолол</Link>
+                             <Link to={ctx.productId?`/${paramC}/export/2/${ctx.productId}`:`/${paramC}/export`} className={ctx.total?.exporttwo?`itemsActive`:`items`}>Өртгийн тооцоолол</Link>
+                             <div className="line " ></div>
+                             <Link to={ctx.productId?`/${paramC}/export/3/${ctx.productId}`:`/${paramC}/export`} className={ctx.total?.exporttwo?`itemsActive`:`items`}>Өртгийн задаргаа</Link>
                          </div>
                      </div>
                  </div>
@@ -61,13 +65,14 @@ function Home() {
                  <div className="col-md-2 col-sm-2 itemsCol">
                      <div className="itemsPar">
                          <div className="mains">
-                             <div className="items">Экспортын зах зээлийн судалгаа</div>
+                             {/* <div className="items">Экспортын зах зээлийн судалгаа</div> */}
+                             <Link to={ctx.productId?`/${paramC}/analysis/1/${ctx.productId}`:`#`} className={ctx.total?.analysisone?`itemsActive`:`items`}>Экспортын зах зээлийн судалгаа</Link>
                              <div className="line " ></div>
-                             <div className="items">Зорилтот зах зээл</div>
+                             <Link to={ctx.productId && ctx.total?.analysisone?`/${paramC}/analysis/2/${ctx.productId}`:`#`} className={ctx.total?.analysistwo?`itemsActive`:`items`}>Зорилтот зах зээл</Link>
                              <div className="line " ></div>
-                             <div className="items">Экспортыг өрсөлдөөний орчин, өрсөлдөгчийн судалгаа</div>
+                             <Link to={ctx.productId && ctx.total?.analysistwo?`/${paramC}/analysis/3/${ctx.productId}`:`#`} className={ctx.total?.analysisthree?`itemsActive`:`items`}>Экспортыг өрсөлдөөний орчин, өрсөлдөгчийн судалгаа</Link>
                              <div className="line " ></div>
-                             <div className="items">SWOT шинжилгээ</div>
+                             <Link to={ctx.productId && ctx.total?.analysisthree?`/${paramC}/analysis/4/${ctx.productId}`:`#`} className={ctx.total?.analysisfour?`itemsActive`:`items`}>SWOT шинжилгээ</Link>
                              <div className="line " ></div>
                              <div className="items">Экспортын борлуулалтын төлөвлөгөө</div>
                          </div>

@@ -2,6 +2,9 @@ import React, { useContext, useEffect, useState  } from 'react'
 import { HeaderTwo } from "components/misc/CustomTheme"
 import { BrowserRouter as Switch, Route, useHistory, useLocation, useParams } from "react-router-dom";
 import AnalysisOne from "components/analysis/one/AnalysisMain"
+import AnalysisTwo from "components/analysis/two/AnalysisMain"
+import Analysisthree from "components/analysis/Analysisthree"
+import AnalysisFour from "components/analysis/AnalysisFour"
 
 
 function Market_analysis() {
@@ -31,6 +34,9 @@ function Market_analysis() {
             </div>
 
             <Route exact path="/:id/analysis/1/:slug"><AnalysisOne /></Route>
+            <Route exact path="/:id/analysis/2/:slug"><AnalysisTwo /></Route>
+            <Route exact path="/:id/analysis/3/:slug"><Analysisthree /></Route>
+            <Route exact path="/:id/analysis/4/:slug"><AnalysisFour /></Route>
         </HeaderTwo>
     )
 }

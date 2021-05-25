@@ -6,7 +6,7 @@ import UserContext from "global/UserContext"
 import { useParams } from "react-router-dom"
 import axios from "global/axiosbase"
 
-const ExportOne = ({setProductName}) => {
+const Analysisthree = () => {
     const history = useHistory();
     const ctx = useContext(UserContext);
     const param = useParams().id;
@@ -14,63 +14,49 @@ const ExportOne = ({setProductName}) => {
     const [ errTxt, setErrTxt ] = useState(false);
     const [ fetchID, setFetchID ] = useState(null);
     const [ data, setData ] = useState('');
-    const [ selectedData, setSelectedData ] = useState({});
 
     useEffect(()=>{
         fetchData();
-        FetchProductsOne();
     },[]);
 
     const fetchData = () =>{
-        axios.get(`exporttwos?parent=${slug}&idd=${param}`, ).then(res=>{
+        axios.get(`analysisfours?parent=${slug}&idd=${param}`, ).then(res=>{
             if(res.data.length){
                 setData(res.data[0]);
                 setFetchID(res.data[0]?.id);
             }
         })
-
-        
-    }
-
-    const FetchProductsOne = async () =>{
-        axios.post(`graphql`, { query: `query{
-            exportProducts(where: { id : "${slug}", idd:"${param}" }){
-              name id
-            }
-          }` }).then(res=>{
-              if(res.data.data.exportProducts.length){
-                setSelectedData(res.data.data.exportProducts[0]);
-                setProductName(res.data.data.exportProducts[0].name);
-              }
-        });
     }
 
     const clickHandle = () =>{
         if(data.length){
             ctx.loadFunc(true);
             if(fetchID){
-                axios.put(`exporttwos/${fetchID}`, { body: data, idd: param, parent: slug, export_product: slug }).then(res=>{
+                axios.put(`analysisfours/${fetchID}`, { body: data, idd: param, parent:slug }).then(res=>{
                     ctx.alertFunc('green','Амжилттай',true );
                     ctx.loadFunc(false);
-                    history.push(`/${param}/export/2/${slug}`);
+                    history.push(`/${param}/analysis/4/${slug}`);
                 }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
             }else{
-                axios.post(`exporttwos`, { body: data, idd: param, parent: slug, export_product: slug }).then(res=>{
-                    axios.put(`totals/${ctx.total?.id}`, { exportone: true, idd: param }).then(res=>{
+                axios.post(`analysisfours`, { body: data, idd: param, parent:slug  }).then(res=>{
+                    axios.put(`totals/${ctx.total?.id}`, { analysisfour: true, idd: param}).then(res=>{
                         ctx.alertFunc('green','Амжилттай',true );
                         ctx.loadFunc(false);
-                        history.push(`/${param}/export/2/${slug}`);
+                        history.push(`/${param}/analysis/4/${slug}`);
                     }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                 }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
             }
         }else{
             setErrTxt(true);
+            setTimeout(() => {
+                setErrTxt(false);
+            }, 5000)
         }
     }
 
     return (
         <Container>
-            <CkEditor data={data?.body} setData={setData} title={`Экспортын бүтээгдэхүүний - ${selectedData?.name}`} />
+            <CkEditor title="SWOT шинжилгээ" data={data?.body} setData={setData} />
 
             <ButtonStyle2 >
                  <div className="errTxt">{errTxt&&`Утга оруулна уу`}</div>
@@ -80,5 +66,4 @@ const ExportOne = ({setProductName}) => {
     )
 }
 
-export default ExportOne
-
+export default Analysisthree

@@ -57,29 +57,34 @@ const InfoThree = () => {
 
     const onSubmit = (e) =>{
         e.preventDefault();
-        
         if(activityData.length !== 0){
             if(totalCost.size === 100){
+                let myLength = activityData.length
                 ctx.loadFunc(true);
                 setErrText(false);
-                    activityData.map(el=>{
+                    activityData.map((el, ind)=>{
                         if(el.id){
-                            axios.put(`exportthrees/${el.id}`,{ ...el, parent: slug, export_product: slug}).then(res=>{
-                                    axios.put(`totals/${ctx.total?.id}`, { exporttwo: true, idd: param }).then(res=>{
-                                        ctx.alertFunc('green','Амжилттай',true );
-                                        ctx.loadFunc(false);
-                                        history.push(`/${param}/analysis/1/${slug}`);
-                                    }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
-                                    axios.put(`export-products/${slug}`, { selected: true });
+                            axios.put(`exportthrees/${el.id}`, { ...el, parent: slug, export_product: slug}).then(res=>{
+                                axios.put(`totals/${ctx.total?.id}`, { exporttwo: true, idd: param }).then(res=>{
+                                    ctx.alertFunc('green','Амжилттай',true );
+                                    ctx.loadFunc(false);
+                                    history.push(`/${param}/analysis/1/${slug}`);
+                                }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                             }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                         }else{
-                            axios.post(`exportthrees`,{ ...el, parent: slug, export_product: slug}).then(res=>{
-                                    axios.put(`totals/${ctx.total?.id}`, { exporttwo: true, idd: param }).then(res=>{
-                                        ctx.alertFunc('green','Амжилттай',true );
-                                        ctx.loadFunc(false);
-                                        history.push(`/${param}/analysis/1/${slug}`);
-                                    }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
-                                    axios.put(`export-products/${slug}`, { selected: true });
+                            axios.post(`exportthrees`, { ...el, parent: slug, export_product: slug}).then(res=>{
+                                axios.put(`totals/${ctx.total?.id}`, { exporttwo: true, idd: param }).then(res=>{
+                                    ctx.alertFunc('green','Амжилттай',true );
+                                    ctx.loadFunc(false);
+                                    history.push(`/${param}/analysis/1/${slug}`);
+                                }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+
+                                if(myLength -1 === ind){
+                                    axios.put(`export-products/${slug}`, { selected: true }).then(res=>{
+                                        ctx.setCond(true);
+                                    })
+                                }
+
                             }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                         }
                     })

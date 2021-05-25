@@ -376,6 +376,7 @@ export const Container = styled.div`
                 }
             }
             .editDeletePar{
+                padding:5px 10px;
                 display: flex;
                 justify-content:space-evenly;
                 align-items:center;
@@ -440,13 +441,14 @@ export const CustomModal = styled.div`
     display:flex;
     align-items:start;
     justify-content:center;
-    padding-top:10rem;
+    padding-top:6rem;
     overflow-y:scroll;
     .contentParent{
         animation:${ModalAnimate} 0.4s ease;
         border-radius:4px;
         background-color:white;
         border:1px solid rgba(0,0,0,0.1);
+        box-shadow:1px 1px 18px -10px;
         .head{
             color:#333333;
             padding:10px 20px;
@@ -473,7 +475,7 @@ export const CustomModal = styled.div`
             }
         }
         .content{
-            padding:10px 20px;
+            padding:10px 40px;
             .modalbtnPar{
                 display:flex;
                 justify-content:flex-end;

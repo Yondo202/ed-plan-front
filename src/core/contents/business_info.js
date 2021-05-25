@@ -13,7 +13,7 @@ function Business_info() {
 
     const clickHanlde = (element) => {
         switch (element) {
-            case "show1":history.push(`/${params}/businessinfo/1`); break;
+            case "show1" :history.push(`/${params}/businessinfo/1`); break;
             case "show2": history.push(`/${params}/businessinfo/2`); break;
             case "show3": history.push(`/${params}/businessinfo/3`); break;
             default:

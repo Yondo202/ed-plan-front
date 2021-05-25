@@ -3,11 +3,13 @@ import axios from "global/axiosbase"
 const UserContext = React.createContext();
 
 export const UserStore = (props) => {
+    const [ cond, setCond ] = useState(false);
     const [ userId, setUserID ] = useState(null);
     const [ loading, setLoading ] = useState(false);
     const [ alert, setAlert ] = useState({ color: 'white', text: '', cond: false });
     const [ total, setTotal ] = useState({});
     const [ approve, setApprove ] = useState({});
+    const [ productId, setProductId ] = useState(null);
 
     useEffect(()=>{
         if(userId){
@@ -19,7 +21,23 @@ export const UserStore = (props) => {
         if(userId){
             FetchApprove();
         }
-    },[userId])
+    },[userId]);
+
+    useEffect(()=>{
+        fetchProductId();
+    },[cond]);
+
+    const fetchProductId = () =>{
+        axios.post(`graphql`, { query: `query{
+            exportProducts(where: { selected :true }){
+              name id
+            }
+          }` }).then(res=>{
+              if(res.data.data.exportProducts.length){
+                setProductId(res.data.data.exportProducts[0].id);
+              }
+          })
+    }
 
     const FetchApprove = async () =>{
        await axios.get(`approves?idd=${userId}`).then(res=>{
@@ -47,8 +65,10 @@ export const UserStore = (props) => {
         setTimeout(() => { setAlert({ color: 'white', text: '', cond: false }); }, 4000);
     }
 
+    console.log(`totalss`, total);
+
     return (
-        <UserContext.Provider value={{ UserIdProvider, userId, loading, loadFunc, alert, alertFunc, total, approve }}>
+        <UserContext.Provider value={{ UserIdProvider, userId, loading, loadFunc, alert, alertFunc, total, approve, productId, setCond }}>
             {props.children}
         </UserContext.Provider>
     )
