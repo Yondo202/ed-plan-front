@@ -1,14 +1,19 @@
-import React from 'react'
-import ProjectIntro from 'components/intro/ProjectIntro'
+import React, { useEffect, useState, useContext } from 'react'
 import { HeaderTwo } from "components/misc/CustomTheme"
 import { BrowserRouter as Switch, Route, useHistory, useLocation, useParams } from "react-router-dom";
 import MarketingMain from "components/marketing/MarketingMain"
-
+import UserContext from "global/UserContext"
 
 function Intro_main() {
+    const ctx = useContext(UserContext);
     const params = useParams().id;
     const history = useHistory();
-    let loc = useLocation(); 
+    let loc = useLocation();
+    const [ targeted, setTargeted ] = useState();
+
+    useEffect(()=>{
+        setTargeted(`${ctx.targetProduct?.name} ⇀ ${ctx.targetCountry?.country}`);
+    },[])
 
     const clickHanlde = (element) => {
         switch (element) {
@@ -20,6 +25,8 @@ function Intro_main() {
             default:
         }
     }
+
+    console.log(`targeted`, targeted);
 
     return (
         <HeaderTwo className="container">
@@ -37,7 +44,7 @@ function Intro_main() {
 
             {marketingData.map((el,ind)=>{
                 return(
-                    <Route key={ind} exact path={`/:id/marketing/${el.code}`}><MarketingMain field={el.field} code={el.code} title={el.title}/></Route>
+                    <Route key={ind} exact path={`/:id/marketing/${el.code}`}><MarketingMain field={el.field} code={el.code} title={el.title} targeted={targeted} /></Route>
                 )
             })}
 
@@ -48,7 +55,7 @@ function Intro_main() {
 export default Intro_main
 
 const marketingData = [
-    { code:1, field: "m_one", title: "Бүтээгдэхүүн" },
+    { code:1, field: "m_one", title: "Бүтээгдэхүүн", },
     { code:2, field: "m_two", title: "Үнэ" },
     { code:3, field: "m_three", title: "Зах зээлд нэвтрэлт, хуваарилалтын сувгууд" },
     { code:4, field: "m_four", title: "Идэвхижүүлэлт" },

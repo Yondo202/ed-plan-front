@@ -11,41 +11,30 @@ import { NumberComma, NumberComma2 } from "components/misc/NumberComma"
 
 // code gesen talbar oorchlogdoj bolohgui
 
-const BusTwoMain = () => {
+const AnalysisFiveMain = () => {
     const param = useParams().id;
+    const slug = useParams().slug;
     const ctx = useContext(UserContext);
     const history = useHistory();
     const [ staticData, setStaticData ] = useState(Data);
     const [ dataLength, setDatalength ] = useState(null);
-    const [ resultData, setResultData ] = useState(ResultData);
-    const [ customDate, setCustomDate ] = useState(ctx?.approve);
+    const [ customDate, setCustomDate ] = useState({});
     const [ HeadEdit, setHeadEdit ] = useState(false);
     
-
     useEffect(()=>{
+        setStaticData(prev=>[...prev.filter(item=> {
+            if(item.code === 3){ item.desc = `${ctx.targetProduct?.name} - ${ctx.targetCountry?.country} ` }
+            if(item.code === 4){ item.desc = `${ctx.targetCountry?.country} - ЗЗЭХ`}
+        }), ...prev]);
         FetchData();
         FetchCount();
-        fetchResult();
+        FetchDate();
     },[]);
 
-    const fetchResult = async () => {
-        await axios.get(`businessresults?idd=${param}`).then(res=>{
-            setResultData(prev=>[...prev.filter(item=>{
-                res.data.map(el=>{
-                    if(item.code === parseInt(el.code) ){
-                       item.desc = el.desc
-                       item.year_one = el.year_one
-                       item.year_two = el.year_two
-                       item.year_three = el.year_three
-                       item.id = el.id
-                    }
-                })
-            }), ...prev]);
-        })
-    }
+
 
     const FetchData = async () =>{
-       await axios.get(`businessinfothrees?idd=${param}`).then(res=>{
+       await axios.get(`analysisfives?idd=${param}`).then(res=>{
             setStaticData(prev=>[...prev.filter(item=>{
                 res.data.map(el=>{
                     if(item.code === parseInt(el.code) ){
@@ -60,54 +49,22 @@ const BusTwoMain = () => {
         })
     }
 
-    useEffect(()=>{
-        resultData.map(el=>{
-            if(el.code !== 14){
-                AllResult(el.code, el.val1, el.val2);
-            }else{
-                AllResult(el.code, el.val1, el.val2, el.val3);
+    const FetchDate = async () =>{
+        await axios.get(`analysisfiveyears?idd=${param}&parent=${slug}`).then(res=>{
+            if(res.data.length){
+                setCustomDate(res.data[0]);
             }
         })
-    },[staticData]);
-
-    const AllResult = ( code, val1, val2, val3 ) =>{
-        let obj1 = {}; let obj2 = {};
-        if(!val3){
-            staticData.map((el)=>{
-                if(el.code === val1){ obj1 = el }
-                if(el.code === val2){ obj2 = el }
-            });
-            setResultData(prev=>[ ...prev.filter(item=>{
-                if(item.code === code){
-                    item.year_three = obj1.year_three / obj2.year_three
-                    item.year_two = obj1.year_two / obj2.year_two
-                    item.year_one = obj1.year_one / obj2.year_one
-                }
-            }), ...prev ]);
-        }else{
-            let obj3 = {};
-            staticData.map((el)=>{
-                if(el.code === val1){ obj1 = el }
-                if(el.code === val2){ obj2 = el } 
-                if(el.code === val3){ obj3 = el }
-            });
-            setResultData(prev=>[ ...prev.filter(item=>{
-                if(item.code === code){
-                    item.year_three = obj1.year_three / (obj2.year_three + obj3.year_three) / obj3.year_three
-                    item.year_two = obj1.year_two / (obj2.year_two + obj3.year_two) / obj3.year_two
-                    item.year_one = obj1.year_one / (obj2.year_one + obj3.year_one) / obj3.year_one
-                }
-            }), ...prev ]);
-        }
     }
-    
+
     const FetchCount = async () =>{
-        await axios.get(`businessinfothrees/count?idd=${param}`).then(res=>{
+        await axios.get(`analysisfives/count?idd=${param}`).then(res=>{
             setDatalength(res.data);
         });
     }
 
     const shitchInp = (el,cond) =>{
+        if(customDate.id){
             setStaticData(prev=> [...prev.filter(item=>{
                 if(item.code === el.code){
                     if(cond){
@@ -119,6 +76,10 @@ const BusTwoMain = () => {
                     item.inp = false;
                 }
             }), ...prev]);
+        }else{
+            setHeadEdit(cond);
+        }
+            
     }
 
     const shitchInp2 = (cond) =>{
@@ -128,19 +89,22 @@ const BusTwoMain = () => {
     const SelectItem = ( el ) =>{
         let inp = document.querySelectorAll(".inpGet"); let arr = Array.from(inp); let child = {}; let final = el
         arr.map(el=>{
-            if(el.value){child[el.name] = parseFloat(el.value.replaceAll(',','')); }
+            if(el.value){ child[el.name] = parseFloat(el.value.replaceAll(',','')); }
         });
         let keys = Object.keys(child).length;
+
+
         if(keys > 2 ){
-            final["idd"] = param; final.year_one = child.year_one; final.year_three = child.year_three; final.year_two = child.year_two;
+            final["idd"] = param; final["parent"] = slug; final.year_one = child.year_one; final.year_three = child.year_three; final.year_two = child.year_two;
+
+            console.log(`final`, JSON.stringify(final) );
             if(final.id){
-                axios.put(`businessinfothrees/${final.id}`, final).then(res=>{
+                axios.put(`analysisfives/${final.id}`, final).then(res=>{
                     ctx.alertFunc('green','',true );
                     setStaticData(prev=> [...prev.filter(item=>{ item.inp = false; }), ...prev]);
-                    resultData.map((el)=>{ el.idd = param;  if(el.id){ axios.put(`businessresults/${el.id}`, el) }else{ axios.post(`businessresults`, el ) } });
                 }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
             }else{
-                axios.post(`businessinfothrees`, final).then(res=>{
+                axios.post(`analysisfives`, final).then(res=>{
                     ctx.alertFunc('green','',true );
                     setStaticData(prev=> [...prev.filter(item=>{ item.inp = false; }), ...prev]);
                 }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
@@ -153,20 +117,13 @@ const BusTwoMain = () => {
     }
     
     const clickHandle = () =>{
-        if(dataLength > 8){
+        console.log(`dataLength`, dataLength);
+        if(dataLength > 3){
             ctx.loadFunc(true);
-            axios.put(`totals/${ctx.total?.id}`, { bustwo: true, idd: param }).then(res=>{
+            axios.put(`totals/${ctx.total?.id}`, { analysisfive: true, idd: param }).then(res=>{
                 ctx.alertFunc('green','Амжилттай',true );
                 ctx.loadFunc(false);
-                history.push(`/${param}/export`);
-            });
-            resultData.map((el)=>{
-                el.idd = param;
-                if(el.id){
-                    axios.put(`businessresults/${el.id}`, el)
-                }else{
-                    axios.post(`businessresults`, el )
-                }
+                history.push(`/${param}/marketing/1`);
             });
         }else{
             ctx.alertFunc('orange','Мэдээллийг гүйцэд оруулна уу', true );
@@ -179,14 +136,23 @@ const BusTwoMain = () => {
             if(el.value) {child[el.name] = el.value; }
         });
         setCustomDate({
-            id: customDate.id,
+            // id: customDate.id,
             year_one: child.year_one,
             year_two: child.year_two,
             year_three: child.year_three,
         });
-        axios.put(`approves/${customDate.id}`, child).then(res=>{
-            setHeadEdit(false);
-        });
+        child["idd"] = param;
+        child["parent"] = slug;
+
+        if(customDate.id){
+            axios.put(`analysisfiveyears/${customDate.id}`, child).then(res=>{
+                setHeadEdit(false);
+            });
+        }else{
+            axios.post(`analysisfiveyears`, child).then(res=>{
+                setHeadEdit(false);
+            });
+        }
     }
 
     return (
@@ -200,7 +166,7 @@ const BusTwoMain = () => {
                         <table >
                                 <tr>
                                     <th >дд</th>
-                                    <th >Санхүүгийн үзүүлэлтүүд</th>
+                                    <th >Утга</th>
                                     {HeadEdit?
                                     <>
                                         <th style={{textAlign:'center'}} >
@@ -220,9 +186,9 @@ const BusTwoMain = () => {
                                         </th>
                                     </>
                                     :<>
-                                        <th style={{textAlign:'center'}} >{customDate?.year_three}</th>
-                                        <th style={{textAlign:'center'}} >{customDate?.year_two}</th>
-                                        <th style={{textAlign:'center'}} >{customDate?.year_one}</th>
+                                        <th style={{textAlign:'center'}} >{customDate.year_three?customDate.year_three:"Жил 1"}</th>
+                                        <th style={{textAlign:'center'}} >{customDate?.year_two?customDate.year_two:"Жил 2"}</th>
+                                        <th style={{textAlign:'center'}} >{customDate?.year_one?customDate.year_one:"Жил 3"}</th>
                                      </>
                                     }
 
@@ -260,9 +226,9 @@ const BusTwoMain = () => {
                                                 </td>
                                             </>
                                             :<>
-                                                <td style={{textAlign:'right'}}>{NumberComma(el.year_three)}</td>
-                                                <td style={{textAlign:'right'}}>{NumberComma(el.year_two)}</td>
-                                                <td style={{textAlign:'right'}}>{NumberComma(el.year_one)}</td>
+                                                <td style={{textAlign:'right'}}>{el.code===4?`${el.year_three?el.year_three:``}%`:NumberComma(el.year_three)}</td>
+                                                <td style={{textAlign:'right'}}>{el.code===4?`${el.year_two?el.year_two:``}%`:NumberComma(el.year_two)}</td>
+                                                <td style={{textAlign:'right'}}>{el.code===4?`${el.year_one?el.year_one:``}%`:NumberComma(el.year_one)}</td>
                                             </>}
 
                                             <td style={{width:"6rem"}} className="editDelete">
@@ -278,46 +244,6 @@ const BusTwoMain = () => {
                                         </>
                                     )
                                 })}
-                                <tr>
-                                    <th ></th>
-                                    <th >Санхүүгийн үзүүлэлтүүд</th>
-                                    <th  style={{textAlign:'center'}}>{customDate?.year_three}</th>
-                                    <th style={{textAlign:'center'}} >{customDate?.year_two}</th>
-                                    <th style={{textAlign:'center'}} >{customDate?.year_one}</th>
-                                    <th ></th>
-                                </tr>
-                                {resultData.map(el=>{
-                                    return(
-                                        <tr className="parent">
-                                            <td style={{width:"2rem"}}>{el.code}</td>
-                                            <td style={{width:"22rem"}}>{el.desc}</td>
-                                            {el.inp?<>
-                                                <td style={{textAlign:'right', width:"13rem"}}>
-                                                    <InputStyle  style={{marginBottom:0}} className="inputt">
-                                                        <NumberFormat defaultValue={el.year_three} className="cash inpGet" autoFocus name={`year_three`}  thousandSeparator={true} placeholder="0" required />
-                                                    </InputStyle>
-                                                </td>
-                                                <td style={{textAlign:'right', width:"13rem"}}>
-                                                    <InputStyle style={{marginBottom:0}} className="inputt">
-                                                        <NumberFormat defaultValue={el.year_two} className="cash inpGet" name={`year_two`}  thousandSeparator={true} placeholder="0" required />
-                                                    </InputStyle>
-                                                </td>
-                                                <td style={{textAlign:'right', width:"13rem"}}>
-                                                    <InputStyle style={{marginBottom:0}} className="inputt">
-                                                        <NumberFormat defaultValue={el.year_one} className="cash inpGet" name={`year_one`}  thousandSeparator={true} placeholder="0" required />
-                                                    </InputStyle>
-                                                </td>
-                                            </>
-                                            :<>
-                                                <td style={{textAlign:'right'}}>{NumberComma2(el.year_three)} {el.code==12||el.code==13?`%`:``}</td>
-                                                <td style={{textAlign:'right'}}>{NumberComma2(el.year_two)} {el.code==12||el.code==13?`%`:``}</td>
-                                                <td style={{textAlign:'right'}}>{NumberComma2(el.year_one)} {el.code==12||el.code==13?`%`:``}</td>
-                                            </>}
-
-                                            <td style={{width:"6rem"}} className="editDelete"></td>
-                                        </tr>
-                                    )
-                                })}
                         </table>
                     </form>
             </div>
@@ -329,26 +255,11 @@ const BusTwoMain = () => {
     )
 }
 
-export default BusTwoMain
+export default AnalysisFiveMain
 
 const Data = [
-    { code : 1, desc: "Нийт хөрөнгө C1", year_one: null, year_two: null,  year_three: null, finance: true, idd: null, inp:false },
-    { code : 2, desc: "Нийт хөрөнгө С2", year_one: null, year_two: null,  year_three: null, finance: true, idd: null, inp:false  },
-    { code : 3, desc: "Эргэлтийн хөрөнгө", year_one: null, year_two: null,  year_three: null, finance: true, idd: null, inp:false  },
-    { code : 4, desc: "Нийт өр төлбөр", year_one: null, year_two: null,  year_three: null, finance: true, idd: null, inp:false  },
-    { code : 5, desc: "Богино хугацаат өр төлбөр", year_one: null, year_two: null,  year_three: null, finance: true, idd: null, inp:false  },
-    { code : 6, desc: "Нийт эзэмшигчдийн өмч", year_one: null, year_two: null,  year_three: null, finance: true, idd: null, inp:false  },
-    { code : 7, desc: "Нийт борлуулалт", year_one: null, year_two: null,  year_three: null, finance: true, idd: null, inp:false  },
-    { code : 8, desc: "Нийт ашиг", year_one: null, year_two: null,  year_three: null, finance: true, idd: null, inp:false  },
-    { code : 9, desc: "Цэвэр ашиг", year_one: null, year_two: null,  year_three: null, finance: true, idd: null, inp:false  },
+    { code : 1, desc: "Нийт борлуулалт", year_one: null, year_two: null,  year_three: null, idd: null, inp:false },
+    { code : 2, desc: "Экспорт", year_one: null, year_two: null,  year_three: null, idd: null, inp:false  },
+    { code : 3, desc: "Жерки-Хонг Конг", year_one: null, year_two: null,  year_three: null, idd: null, inp:false  },
+    { code : 4, desc: "Хонг Конг ЗЗЭХ", year_one: null, year_two: null,  year_three: null, idd: null, inp:false  },
 ]
-
-const ResultData = [
-    { code : 10, desc: "Debt to equity (4/6)", val1:4, val2:6, year_one: null, year_two: null,  year_three: null, finance: false, idd: null, inp:false  },
-    { code : 11, desc: "Current ratio (3/5)", val1:3, val2:5, year_one: null, year_two: null,  year_three: null, finance: false, idd: null, inp:false  },
-    { code : 12, desc: "ROE (9/6)", val1:9, val2:6, year_one: null, year_two: null,  year_three: null, finance: false, idd: null, inp:false  },
-    { code : 13, desc: "Gross margin (8/7)", val1:8, val2:7, year_one: null, year_two: null,  year_three: null, finance: false, idd: null, inp:false  },
-    { code : 14, desc: "Asset turnover (7/(1+2)/2)", val1:7, val2:1, val3:2, year_one: null, year_two: null,  year_three: null, finance: false, idd: null, inp:false  },
-]
-
-

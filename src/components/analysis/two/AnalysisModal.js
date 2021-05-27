@@ -5,7 +5,7 @@ import axios from "global/axiosbase";
 import UserContext from "global/UserContext"
 import { default as NumberFormat } from 'react-number-format';
 
-export const AddModal = ({ setAddModal, setActivityData, addTable, getHeader,Headers }) => {
+export const AddModal = ({ setAddModal, setActivityData, addTable, getHeader,Headers, activityData }) => {
     const param = useParams().id;
     const [ close,setClose ] = useState('');
     const closeHandle = () =>{
@@ -25,10 +25,14 @@ export const AddModal = ({ setAddModal, setActivityData, addTable, getHeader,Hea
         }); final["idd"] = param; 
         let result = total.reduce((a, b) => a + b);
         final["total"] = result;
+        final["code"] = activityData.length + 1;
+        final["target"] = false;
 
         setClose('contentParent2');
         setTimeout(() => {setActivityData(prev=> [ ...prev, final ]); setAddModal(false); setClose('') }, 300);
     }
+
+    console.log(`activityData`, activityData.length);
 
     return (
         <CustomModal>

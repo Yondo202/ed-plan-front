@@ -22,7 +22,7 @@ const Analysisthree = () => {
     const fetchData = () =>{
         axios.get(`analysisthrees?parent=${slug}&idd=${param}`, ).then(res=>{
             if(res.data.length){
-                setData(res.data[0]);
+                setData(res.data[0].body);
                 setFetchID(res.data[0]?.id);
             }
         })
@@ -56,7 +56,7 @@ const Analysisthree = () => {
 
     return (
         <Container>
-            <CkEditor title="Экспортыг өрсөлдөөний орчин, өрсөлдөгчийн судалгаа" data={data?.body} setData={setData} />
+            <CkEditor title={`Экспортыг өрсөлдөөний орчин, өрсөлдөгчийн судалгаа - ${ctx.targetCountry?.country}`} data={data} setData={setData} />
             
 
             <ButtonStyle2 >

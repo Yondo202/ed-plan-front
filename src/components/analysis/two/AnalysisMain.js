@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
+import {MdKeyboardArrowRight} from 'react-icons/md'
 import { IoMdCheckmark } from "react-icons/io"
 import{ Container, ButtonStyle2, InputStyle} from "components/misc/CustomTheme";
 import { RiAddLine,RiEdit2Line } from "react-icons/ri"
@@ -8,17 +9,16 @@ import { useHistory } from "react-router-dom"
 import UserContext from "global/UserContext"
 import { useParams } from "react-router-dom"
 import axios from "global/axiosbase";
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 const AnalysisMain = () => {
     const history = useHistory();
     const param = useParams().id;
     const slug = useParams().slug;
     const ctx = useContext(UserContext);
-    const [ cond, setCond ] = useState(false);
+    const [ errValue, setErrValue ] = useState('');
     const [ errText, setErrText ] = useState(false);
     const [ addModal, setAddModal ] = useState(false);
-    const [ editModal, setEditModal ] = useState(false);
     const [ deleteModal, setDeleteModal ] = useState(false);
     const [ activityData, setActivityData ] = useState([]);
     const [ selected, setSelected ] = useState({});
@@ -28,11 +28,10 @@ const AnalysisMain = () => {
 
     useEffect(()=>{
         fetchDataActivity();
-    },[cond]);
+    },[]);
 
     const fetchDataActivity = async () =>{
       await axios.get(`analysistwos?parent=${slug}&idd=${param}`).then(res=>{
-          console.log(`res`, res);
           if(res.data.length){
             setActivityData(res.data);
             let re = res.data[0];
@@ -44,9 +43,17 @@ const AnalysisMain = () => {
 
     const onSubmit = (e) =>{
         e.preventDefault();
+        let arrCond = activityData.filter(item=> item.target === true);
         if(activityData.length !== 0){
             ctx.loadFunc(true);
             setErrText(false);
+            if(arrCond.length === 0){
+                setErrText(true);
+                setErrValue('Голлох зорилтот орныг сонгоно уу...');
+                setTimeout(() => {
+                    setErrText(false);
+                }, 5000);
+            }else{
                 activityData.map(el=>{
                     if(el.id){
                         axios.put(`analysistwos/${el.id}`,{ ...el, parent: slug, ...Headers}).then(res=>{
@@ -64,9 +71,10 @@ const AnalysisMain = () => {
                         }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                     }
                 });
-                
+            }
         }else{
             setErrText(true);
+            setErrValue('Мэдээлэлээ оруулна уу...');
             setTimeout(() => {
                 setErrText(false);
             }, 5000);
@@ -80,7 +88,6 @@ const AnalysisMain = () => {
     const addColumn = () =>{
         let leng = addTable.length
         let inp = document.querySelector(".inpHead");
-        console.log(`leng`, leng);
         if(leng > 0){
             if(!inp){
                 if(leng < 4){
@@ -141,7 +148,20 @@ const AnalysisMain = () => {
         }
     }
 
-    console.log(`Headers`, Headers);
+    console.log(`activityDataa`, activityData);
+
+    const TargetHandle = (element) =>{
+        console.log(`element`, element);
+
+        setActivityData(prev=> [ ...prev.filter(item=>{
+            if(item.code === element.code){
+                item.target = true
+            }else{
+                item.target = false
+            }
+        }),...prev])
+
+    }
 
     return (
         <Container className="contianer-fluid">
@@ -188,17 +208,17 @@ const AnalysisMain = () => {
 
                         {activityData.map((el,i)=>{
                             return(
-                                <tr key={i}>
+                                <tr style={el.target?{fontWeight:"600"}:{fontWeight:"400"}} key={el.code}>
                                     <td>{i+1}</td>
                                     <td>{el.country}</td>
                                     <td className="center">{el.price}</td>
                                     <td className="center">{el.standart}</td>
                                     <td className="center">{el.tarif}</td>
                                     <td className="center">{el.traffic_range}</td>
-                                    {el.add1?<td >{el.add1}</td>:null}
-                                    {el.add2?<td >{el.add2}</td>:null}
-                                    {el.add3?<td >{el.add3}</td>:null}
-                                    {el.add4?<td >{el.add4}</td>:null}
+                                    {el.add1?<td className="center">{el.add1}</td>:null}
+                                    {el.add2?<td className="center">{el.add2}</td>:null}
+                                    {el.add3?<td className="center">{el.add3}</td>:null}
+                                    {el.add4?<td className="center">{el.add4}</td>:null}
                                     {/* {addTable.map(el=>{
                                         return(
                                             <td key={Math.random()}>{el.desc}</td>
@@ -233,13 +253,27 @@ const AnalysisMain = () => {
                     </table>
                 </div>
 
+                <TargetButtons>
+                    <div className="title">Голлох зорилтот орныг сонгох:</div>
+                    <div className="menu">
+                        {activityData.map(el=>{
+                            return(
+                                <div key={el.code}
+                                 onClick={()=>TargetHandle(el)}
+                                 className={el.target?`buttons A11`:`buttons`}
+                                 ><span>{el.country}</span><MdKeyboardArrowRight /> <MdKeyboardArrowRight className="one" /> <MdKeyboardArrowRight className="two" /></div>
+                            )
+                        })}
+                    </div>
+                </TargetButtons>
+
                 <ButtonStyle2>
-                    <div className="errTxt">{errText&&`Мэдээлэлээ оруулна уу...`}</div>
+                    <div className="errTxt">{errText&&`${errValue}`}</div>
                     <button type="submit" className="myBtn">Хадгалах</button>
                 </ButtonStyle2>
             </form>
             
-            {addModal&&<AddModal Headers={Headers} getHeader={getHeader} addTable={addTable} setActivityData={setActivityData} setAddModal={setAddModal} />}
+            {addModal&&<AddModal Headers={Headers} getHeader={getHeader} addTable={addTable} setActivityData={setActivityData} activityData={activityData} setAddModal={setAddModal} />}
             {/* {editModal&&<EditModal  selected={selected} setActivityData={setActivityData} setEditModal={setEditModal} />} */}
             {deleteModal&&<DeleteModal selected={selected} setActivityData={setActivityData} setDeleteModal={setDeleteModal} />}
             
@@ -248,6 +282,12 @@ const AnalysisMain = () => {
 }
 
 export default AnalysisMain;
+
+const animation3 = keyframes`
+    0% { transform:scale(0); }
+    50% { transform:scale(1.2); }
+    100% { transform:scale(1); }
+`
 
 const InputHead = styled.th`
     .content{
@@ -275,8 +315,6 @@ const InputHead = styled.th`
     }
     
 `
-
-
 const CustomThead = styled.th`
     position:relative;
     .child{
@@ -299,3 +337,83 @@ const CustomThead = styled.th`
         }
     }
 `
+const TargetButtons = styled.div`
+        margin-top:28px;
+        .title{
+            font-weight:500;
+            margin-bottom:20px;
+            font-size:15px;
+        }
+        .menu{
+            display:flex;
+            .buttons{
+                color: rgba(${props=>props.theme.textColor},0.8);
+                text-decoration:none;
+                margin-right:18px;
+                transition:all 0.3s ease;
+                cursor:pointer;
+                border-radius:5px;
+                padding:8px 60px;
+                padding-right:30px;
+                border:1px solid rgba(0,0,0,0.2);
+                display:flex;
+                align-items:center;
+                justify-content:space-between;
+                box-shadow:1px 1px 8px -6px;
+                // &:hover{
+                //     box-shadow:1px 1px 16px -7px;
+                //     .one{
+                //         margin-left:0px;
+                //         transform:scale(1);
+                //     }
+                //     .two{
+                //         margin-left:0px;
+                //         transform:scale(1);
+                //     }
+                // }
+                span{
+                    font-weight:500;
+                    margin-right:30px;
+                }
+                svg{
+                    opacity:0.6;
+                    height:100%;
+                    font-size:16px;
+                }
+                .one{
+                    transition:all 0.3s ease;
+                    margin-left:-15px;
+                    transform:scale(0);
+                }
+                .two{
+                    transition:all 0.3s ease;
+                    margin-left:-15px;
+                    transform:scale(0);
+                }
+
+            }
+            .A11{
+                position:relative;
+                color: green;
+                border:1px solid rgba(0,0,0,0.2);
+                box-shadow:1px 1px 14px -6px;
+                &::before{
+                    animation:${animation3} 0.7s ease;
+                    content:"✔";
+                    position:absolute;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    z-index:1;
+                    bottom:-7px;
+                    right:0%;
+                    border:1px solid green;
+                    background-color:white;
+                    color:green;
+                    width:19px;
+                    height:19px;
+                    border-radius:50%;
+                }
+            }
+        }
+` 

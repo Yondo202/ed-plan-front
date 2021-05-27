@@ -35,14 +35,14 @@ const Analysisthree = () => {
                 axios.put(`analysisfours/${fetchID}`, { body: data, idd: param, parent:slug }).then(res=>{
                     ctx.alertFunc('green','Амжилттай',true );
                     ctx.loadFunc(false);
-                    history.push(`/${param}/analysis/4/${slug}`);
+                    history.push(`/${param}/analysis/5/${slug}`);
                 }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
             }else{
                 axios.post(`analysisfours`, { body: data, idd: param, parent:slug  }).then(res=>{
                     axios.put(`totals/${ctx.total?.id}`, { analysisfour: true, idd: param}).then(res=>{
                         ctx.alertFunc('green','Амжилттай',true );
                         ctx.loadFunc(false);
-                        history.push(`/${param}/analysis/4/${slug}`);
+                        history.push(`/${param}/analysis/5/${slug}`);
                     }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                 }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
             }
@@ -56,7 +56,7 @@ const Analysisthree = () => {
 
     return (
         <Container>
-            <CkEditor title="SWOT шинжилгээ" data={data?.body} setData={setData} />
+            <CkEditor title={`SWOT шинжилгээ - ${ctx.targetCountry?.country}`} data={data?.body} setData={setData} />
 
             <ButtonStyle2 >
                  <div className="errTxt">{errTxt&&`Утга оруулна уу`}</div>

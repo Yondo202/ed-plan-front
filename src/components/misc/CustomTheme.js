@@ -445,7 +445,7 @@ export const CustomModal = styled.div`
     overflow-y:scroll;
     .contentParent{
         animation:${ModalAnimate} 0.4s ease;
-        border-radius:4px;
+        border-radius:6px;
         background-color:white;
         border:1px solid rgba(0,0,0,0.1);
         box-shadow:1px 1px 18px -10px;
@@ -519,8 +519,6 @@ export const CustomModal = styled.div`
                 }
             }
         }
-        
-        
     }
     .contentParent2{
         animation:${ModalAnimate2} 0.4s ease;

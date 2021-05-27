@@ -20,14 +20,14 @@ function Intro_main() {
     }
 
     return (
-        <HeaderTwo className="container">
-            <div className="smMenuPar">
+        <HeaderTwo >
+            <div className="smMenuPar container">
                 <button onClick={()=>clickHanlde("show1")} className={`itemsPar ${loc.pathname===`/${params}/report/1`&&`itemsPar2`}`}><span>Үйл ажиллагаа болон санхүүгийн төлөвлөгөө</span></button>
                 <button onClick={()=>clickHanlde("show2")} className={`itemsPar ${loc.pathname===`/${params}/report/2`&&`itemsPar2`}`} ><span>Удирдлагын багийн уулзалт, тайлан</span></button>
             </div>
 
-            <Route exact path={`/:id/report/1`}><FinancePlan /></Route>
-            <Route exact path={`/:id/report/2`}><TotalReport /></Route>
+            <Route exact path={`/:id/report/1`}><div className="container"><FinancePlan /></div> </Route>
+            <Route exact path={`/:id/report/2`}><div style={{maxWidth:"1700px"}} className="container-fluid"><TotalReport /></div></Route>
 
         </HeaderTwo>
     )

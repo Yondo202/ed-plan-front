@@ -54,7 +54,7 @@ function Menu() {
             </PreviewTools>}
 
             {context.approve?.approve&&<PreviewTools>
-                <a href="https://drive.google.com/file/d/1H7tb0eDklwtzfte9hSSEfSrYPvZBisPY/view?usp=sharing" target="_blank">
+                <a href="https://drive.google.com/file/d/1H7tb0eDklwtzfte9hSSEfSrYPvZBisPY/view" target="_blank">
                     <div className="Preview example">
                         <div className="title">Жишээ загвар харах</div>
                         <RiBookReadFill />

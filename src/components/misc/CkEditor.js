@@ -20,7 +20,7 @@ function CkEditor(props) {
     
   return (
     <Container className="CkEditor">
-      {props.title&&<p className="title">{props.title}</p>} 
+      {props.title&&<p className="title">{props.title} <span className="additionTitle"> {props.targeted?`( ${props.targeted} )`:``}</span></p>} 
       <div className={props.height?Nyll? `redCustom`:`activeCustom`:Nyll? `red`:`active`}>
         <CKEditor
               height={100}
@@ -33,7 +33,16 @@ function CkEditor(props) {
               } }
               onChange={ ( event, editor ) => {
                   const data = editor.getData();
-                  props.setData(data);
+                  if(props.setParentData){
+                    props.setParentData(prev=>[ ...prev, ...prev.filter(item=>{
+                        if(item.code === props.selected.code){
+                           item.body = data
+                        }
+                    })])
+                  }else{
+                    props.setData(data);
+                  }
+                  
                   // console.log( { event, editor, data } );
               }}
               onBlur={ ( event, editor ) => {
@@ -56,6 +65,10 @@ export default CkEditor;
 const Container = styled.div`
   .title{
     font-weight:500;
+    .additionTitle{
+      margin-left:10px;
+      font-weight:400;
+    }
   }
   .active{
     .ck-editor{

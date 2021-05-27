@@ -74,7 +74,8 @@ function Home() {
                              <div className="line " ></div>
                              <Link to={ctx.productId && ctx.total?.analysisthree?`/${paramC}/analysis/4/${ctx.productId}`:`#`} className={ctx.total?.analysisfour?`itemsActive`:`items`}>SWOT шинжилгээ</Link>
                              <div className="line " ></div>
-                             <div className="items">Экспортын борлуулалтын төлөвлөгөө</div>
+                             <Link to={ctx.productId && ctx.total?.analysisfour?`/${paramC}/analysis/5/${ctx.productId}`:`#`} className={ctx.total?.analysisfive?`itemsActive`:`items`}>Экспортын борлуулалтын төлөвлөгөө</Link>
+                             {/* analysisfive */}
                          </div>
                      </div>
                  </div>

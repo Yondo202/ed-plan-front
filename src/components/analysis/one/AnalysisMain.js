@@ -26,30 +26,15 @@ const AnalysisMain = () => {
     const [ activityData, setActivityData ] = useState([]);
     const [ selected, setSelected ] = useState({});
     const [ data, setData ] = useState('');
-    const [ parentName, setParentName ] = useState({});
     const [ source, setSource ] = useState('');
     const [ fetchID, setFetchID ] = useState(null);
     
     useEffect(()=>{
         fetchDataActivity();
-        FetchProductsOne();
     },[cond]);
-
-    const FetchProductsOne = async () =>{
-        axios.post(`graphql`, { query: `query{
-            exportProducts(where: { id : "${slug}", idd:"${param}" }){
-              name
-            }
-          }` }).then(res=>{
-              if(res.data.data.exportProducts.length){
-                setParentName(res.data.data.exportProducts[0])
-              }
-        });
-    }
 
     const fetchDataActivity = async () =>{
       await axios.get(`analysisones?parent=${slug}&idd=${param}`).then(res=>{
-          console.log(`res`, res);
         if(res.data.length){
             setHeader({ title: res.data[0]?.head_title, measure: res.data[0]?.head_measure });
             setParentId(res.data[0].id);
@@ -140,7 +125,7 @@ const AnalysisMain = () => {
             <form onSubmit={onSubmit}>
                 <div style={{marginBottom:14}} className="customTable T3">
                     <div className="headPar">
-                        <div className="title">Ази болон ойрх дорнодын {parentName?.name} - импорт</div>
+                        <div className="title">Ази болон ойрх дорнодын {ctx.targetProduct?.name} - импорт</div>
                         <div onClick={()=>AddHandle()} className="addBtn"><RiAddLine /><span>Нэмэх</span></div>
                     </div>
                     <table >

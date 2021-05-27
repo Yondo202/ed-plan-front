@@ -10,6 +10,8 @@ export const UserStore = (props) => {
     const [ total, setTotal ] = useState({});
     const [ approve, setApprove ] = useState({});
     const [ productId, setProductId ] = useState(null);
+    const [ targetProduct, setTargetProduct ] = useState({});
+    const [ targetCountry, setTargetCountry ] = useState({});
 
     useEffect(()=>{
         if(userId){
@@ -25,6 +27,7 @@ export const UserStore = (props) => {
 
     useEffect(()=>{
         fetchProductId();
+        fetchTargetCountry();
     },[cond]);
 
     const fetchProductId = () =>{
@@ -35,8 +38,17 @@ export const UserStore = (props) => {
           }` }).then(res=>{
               if(res.data.data.exportProducts.length){
                 setProductId(res.data.data.exportProducts[0].id);
+                setTargetProduct(res.data.data.exportProducts[0]);
               }
           })
+    }
+
+    const fetchTargetCountry = async () =>{
+        await axios.get(`analysistwos?target=true`).then(res=>{
+           if(res.data.length){
+              setTargetCountry(res.data[0]);
+           }
+        });
     }
 
     const FetchApprove = async () =>{
@@ -65,10 +77,8 @@ export const UserStore = (props) => {
         setTimeout(() => { setAlert({ color: 'white', text: '', cond: false }); }, 4000);
     }
 
-    console.log(`totalss`, total);
-
     return (
-        <UserContext.Provider value={{ UserIdProvider, userId, loading, loadFunc, alert, alertFunc, total, approve, productId, setCond }}>
+        <UserContext.Provider value={{ UserIdProvider, userId, loading, loadFunc, alert, alertFunc, total, approve, productId, setCond, targetCountry, targetProduct }}>
             {props.children}
         </UserContext.Provider>
     )

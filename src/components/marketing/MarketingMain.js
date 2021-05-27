@@ -6,7 +6,7 @@ import UserContext from "global/UserContext"
 import { useParams } from "react-router-dom"
 import axios from "global/axiosbase"
 
-const MarketingMain = ({field, title, code}) => {
+const MarketingMain = ({field, title, code, targeted}) => {
     const history = useHistory();
     const ctx = useContext(UserContext);
     const param = useParams().id;
@@ -31,10 +31,6 @@ const MarketingMain = ({field, title, code}) => {
             }
         })
     }
-
-    console.log(`fieldss`, field);
-
-    console.log(`field`, field);
 
     const clickHandle = () =>{
         if(data.length){
@@ -69,7 +65,7 @@ const MarketingMain = ({field, title, code}) => {
 
     return (
         <Container>
-            <CkEditor data={data?.body} title={title}  setData={setData} />
+            <CkEditor data={data?.body} title={title} targeted={targeted}  setData={setData} />
 
             <ButtonStyle2 >
                  <div className="errTxt">{errTxt&&`Утга оруулна уу`}</div>

@@ -25,6 +25,7 @@ const FinancePlan = () => {
         fetchDataActivity();
         
     },[]);
+    
     useEffect(()=>{
         if(activityData.length){
             let arr = [];
@@ -37,7 +38,6 @@ const FinancePlan = () => {
       await axios.get(`finance-plans?idd=${param}`).then(res=>{
           if(res.data.length){
             setActivityData(res.data);
-            
           }
       });
     }
@@ -72,7 +72,7 @@ const FinancePlan = () => {
     }
 
     return (
-        <Container className="contianer-fluid">
+        <Container className="contianer">
             <form onSubmit={onSubmit}>
                 <div className="customTable">
                     <div className="headPar">
