@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useContext } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import styled, { keyframes } from 'styled-components'
 import { useParams } from "react-router-dom"
 import axios from "global/axiosbase"
@@ -9,7 +9,6 @@ import {MaxDate} from "components/misc/BeforeYears"
 
 const Advice = () => {
     const ctx = useContext(UserContext);
-    const reff = useRef();
     const [ Datas, setDatas ] = useState(false);
     const param = useParams().id;
     const  [ switchCont, setSwitchCont ] = useState(0);
@@ -37,15 +36,11 @@ const Advice = () => {
       axios.put(`approves/${ctx.approve.id}`,{ seen: true, year_one: MaxDate.one.toString(), year_two: MaxDate.two.toString(),  year_three: MaxDate.three.toString() })
     }
 
-    console.log(`ctx.approve.`, ctx.approve);
-
     return (
         <>
             {Datas&&<Container >
-                
-                <div reff={reff} onClick={NextStep} className={switchCont===0?`ghost ghostTwo`:switchCont===1?`ghost`:`none`} >
+                <div onClick={NextStep} className={switchCont===0?`ghost ghostTwo`:switchCont===1?`ghost`:`none`} >
                     <div className="first"></div>
-
                     {switchCont===0?<div className="content">
                         <BsArrowUpLeft />
                         Жишээ загвар болон оруулж байгаа мэдээллээ тайлан маягаар харах боломжтой туслах menu
@@ -54,7 +49,6 @@ const Advice = () => {
                           Энд дарсанаар эхлэнэ.
                             Амжилттай мэдээллэ хадагласан бол ногоон тэмдэглэгээтэй харагдана.
                     </div>:null}
-
                     <div onClick={NextStep} className="btn">
                         <button>Дараагийнх</button>
                     </div>
@@ -131,7 +125,7 @@ const Container = styled.div`
             }
             
         }
-        @media only screen and (max-width:1679px){
+        @media only screen and (max-width:1670px){
             -webkit-mask-image radial-gradient(6.4rem at 17.3% 14% , transparent 98%, black 100%);
         }
         @media only screen and (max-width:1600px){

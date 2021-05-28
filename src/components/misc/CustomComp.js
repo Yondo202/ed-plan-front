@@ -42,27 +42,25 @@ export const Alert = ({alert}) => {
 
 
 const AlertStyle = styled.div`
-        z-index:10002;
-        transition:all 0.5s ease;
-        position:fixed;
-        // height:80px;
-        bottom:100px;
-        left:2%;
-        display:flex;
-        align-items:center;
-        border:1px solid rgba(0,0,0,0.2);
-        // border-left:4px solid green;
-        background-color:white;
-        padding:10px 40px; 
-        font-weight:400;
-        color:black;
-        border-radius:6px;
-        font-size:17px;
-        opacity:1;
-        font-weight:600;
-        .true{
-            margin-right:14px;
-            font-size:24px;
-            // color:green;
-        }
+    z-index:10002;
+    transition:all 0.5s ease;
+    position:fixed;
+    bottom:100px;
+    left:2%;
+    display:flex;
+    align-items:center;
+    border:1px solid rgba(0,0,0,0.2);
+    // border-left:4px solid green;
+    background-color:white;
+    padding:10px 40px; 
+    font-weight:400;
+    color:black;
+    border-radius:6px;
+    font-size:17px;
+    opacity:1;
+    font-weight:600;
+    .true{
+        margin-right:14px;
+        font-size:24px;
+    }
 `
