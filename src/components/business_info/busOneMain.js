@@ -16,20 +16,21 @@ const BusOneMain = () => {
     const [ countThree, setCountThree ] = useState(0);
 
     useEffect(()=>{
+        const fetchOne = async () =>{
+            await axios.get(`busones/count?=idd=${param}`).then(res=>{
+                setCountOne(res.data);
+            })
+            await axios.get(`bustwos/count?=idd=${param}`).then(res=>{
+                setCountTwo(res.data);
+            })
+            await axios.get(`busthrees/count?=idd=${param}`).then(res=>{
+                setCountThree(res.data);
+            })
+        }
         fetchOne();
     },[cond]);
 
-    const fetchOne = async () =>{
-        await axios.get(`busones/count?=idd=${param}`).then(res=>{
-            setCountOne(res.data);
-        })
-        await axios.get(`bustwos/count?=idd=${param}`).then(res=>{
-            setCountTwo(res.data);
-        })
-        await axios.get(`busthrees/count?=idd=${param}`).then(res=>{
-            setCountThree(res.data);
-        })
-    }
+    
     const clickHandle = () =>{
         if(countOne > 0 && countTwo > 1 && countThree > 1 ){
             history.push(`/${param}/businessinfo/3`);

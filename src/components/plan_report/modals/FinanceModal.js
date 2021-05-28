@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { CustomModal, InputStyle, MaxDate } from "components/misc/CustomTheme"
+import { CustomModal, InputStyle } from "components/misc/CustomTheme"
 import { useParams } from "react-router-dom"
 import axios from "global/axiosbase";
 import UserContext from "global/UserContext"

@@ -16,6 +16,8 @@ const ExportOne = ({setProductName}) => {
     const [ data, setData ] = useState('');
     const [ selectedData, setSelectedData ] = useState({});
 
+    console.log(`ctx`, ctx);
+
     useEffect(()=>{
         fetchData();
         FetchProductsOne();
@@ -28,8 +30,6 @@ const ExportOne = ({setProductName}) => {
                 setFetchID(res.data[0]?.id);
             }
         })
-
-        
     }
 
     const FetchProductsOne = async () =>{
@@ -38,6 +38,7 @@ const ExportOne = ({setProductName}) => {
               name id
             }
           }` }).then(res=>{
+              console.log(`res`, res);
               if(res.data.data.exportProducts.length){
                 setSelectedData(res.data.data.exportProducts[0]);
                 setProductName(res.data.data.exportProducts[0].name);

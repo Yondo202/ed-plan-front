@@ -4,6 +4,7 @@ import { AddModal, EditModal } from "components/business_info/modals/ModalTwo";
 import { RiAddLine,RiEdit2Line } from "react-icons/ri";
 import { NumberComma } from "components/misc/NumberComma"
 import axios from "global/axiosbase"
+import { MaxDate } from "components/misc/BeforeYears"
 
 const BusinessInfoTwo = ( { title, subTitle, url, urlDetail, helpField, helpField2, setCond, cond} ) => {
     const param = useParams().id;
@@ -12,7 +13,10 @@ const BusinessInfoTwo = ( { title, subTitle, url, urlDetail, helpField, helpFiel
     const [ addModal, setAddModal ] = useState(false);
     const [ editModal, setEditModal ] = useState(false);
     const [ customTitle, setCustomTitle ] = useState('');
-    const [ selectedData, setSelectedData ] = useState([])
+    const [ selectedData, setSelectedData ] = useState([]);
+    // const [ years, setYears ] = useState({ one });
+
+    console.log(`dataOne`, dataOne);
 
     useEffect(()=>{
         fetchData();
@@ -22,7 +26,7 @@ const BusinessInfoTwo = ( { title, subTitle, url, urlDetail, helpField, helpFiel
         await axios.get(`${url}?idd=${param}`).then(res=>{
             setDataOne(res.data);
         })
-    } 
+    }
 
     const AddModalShow = (el) =>{
         setCustomTitle(el);
@@ -44,9 +48,9 @@ const BusinessInfoTwo = ( { title, subTitle, url, urlDetail, helpField, helpFiel
                             <tr>
                                 <th>дд</th>
                                 <th >Утга</th>
-                                <th style={{textAlign:'center'}}>2018</th>
-                                <th style={{textAlign:'center'}} >2019</th>
-                                <th style={{textAlign:'center'}} >2020</th>
+                                <th style={{textAlign:'center'}}>{MaxDate.three}</th>
+                                <th style={{textAlign:'center'}} >{MaxDate.two}</th>
+                                <th style={{textAlign:'center'}} >{MaxDate.one}</th>
                                 <th ></th>
                             </tr>
 
@@ -56,9 +60,9 @@ const BusinessInfoTwo = ( { title, subTitle, url, urlDetail, helpField, helpFiel
                                         <tr key={el.id} className="parent">
                                             <td>{i+1}</td>
                                             <td>{el.desc}</td>
-                                            <td style={{textAlign:'right'}}>{NumberComma(el.year_three)}</td>
-                                            <td style={{textAlign:'right'}}>{NumberComma(el.year_two)}</td>
-                                            <td style={{textAlign:'right'}}>{NumberComma(el.year_one)}</td>
+                                            <td style={{textAlign:'right'}}>{dataOne.length?NumberComma(dataOne[0]?.year_three):null}</td>
+                                            <td style={{textAlign:'right'}}>{dataOne.length?NumberComma(dataOne[0]?.year_two):null}</td>
+                                            <td style={{textAlign:'right'}}>{dataOne.length?NumberComma(dataOne[0]?.year_one):null}</td>
                                             <td className="editDelete">
                                                 <div className="editDeletePar">
                                                     {!el.id&&<div onClick={()=>setAddModal(true)} className="smBtn"><RiAddLine /></div>} 
@@ -94,7 +98,7 @@ const BusinessInfoTwo = ( { title, subTitle, url, urlDetail, helpField, helpFiel
                             }):<></>}
                             
                             <>
-                                {dataOne.length===1||dataOne.length===2? ``:<tr className="parent">
+                                {dataOne.length===1 || dataOne.length===2? ``:<tr className="parent">
                                     <td>1</td>
                                     <td className="title">{subTitle.one}</td>
                                     <td>0</td>
@@ -142,8 +146,8 @@ const BusinessInfoTwo = ( { title, subTitle, url, urlDetail, helpField, helpFiel
                             </>
                             
                     </table>
-                {addModal?<AddModal length={dataOne.length} customTitle={customTitle} helpField={helpField}  title={title} urlDetail={urlDetail} url={url} setCond={setCond} setAddModal={setAddModal} />:``}
-                {editModal?<EditModal length={dataOne.length} helpField={helpField}  title={title} urlDetail={urlDetail} url={url}  helpField2={helpField2} setCond={setCond} setAddModal={setEditModal} setDataOne={selectedData} />:``}
+                {addModal?<AddModal dataOne={dataOne} length={dataOne.length} customTitle={customTitle} helpField={helpField}  title={title} urlDetail={urlDetail} url={url} setCond={setCond} setAddModal={setAddModal} />:``}
+                {editModal?<EditModal dataOne={dataOne} length={dataOne.length} helpField={helpField}  title={title} urlDetail={urlDetail} url={url}  helpField2={helpField2} setCond={setCond} setAddModal={setEditModal} setDataOne={selectedData} />:``}
             </div>
          
     )

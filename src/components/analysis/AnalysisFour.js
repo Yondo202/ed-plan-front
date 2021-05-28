@@ -16,17 +16,21 @@ const Analysisthree = () => {
     const [ data, setData ] = useState('');
 
     useEffect(()=>{
+        const fetchData = async () =>{
+            await axios.get(`analysisfours?parent=${slug}&idd=${param}`).then(res=>{
+                 if(res.data.length){
+                     setData(res.data[0]);
+                     setFetchID(res.data[0]?.id);
+                 }else{
+                     setData('');
+                     setFetchID(null);
+                 }
+             })
+        }
         fetchData();
     },[]);
 
-    const fetchData = () =>{
-        axios.get(`analysisfours?parent=${slug}&idd=${param}`, ).then(res=>{
-            if(res.data.length){
-                setData(res.data[0]);
-                setFetchID(res.data[0]?.id);
-            }
-        })
-    }
+  
 
     const clickHandle = () =>{
         if(data.length){

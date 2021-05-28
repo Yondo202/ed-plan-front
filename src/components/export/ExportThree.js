@@ -1,15 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react'
-import{ Container, ButtonStyle2, InputStyle} from "components/misc/CustomTheme";
+import{ Container, ButtonStyle2} from "components/misc/CustomTheme";
 import { RiAddLine,RiEdit2Line } from "react-icons/ri"
 import { VscError } from "react-icons/vsc"
-import { IoMdCheckmark } from "react-icons/io"
 import { AddModal, EditModal, DeleteModal } from "components/export/modals/ExportTwoModal"
 import { useHistory } from "react-router-dom"
 import UserContext from "global/UserContext"
 import { useParams } from "react-router-dom"
 import axios from "global/axiosbase";
 import { NumberComma2 } from "components/misc/NumberComma"
-import { default as NumberFormat } from 'react-number-format';
 
 const InfoThree = () => {
     const history = useHistory();

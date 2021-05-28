@@ -5,8 +5,9 @@ import { MaxDate } from "components/misc/BeforeYears"
 import { default as NumberFormat } from 'react-number-format';
 import axios from "global/axiosbase";
 import UserContext from "global/UserContext"
+import { NumberComma } from "components/misc/NumberComma"
 
-export const AddModal = ({ setAddModal, setCond, urlDetail, url, title, customTitle, helpField, length }) => {
+export const AddModal = ({ setAddModal, setCond, urlDetail, url, title, customTitle, helpField, length, dataOne }) => {
     const history = useHistory();
     const param = useParams().id;
     const initial = { idd: param }
@@ -18,8 +19,6 @@ export const AddModal = ({ setAddModal, setCond, urlDetail, url, title, customTi
         setClose('contentParent2');
         setTimeout(() => { setAddModal(false); setClose('') }, 300);
     }
-
-    console.log(`url`, url);
 
     const SubmitHandle = (e) =>{
         e.preventDefault();
@@ -68,6 +67,10 @@ export const AddModal = ({ setAddModal, setCond, urlDetail, url, title, customTi
             }
         }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
     }
+
+    console.log(`dataOne`, dataOne);
+
+
     return (
         <CustomModal>
             <div className={`contentParent ${close}`} style={{width:"60rem"}}>
@@ -82,16 +85,19 @@ export const AddModal = ({ setAddModal, setCond, urlDetail, url, title, customTi
                             <div className="title">{customTitle}</div>
                             <InputStyle className="inputt">
                                 <div className="label">{MaxDate.three} </div>
-                                {/* <input type="number" name="code" className="gettInp" required /> */}
-                                <NumberFormat className="cash gettInppe" name={`year_three`} isNumericString={true} thousandSeparator={true} placeholder="0" required />
+                                {dataOne.length===1?<NumberFormat className="cash gettInppe" disabled={true} value={dataOne[0].year_three} name={`year_three`} isNumericString={true} thousandSeparator={true} placeholder="0" required /> 
+                                :<NumberFormat className="cash gettInppe" name={`year_three`} isNumericString={true} thousandSeparator={true} placeholder="0" required />  }
                             </InputStyle>
                             <InputStyle className="inputt">
                                 <div className="label">{MaxDate.two}</div>
-                                <NumberFormat className="cash gettInppe" name={`year_two`} isNumericString={true} thousandSeparator={true} placeholder="0" required />
+                                {dataOne.length===1?<NumberFormat className="cash gettInppe" disabled={true} value={dataOne[0].year_two} name={`year_two`} isNumericString={true} thousandSeparator={true} placeholder="0" required /> 
+                                :<NumberFormat className="cash gettInppe" name={`year_two`} isNumericString={true} thousandSeparator={true} placeholder="0" required />  }
                             </InputStyle>
                             <InputStyle className="inputt">
                                 <div className="label">{MaxDate.one}</div>
-                                <NumberFormat className="cash gettInppe" name={`year_one`} isNumericString={true} thousandSeparator={true} placeholder="0" required />
+
+                                {dataOne.length===1?<NumberFormat className="cash gettInppe" disabled={true} value={dataOne[0].year_one} name={`year_one`} isNumericString={true} thousandSeparator={true} placeholder="0" required /> 
+                                :<NumberFormat className="cash gettInppe" name={`year_one`} isNumericString={true} thousandSeparator={true} placeholder="0" required />  }
                             </InputStyle>
                         </div>
 
@@ -211,15 +217,15 @@ export const EditModal = ({ setAddModal, setCond, setDataOne, helpField2, urlDet
                                         <InputStyle className="inputt">
                                             <div className="label">{MaxDate.three} </div>
                                             {/* <input type="number" name="code" className="gettInp" required /> */}
-                                            <NumberFormat className="cash gettInppe" defaultValue={el.year_three} name={`year_three`} isNumericString={true} thousandSeparator={true} placeholder="0" required />
+                                            <NumberFormat className="cash gettInppe" disabled={true} defaultValue={el.year_three} name={`year_three`} isNumericString={true} thousandSeparator={true} placeholder="0" required />
                                         </InputStyle>
                                         <InputStyle className="inputt">
                                             <div className="label">{MaxDate.two}</div>
-                                            <NumberFormat className="cash gettInppe" defaultValue={el.year_two} name={`year_two`} isNumericString={true} thousandSeparator={true} placeholder="0" required />
+                                            <NumberFormat className="cash gettInppe" disabled={true} defaultValue={el.year_two} name={`year_two`} isNumericString={true} thousandSeparator={true} placeholder="0" required />
                                         </InputStyle>
                                         <InputStyle className="inputt">
                                             <div className="label">{MaxDate.one}</div>
-                                            <NumberFormat className="cash gettInppe" defaultValue={el.year_one} name={`year_one`} isNumericString={true} thousandSeparator={true} placeholder="0" required />
+                                            <NumberFormat className="cash gettInppe" disabled={true} defaultValue={el.year_one} name={`year_one`} isNumericString={true} thousandSeparator={true} placeholder="0" required />
                                         </InputStyle>
                                     </div>
                                     {/* <div className="modalbtnPar">
@@ -230,7 +236,7 @@ export const EditModal = ({ setAddModal, setCond, setDataOne, helpField2, urlDet
                                             <div key={elem.id} id={elem.id} className="TableHead getTable2">
                                                 <InputStyle className="inputt">
                                                     <div className="label">Задаргааны тодорхойлолт</div>
-                                                    <input name="desc" defaultValue={elem.desc} className={`gettInppDetail2${ind + 1}`} type="text" required />
+                                                    <input name="desc" value={elem.desc} className={`gettInppDetail2${ind + 1}`} type="text" required />
                                                 </InputStyle>
                                                 <InputStyle className="inputt">
                                                     <div className="label">{MaxDate.three} </div>

@@ -2,9 +2,9 @@ import React, { useState, useContext, useEffect } from 'react'
 import {MdKeyboardArrowRight} from 'react-icons/md'
 import { IoMdCheckmark } from "react-icons/io"
 import{ Container, ButtonStyle2, InputStyle} from "components/misc/CustomTheme";
-import { RiAddLine,RiEdit2Line } from "react-icons/ri"
+import { RiAddLine } from "react-icons/ri"
 import { VscError } from "react-icons/vsc"
-import { AddModal, EditModal, DeleteModal } from "components/analysis/two/AnalysisModal"
+import { AddModal, DeleteModal } from "components/analysis/two/AnalysisModal"
 import { useHistory } from "react-router-dom"
 import UserContext from "global/UserContext"
 import { useParams } from "react-router-dom"
@@ -45,7 +45,6 @@ const AnalysisMain = () => {
         e.preventDefault();
         let arrCond = activityData.filter(item=> item.target === true);
         if(activityData.length !== 0){
-            ctx.loadFunc(true);
             setErrText(false);
             if(arrCond.length === 0){
                 setErrText(true);
@@ -54,6 +53,7 @@ const AnalysisMain = () => {
                     setErrText(false);
                 }, 5000);
             }else{
+                ctx.loadFunc(true);
                 activityData.map(el=>{
                     if(el.id){
                         axios.put(`analysistwos/${el.id}`,{ ...el, parent: slug, ...Headers}).then(res=>{
@@ -259,7 +259,7 @@ const AnalysisMain = () => {
                         {activityData.map(el=>{
                             return(
                                 <div key={el.code}
-                                 onClick={()=>TargetHandle(el)}
+                                 onClick={el.id?console.log("done!"):()=>TargetHandle(el)}
                                  className={el.target?`buttons A11`:`buttons`}
                                  ><span>{el.country}</span><MdKeyboardArrowRight /> <MdKeyboardArrowRight className="one" /> <MdKeyboardArrowRight className="two" /></div>
                             )

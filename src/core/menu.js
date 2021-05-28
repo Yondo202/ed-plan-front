@@ -25,12 +25,19 @@ function Menu() {
            {context.approve?.approve&&<Containers >
                 <div className="container menuPar">
                     <div className="row">
-                        <Link to={`/${paramC}/intro/1`} className={loc.pathname.includes(`intro`)?`col-md-2 items active`:`col-md-2 items`} ><div ><span >Төслийн болон Аж ахуйн нэгжийн танилцуулга</span></div></Link>
+                        {/* <Link to={`/${paramC}/intro/1`} className={loc.pathname.includes(`intro`)?`col-md-2 items active`:`col-md-2 items`} ><div ><span >Төслийн болон Аж ахуйн нэгжийн танилцуулга</span></div></Link>
                         <Link to={`/${paramC}/businessinfo/1`} className={loc.pathname.includes(`businessinfo`)?`col-md-2 items active`:`col-md-2 items`} ><div ><span>Дотоодын зах зээл дэх бизнесийн мэдээлэл</span> </div></Link>
                         <Link to={`/${paramC}/export`} className={loc.pathname.includes(`export`)?`col-md-2 items active`:`col-md-2 items`}><div ><span>Экспортын бүтээгдэхүүн, үйлчилгээ</span> </div></Link>
                         <Link to={`/${paramC}/analysis`} className={loc.pathname.includes(`analysis`)?`col-md-2 items active`:`col-md-2 items`}><div ><span>Экспортын зах зээлийн судалгаа</span> </div></Link>
                         <Link to={`/${paramC}/marketing/1`} className={loc.pathname.includes(`marketing`)?`col-md-2 items active`:`col-md-2 items`}><div ><span>Маркетингийн стратеги</span></div></Link>
-                        <Link to={`/${paramC}/report/1`} className={loc.pathname.includes(`report`)?`col-md-2 items active`:`col-md-2 items`}><div ><span>Төлөвлөгөө болон уулзалт, тайлан</span></div></Link>
+                        <Link to={`/${paramC}/report/1`} className={loc.pathname.includes(`report`)?`col-md-2 items active`:`col-md-2 items`}><div ><span>Төлөвлөгөө болон уулзалт, тайлан</span></div></Link> */}
+
+                        <Link to={`#`} className={loc.pathname.includes(`intro`)?`col-md-2 items active`:`col-md-2 items`} ><div ><span >Төслийн болон Аж ахуйн нэгжийн танилцуулга</span></div></Link>
+                        <Link to={`#`} className={loc.pathname.includes(`businessinfo`)?`col-md-2 items active`:`col-md-2 items`} ><div ><span>Дотоодын зах зээл дэх бизнесийн мэдээлэл</span> </div></Link>
+                        <Link to={`#`} className={loc.pathname.includes(`export`)?`col-md-2 items active`:`col-md-2 items`}><div ><span>Экспортын бүтээгдэхүүн, үйлчилгээ</span> </div></Link>
+                        <Link to={`#`} className={loc.pathname.includes(`analysis`)?`col-md-2 items active`:`col-md-2 items`}><div ><span>Экспортын зах зээлийн судалгаа</span> </div></Link>
+                        <Link to={`#`} className={loc.pathname.includes(`marketing`)?`col-md-2 items active`:`col-md-2 items`}><div ><span>Маркетингийн стратеги</span></div></Link>
+                        <Link to={`#`} className={loc.pathname.includes(`report`)?`col-md-2 items active`:`col-md-2 items`}><div ><span>Төлөвлөгөө болон уулзалт, тайлан</span></div></Link>
                     </div>
                 </div>
                 {/* <div className="itemsLast">

@@ -46,11 +46,11 @@ export const AddModal = ({ setAddModal, setCond }) => {
                             ctx.alertFunc('green','Амжилттай',true );
                             ctx.loadFunc(false);
                             setClose('contentParent2');
-                            setTimeout(() => { setAddModal(false); setClose(''); setCond(true); }, 300);
+                            setTimeout(() => { setAddModal(false); setClose(''); setCond(prev=>!prev); }, 300);
                         }
                     }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                 });
-                setCond(prev=>!prev);
+                // setCond(prev=>!prev);
             }
         }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
     }
@@ -163,12 +163,12 @@ export const EditModal = ({ setAddModal, setCond, setDataOne }) => {
                             ctx.alertFunc('green','Амжилттай',true );
                             ctx.loadFunc(false);
                             setClose('contentParent2');
-                            setTimeout(() => { setAddModal(false); setClose(''); setCond(true); }, 300);
+                            setTimeout(() => { setAddModal(false); setClose(''); setCond(prev=>!prev); }, 300);
                         }
                         
                     }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                 });
-                setCond(prev=>!prev);
+                // setCond(prev=>!prev);
             }
         }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
     }

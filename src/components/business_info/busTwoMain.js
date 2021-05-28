@@ -158,7 +158,11 @@ const BusTwoMain = () => {
             axios.put(`totals/${ctx.total?.id}`, { bustwo: true, idd: param }).then(res=>{
                 ctx.alertFunc('green','Амжилттай',true );
                 ctx.loadFunc(false);
-                history.push(`/${param}/export`);
+                if(ctx.productId){
+                    history.push(`/${param}/export/1/${ctx.productId}`);
+                }else{
+                    history.push(`/${param}/export`);
+                }
             });
             resultData.map((el)=>{
                 el.idd = param;
@@ -188,6 +192,8 @@ const BusTwoMain = () => {
             setHeadEdit(false);
         });
     }
+
+    console.log(`ctx.productId`, ctx.productId);
 
     return (
         <Container>
@@ -309,9 +315,9 @@ const BusTwoMain = () => {
                                                 </td>
                                             </>
                                             :<>
-                                                <td style={{textAlign:'right'}}>{NumberComma2(el.year_three)} {el.code==12||el.code==13?`%`:``}</td>
-                                                <td style={{textAlign:'right'}}>{NumberComma2(el.year_two)} {el.code==12||el.code==13?`%`:``}</td>
-                                                <td style={{textAlign:'right'}}>{NumberComma2(el.year_one)} {el.code==12||el.code==13?`%`:``}</td>
+                                                <td style={{textAlign:'right'}}>{NumberComma2(el.year_three)} {el.code===12||el.code===13?`%`:``}</td>
+                                                <td style={{textAlign:'right'}}>{NumberComma2(el.year_two)} {el.code===12||el.code===13?`%`:``}</td>
+                                                <td style={{textAlign:'right'}}>{NumberComma2(el.year_one)} {el.code===12||el.code===13?`%`:``}</td>
                                             </>}
 
                                             <td style={{width:"6rem"}} className="editDelete"></td>

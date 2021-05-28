@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from 'react'
 import UserContext from "global/UserContext"
 import styled, { keyframes } from 'styled-components'
 import { Link, useParams  } from "react-router-dom";
-import axios from 'global/axiosbase';
 
 function Home() {
     const ctx = useContext(UserContext);
@@ -13,101 +12,102 @@ function Home() {
         if(parseInt(param)){ setParamCond(param);  }
     },[param]);
 
+    console.log(`ctx.productId`, ctx.productId);
+
     return (
         <>
          <HomeComponent className="container">
-         <div className="row">
-             
-                 <div className="col-md-2 col-sm-2 itemsCol">
-                     <div className="itemsPar">
-                         <div className="mains">
-                             <Link to={`/${paramC}/intro/1`}  className={ctx.total?.projectinfo?`itemsActive`:`items`}>Төслийн товч танилцуулга</Link>
-                             <div className="line line2" ></div>
-                             <Link to={`/${paramC}/intro/2`} className={ctx.total?.infoone?`itemsActive`:`items`}>Бүтэц, зохион байгуулалт</Link>
-                             <div className="line line2" ></div>
-                             <Link to={`/${paramC}/intro/3`} className={ctx.total?.infotwo?`itemsActive`:`items`}>Гэрчилгээ, үйл ажиллагааны мэдээлэл</Link>
-                             <div className="line line2" ></div>
-                             <Link to={`/${paramC}/intro/4`} className={ctx.total?.infothree?`itemsActive`:`items`}>Эцсийн өмчлөгчдийн мэдээлэл</Link>
-                             {/* <div className="line line2" ></div>
-                             <Link to="/intro/4" className="itemsActive">СВОТ</Link>
-                             <div className="line line2" ></div>
-                             <Link to="/intro/5" className="itemsActive">Төслийн баг</Link> */}
-                         </div>
-                         {/* <div className="lineFull lineFull2" ></div>
-                         <div className="resultActive">ААН-ийн өнөөгийн боломжийг бүрэн харуулсан</div> */}
-                     </div>
-                 </div>
+            <div className="row">
+                
+                    <div className="col-md-2 col-sm-2 itemsCol">
+                        <div className="itemsPar">
+                            <div className="mains">
+                                <Link to={`/${paramC}/intro/1`}  className={ctx.total?.projectinfo?`itemsActive`:`items`}>Төслийн товч танилцуулга</Link>
+                                <div className="line line2" ></div>
+                                <Link to={ctx.total?.projectinfo?`/${paramC}/intro/2`:`#`} className={ctx.total?.infoone?`itemsActive`:`items`}>Бүтэц, зохион байгуулалт</Link>
+                                <div className="line line2" ></div>
+                                <Link to={ctx.total?.infoone?`/${paramC}/intro/3`:`#`} className={ctx.total?.infotwo?`itemsActive`:`items`}>Гэрчилгээ, үйл ажиллагааны мэдээлэл</Link>
+                                <div className="line line2" ></div>
+                                <Link to={ctx.total?.infotwo?`/${paramC}/intro/4`:`#`} className={ctx.total?.infothree?`itemsActive`:`items`}>Эцсийн өмчлөгчдийн мэдээлэл</Link>
+                                {/* <div className="line line2" ></div>
+                                <Link to="/intro/4" className="itemsActive">СВОТ</Link>
+                                <div className="line line2" ></div>
+                                <Link to="/intro/5" className="itemsActive">Төслийн баг</Link> */}
+                            </div>
+                            {/* <div className="lineFull lineFull2" ></div>
+                            <div className="resultActive">ААН-ийн өнөөгийн боломжийг бүрэн харуулсан</div> */}
+                        </div>
+                    </div>
 
-                 <div className="col-md-2 col-sm-2 itemsCol">
-                     <div className="itemsPar">
-                         <div className="mains">
-                             <Link to={`/${paramC}/businessinfo/1`} className={ctx.total?.businessone?`itemsActive`:`items`}>Танилцуулга</Link>
-                             <div className="line line2" ></div>
-                             <Link to={`/${paramC}/businessinfo/2`} className={ctx.total?.busone?`itemsActive`:`items`}>Борлуулалтын мэдээлэл</Link>
-                             <div className="line line2" ></div>
-                             <Link to={`/${paramC}/businessinfo/3`} className={ctx.total?.bustwo?`itemsActive`:`items`}>Санхүүгийн нөөц, боломж</Link>
-                         </div>
-                     </div>
-                 </div>
+                    <div className="col-md-2 col-sm-2 itemsCol">
+                        <div className="itemsPar">
+                            <div className="mains">
+                                <Link to={ctx.total?.infothree?`/${paramC}/businessinfo/1`:`#`} className={ctx.total?.businessone?`itemsActive`:`items`}>Танилцуулга</Link>
+                                <div className="line line2" ></div>
+                                <Link to={ctx.total?.businessone?`/${paramC}/businessinfo/2`:`#`} className={ctx.total?.busone?`itemsActive`:`items`}>Борлуулалтын мэдээлэл</Link>
+                                <div className="line line2" ></div>
+                                <Link to={ctx.total?.busone?`/${paramC}/businessinfo/3`:`#`} className={ctx.total?.bustwo?`itemsActive`:`items`}>Санхүүгийн нөөц, боломж</Link>
+                            </div>
+                        </div>
+                    </div>
 
-                 <div className="col-md-2 col-sm-2 itemsCol">
-                     <div className="itemsPar">
-                         <div className="mains">
-                             <Link to={ctx.productId?`/${paramC}/export/1/${ctx.productId}`:`/${paramC}/export`} className={ctx.total?.exportone?`itemsActive`:`items`}>Экспортын бүтээгдэхүүн</Link>
-                             <div className="line " ></div>
-                             <Link to={ctx.productId?`/${paramC}/export/2/${ctx.productId}`:`/${paramC}/export`} className={ctx.total?.exporttwo?`itemsActive`:`items`}>Өртгийн тооцоолол</Link>
-                             <div className="line " ></div>
-                             <Link to={ctx.productId?`/${paramC}/export/3/${ctx.productId}`:`/${paramC}/export`} className={ctx.total?.exporttwo?`itemsActive`:`items`}>Өртгийн задаргаа</Link>
-                         </div>
-                     </div>
-                 </div>
+                    <div className="col-md-2 col-sm-2 itemsCol">
+                        <div className="itemsPar">
+                            <div className="mains">
+                                <Link to={ctx.total?.bustwo?ctx.productId?ctx.total?.exportone?`/${paramC}/export/1/${ctx.productId}`:`/${paramC}/export`:`/${paramC}/export`:`#`} className={ctx.total?.exportone?`itemsActive`:`items`}>Экспортын бүтээгдэхүүн</Link>
+                                <div className="line " ></div>
+                                <Link to={ctx.total?.exportone?ctx.productId?`/${paramC}/export/2/${ctx.productId}`:`/${paramC}/export`:`#`} className={ctx.total?.exporttwo?`itemsActive`:`items`}>Өртгийн тооцоолол</Link>
+                                <div className="line " ></div>
+                                <Link to={ctx.total?.exporttwo?ctx.productId?`/${paramC}/export/3/${ctx.productId}`:`/${paramC}/export`:`#`} className={ctx.total?.exporttwo?`itemsActive`:`items`}>Өртгийн задаргаа</Link>
+                            </div>
+                        </div>
+                    </div>
 
-                 <div className="col-md-2 col-sm-2 itemsCol">
-                     <div className="itemsPar">
-                         <div className="mains">
-                             {/* <div className="items">Экспортын зах зээлийн судалгаа</div> */}
-                             <Link to={ctx.productId?`/${paramC}/analysis/1/${ctx.productId}`:`#`} className={ctx.total?.analysisone?`itemsActive`:`items`}>Экспортын зах зээлийн судалгаа</Link>
-                             <div className="line " ></div>
-                             <Link to={ctx.productId && ctx.total?.analysisone?`/${paramC}/analysis/2/${ctx.productId}`:`#`} className={ctx.total?.analysistwo?`itemsActive`:`items`}>Зорилтот зах зээл</Link>
-                             <div className="line " ></div>
-                             <Link to={ctx.productId && ctx.total?.analysistwo?`/${paramC}/analysis/3/${ctx.productId}`:`#`} className={ctx.total?.analysisthree?`itemsActive`:`items`}>Экспортыг өрсөлдөөний орчин, өрсөлдөгчийн судалгаа</Link>
-                             <div className="line " ></div>
-                             <Link to={ctx.productId && ctx.total?.analysisthree?`/${paramC}/analysis/4/${ctx.productId}`:`#`} className={ctx.total?.analysisfour?`itemsActive`:`items`}>SWOT шинжилгээ</Link>
-                             <div className="line " ></div>
-                             <Link to={ctx.productId && ctx.total?.analysisfour?`/${paramC}/analysis/5/${ctx.productId}`:`#`} className={ctx.total?.analysisfive?`itemsActive`:`items`}>Экспортын борлуулалтын төлөвлөгөө</Link>
-                             {/* analysisfive */}
-                         </div>
-                     </div>
-                 </div>
+                    <div className="col-md-2 col-sm-2 itemsCol">
+                        <div className="itemsPar">
+                            <div className="mains">
+                                {/* <div className="items">Экспортын зах зээлийн судалгаа</div> */}
+                                <Link to={ctx.total?.exporttwo?ctx.productId?`/${paramC}/analysis/1/${ctx.productId}`:`#`:`#`} className={ctx.total?.analysisone?`itemsActive`:`items`}>Экспортын зах зээлийн судалгаа</Link>
+                                <div className="line " ></div>
+                                <Link to={ctx.total?.analysisone?ctx.productId && ctx.total?.analysisone?`/${paramC}/analysis/2/${ctx.productId}`:`#`:`#`} className={ctx.total?.analysistwo?`itemsActive`:`items`}>Зорилтот зах зээл</Link>
+                                <div className="line " ></div>
+                                <Link to={ctx.total?.analysistwo?ctx.productId && ctx.total?.analysistwo?`/${paramC}/analysis/3/${ctx.productId}`:`#`:`#`} className={ctx.total?.analysisthree?`itemsActive`:`items`}>Экспортыг өрсөлдөөний орчин, өрсөлдөгчийн судалгаа</Link>
+                                <div className="line " ></div>
+                                <Link to={ctx.total?.analysisthree?ctx.productId && ctx.total?.analysisthree?`/${paramC}/analysis/4/${ctx.productId}`:`#`:`#`} className={ctx.total?.analysisfour?`itemsActive`:`items`}>SWOT шинжилгээ</Link>
+                                <div className="line " ></div>
+                                <Link to={ctx.total?.analysisfour?ctx.productId && ctx.total?.analysisfour?`/${paramC}/analysis/5/${ctx.productId}`:`#`:`#`} className={ctx.total?.analysisfive?`itemsActive`:`items`}>Экспортын борлуулалтын төлөвлөгөө</Link>
+                                {/* analysisfive */}
+                            </div>
+                        </div>
+                    </div>
 
-                 <div className="col-md-2 col-sm-2 itemsCol">
-                     <div className="itemsPar">
-                         <div className="mains">
-                             <Link to={`/${paramC}/marketing/1`} className={ctx.total?.m_one?`itemsActive`:`items`}>Бүтээгдэхүүн</Link>
-                             <div className="line " ></div>
-                             <Link to={`/${paramC}/marketing/2`} className={ctx.total?.m_two?`itemsActive`:`items`}>Үнэ</Link>
-                             <div className="line " ></div>
-                             <Link to={`/${paramC}/marketing/3`} className={ctx.total?.m_three?`itemsActive`:`items`}>Зах зээлд нэвтрэлт, хуваарилалтын сувгууд</Link>
-                             <div className="line " ></div>
-                             <Link to={`/${paramC}/marketing/4`} className={ctx.total?.m_four?`itemsActive`:`items`}>Идэвхижүүлэлт</Link>
-                             <div className="line " ></div>
-                             <Link to={`/${paramC}/marketing/5`} className={ctx.total?.m_five?`itemsActive`:`items`}>Үйл явц</Link>
-                         </div>
-                     </div>
-                 </div>
+                    <div className="col-md-2 col-sm-2 itemsCol">
+                        <div className="itemsPar">
+                            <div className="mains">
+                                <Link to={ctx.total?.analysisfive?`/${paramC}/marketing/1`:`#`} className={ctx.total?.m_one?`itemsActive`:`items`}>Бүтээгдэхүүн</Link>
+                                <div className="line " ></div>
+                                <Link to={ctx.total?.m_one?`/${paramC}/marketing/2`:`#`} className={ctx.total?.m_two?`itemsActive`:`items`}>Үнэ</Link>
+                                <div className="line " ></div>
+                                <Link to={ctx.total?.m_two?`/${paramC}/marketing/3`:`#`} className={ctx.total?.m_three?`itemsActive`:`items`}>Зах зээлд нэвтрэлт, хуваарилалтын сувгууд</Link>
+                                <div className="line " ></div>
+                                <Link to={ctx.total?.m_three?`/${paramC}/marketing/4`:`#`} className={ctx.total?.m_four?`itemsActive`:`items`}>Идэвхижүүлэлт</Link>
+                                <div className="line " ></div>
+                                <Link to={ctx.total?.m_four?`/${paramC}/marketing/5`:`#`} className={ctx.total?.m_five?`itemsActive`:`items`}>Үйл явц</Link>
+                            </div>
+                        </div>
+                    </div>
 
-                 <div className="col-md-2 col-sm-2 itemsCol">
-                     <div className="itemsPar">
-                         <div className="mains">
-                             <Link to={`/${paramC}/report/1`} className={ctx.total?.financeplan?`itemsActive`:`items`}>Үйл ажиллагаа болон санхүүгийн төлөвлөгөө</Link>
-                             <div className="line " ></div>
-                             <div className="items">Удирдлагын багийн уулзалт, тайлан</div>
-                      
-                         </div>
-                     </div>
-                 </div>
-             </div>
-     </HomeComponent>
+                    <div className="col-md-2 col-sm-2 itemsCol">
+                        <div className="itemsPar">
+                            <div className="mains">
+                                <Link to={ctx.total?.m_five?`/${paramC}/report/1`:`#`} className={ctx.total?.financeplan?`itemsActive`:`items`}>Үйл ажиллагаа болон санхүүгийн төлөвлөгөө</Link>
+                                <div className="line " ></div>
+                                <Link to={ctx.total?.financeplan?`/${paramC}/report/2`:`#`} className={ctx.total?.totalreport?`itemsActive`:`items`}>Удирдлагын багийн уулзалт, тайлан</Link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </HomeComponent>
      </>
     )
 }

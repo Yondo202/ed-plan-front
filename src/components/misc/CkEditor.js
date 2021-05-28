@@ -42,7 +42,6 @@ function CkEditor(props) {
                   }else{
                     props.setData(data);
                   }
-                  
                   // console.log( { event, editor, data } );
               }}
               onBlur={ ( event, editor ) => {
@@ -52,7 +51,10 @@ function CkEditor(props) {
               }}
               onFocus={ ( event, editor ) => {
                   // console.log( 'Focus.', editor );
-                  setNyll(false)
+                  if(props.element){
+                    props.setSelected(props.element);
+                  }
+                  setNyll(false);
               }}
           />
       </div>

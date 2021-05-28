@@ -32,23 +32,24 @@ const AnalysisMain = () => {
     useEffect(()=>{
         fetchDataActivity();
     },[cond]);
-
     const fetchDataActivity = async () =>{
-      await axios.get(`analysisones?parent=${slug}&idd=${param}`).then(res=>{
-        if(res.data.length){
-            setHeader({ title: res.data[0]?.head_title, measure: res.data[0]?.head_measure });
-            setParentId(res.data[0].id);
-            if(res.data[0].analysisonedetails.length){
-                setActivityData(res.data[0].analysisonedetails);
-            }
-            if(res.data[0].analysisonebody){
-                setSource(res.data[0].analysisonebody.source);
-                setFetchID(res.data[0].analysisonebody?.id);
-                setData(res.data[0].analysisonebody.body);
-            }
-        }
-      });
+        await axios.get(`analysisones?parent=${slug}&idd=${param}`).then(res=>{
+          if(res.data.length){
+              setHeader({ title: res.data[0]?.head_title, measure: res.data[0]?.head_measure });
+              setParentId(res.data[0].id);
+              if(res.data[0].analysisonedetails.length){
+                  setActivityData(res.data[0].analysisonedetails);
+              }
+              if(res.data[0].analysisonebody){
+                  setSource(res.data[0].analysisonebody.source);
+                  setFetchID(res.data[0].analysisonebody?.id);
+                  setData(res.data[0].analysisonebody.body);
+              }
+          }
+        });
     }
+
+    
 
     const onSubmit = (e) =>{
         e.preventDefault();

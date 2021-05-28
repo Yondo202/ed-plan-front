@@ -7,7 +7,7 @@ import { default as NumberFormat } from 'react-number-format';
 import axios from "global/axiosbase"
 import { useParams, useHistory } from 'react-router-dom';
 import UserContext from "global/UserContext"
-import { NumberComma, NumberComma2 } from "components/misc/NumberComma"
+import { NumberComma } from "components/misc/NumberComma"
 
 // code gesen talbar oorchlogdoj bolohgui
 
@@ -16,6 +16,7 @@ const AnalysisFiveMain = () => {
     const slug = useParams().slug;
     const ctx = useContext(UserContext);
     const history = useHistory();
+    const [ cond, setCond ] = useState(false);
     const [ staticData, setStaticData ] = useState(Data);
     const [ dataLength, setDatalength ] = useState(null);
     const [ customDate, setCustomDate ] = useState({});
@@ -29,7 +30,7 @@ const AnalysisFiveMain = () => {
         FetchData();
         FetchCount();
         FetchDate();
-    },[]);
+    },[cond]);
 
 
 
@@ -97,16 +98,18 @@ const AnalysisFiveMain = () => {
         if(keys > 2 ){
             final["idd"] = param; final["parent"] = slug; final.year_one = child.year_one; final.year_three = child.year_three; final.year_two = child.year_two;
 
-            console.log(`final`, JSON.stringify(final) );
+
             if(final.id){
                 axios.put(`analysisfives/${final.id}`, final).then(res=>{
                     ctx.alertFunc('green','',true );
+                    setCond(prev=>!prev);
                     setStaticData(prev=> [...prev.filter(item=>{ item.inp = false; }), ...prev]);
                 }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
             }else{
                 axios.post(`analysisfives`, final).then(res=>{
+                    setCond(prev=>!prev);
                     ctx.alertFunc('green','',true );
-                    setStaticData(prev=> [...prev.filter(item=>{ item.inp = false; }), ...prev]);
+                    setStaticData(prev=> [...prev.filter(item=>{ item.inp = false; }, ), ...prev]);
                 }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
             }
         }
@@ -117,7 +120,6 @@ const AnalysisFiveMain = () => {
     }
     
     const clickHandle = () =>{
-        console.log(`dataLength`, dataLength);
         if(dataLength > 3){
             ctx.loadFunc(true);
             axios.put(`totals/${ctx.total?.id}`, { analysisfive: true, idd: param }).then(res=>{

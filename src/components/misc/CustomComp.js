@@ -7,7 +7,7 @@ export const Loading = () => {
     return (
         <LoadingStyle>
             <div>
-                <img src="/img/gif.gif" />
+                <img src="/img/gif.gif" alt="gif" />
             </div>
         </LoadingStyle>
     )
@@ -32,7 +32,6 @@ const LoadingStyle = styled.div`
 `
 
 export const Alert = ({alert}) => {
-    console.log(`Alertaasss`, alert);
     return (
       <AlertStyle style={alert.cond === true ? { bottom: `100px`, opacity: `1`, borderLeft: `4px solid ${alert.color}` } : { bottom: `50px`, opacity: `0` }} >
         {alert.color === "green" ? <IoMdCheckmarkCircle style={{ color: `${alert.color}` }} className="true" /> : <CgDanger style={{ color: `${alert.color}` }} className="true" />}

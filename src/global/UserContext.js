@@ -14,12 +14,22 @@ export const UserStore = (props) => {
     const [ targetCountry, setTargetCountry ] = useState({});
 
     useEffect(()=>{
+        const FetchTotal = async () =>{
+            await axios.get(`totals?idd=${userId}`).then(res=>{
+                 setTotal(res?.data[0]);
+             });
+         }
         if(userId){
             FetchTotal();
         }
     },[userId, alert]);
 
     useEffect(()=>{
+        const FetchApprove = async () =>{
+            await axios.get(`approves?idd=${userId}`).then(res=>{
+                 setApprove(res?.data[0]);
+             });
+         }
         if(userId){
             FetchApprove();
         }
@@ -28,14 +38,23 @@ export const UserStore = (props) => {
     useEffect(()=>{
         fetchProductId();
         fetchTargetCountry();
-    },[cond]);
+    },[cond, userId]);
+
+    const fetchTargetCountry = async () =>{
+        await axios.get(`analysistwos?idd=${userId}&target=true`).then(res=>{
+           if(res.data.length){
+              setTargetCountry(res.data[0]);
+           }
+        });
+    }
 
     const fetchProductId = () =>{
         axios.post(`graphql`, { query: `query{
-            exportProducts(where: { selected :true }){
+            exportProducts(where: { idd: "${userId}" , selected :true }){
               name id
             }
           }` }).then(res=>{
+              console.log(`res+-+-+-+-`, res)
               if(res.data.data.exportProducts.length){
                 setProductId(res.data.data.exportProducts[0].id);
                 setTargetProduct(res.data.data.exportProducts[0]);
@@ -43,25 +62,6 @@ export const UserStore = (props) => {
           })
     }
 
-    const fetchTargetCountry = async () =>{
-        await axios.get(`analysistwos?target=true`).then(res=>{
-           if(res.data.length){
-              setTargetCountry(res.data[0]);
-           }
-        });
-    }
-
-    const FetchApprove = async () =>{
-       await axios.get(`approves?idd=${userId}`).then(res=>{
-            setApprove(res?.data[0]);
-        });
-    }
-
-    const FetchTotal = async () =>{
-       await axios.get(`totals?idd=${userId}`).then(res=>{
-            setTotal(res?.data[0]);
-        });
-    }
     const UserIdProvider = (id) =>{
         setUserID(id);
     }
