@@ -5,12 +5,14 @@ import { Link, useParams, useLocation  } from "react-router-dom";
 import { IoEye, IoHomeSharp } from "react-icons/io5";
 import { RiBookReadFill } from "react-icons/ri"
 import Advice from "components/misc/Advice"
+import {ModalMain} from "components/pdf/ModalMain"
 
 function Menu() {
     const loc = useLocation();
     const context = useContext(UserContext);
     const param = useParams().id;
     const [ paramC, setParamCond ] = useState(null);
+    const [ showModal, setShowModal ] = useState(false);
     
     useEffect(()=>{
         if(parseInt(param)){
@@ -21,7 +23,7 @@ function Menu() {
 
     return (
         <>
-          {loc.pathname === `/${param}` && <Advice />} 
+          {loc.pathname === `/${param}` && <Advice />}
            {context.approve?.approve&&<Containers >
                 <div className="container menuPar">
                     <div className="row">
@@ -53,7 +55,7 @@ function Menu() {
                 </Link>
             </PreviewTools>}
 
-            {context.approve?.approve&&<PreviewTools>
+            {context.approve?.approve&&<PreviewTools onClick={()=>setShowModal(prev=>!prev)}>
                 <div className="Preview see">
                     <div className="title">Урьдчилан харах</div>
                     <IoEye />
@@ -68,6 +70,8 @@ function Menu() {
                     </div>
                 </a>
             </PreviewTools>}
+
+           {showModal&&<ModalMain setShowModal={setShowModal} />} 
         </>
     )
 }

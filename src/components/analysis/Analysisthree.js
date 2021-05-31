@@ -5,8 +5,9 @@ import { useHistory } from "react-router-dom"
 import UserContext from "global/UserContext"
 import { useParams } from "react-router-dom"
 import axios from "global/axiosbase"
+import ContentParser from "components/misc/ContentParser"
 
-const Analysisthree = () => {
+const Analysisthree = ({modal}) => {
     const history = useHistory();
     const ctx = useContext(UserContext);
     const param = useParams().id;
@@ -20,7 +21,7 @@ const Analysisthree = () => {
     },[]);
 
     const fetchData = () =>{
-        axios.get(`analysisthrees?parent=${slug}&idd=${param}`, ).then(res=>{
+        axios.get(`analysisthrees?parent=${modal?ctx.targetProduct?.id:slug}&idd=${param}`, ).then(res=>{
             if(res.data.length){
                 setData(res.data[0].body);
                 setFetchID(res.data[0]?.id);
@@ -55,15 +56,18 @@ const Analysisthree = () => {
     }
 
     return (
-        <Container>
+        <>
+        {modal? <ContentParser data={data} titleSm={`Экспортыг өрсөлдөөний орчин, өрсөлдөгчийн судалгаа - ${ctx.targetCountry?.country}`} titleBig={``} />
+        :<Container>
             <CkEditor title={`Экспортыг өрсөлдөөний орчин, өрсөлдөгчийн судалгаа - ${ctx.targetCountry?.country}`} data={data} setData={setData} />
-            
 
             <ButtonStyle2 >
-                 <div className="errTxt">{errTxt&&`Утга оруулна уу`}</div>
+                <div className="errTxt">{errTxt&&`Утга оруулна уу`}</div>
                 <button onClick={clickHandle}  className="myBtn">Хадгалах</button>
             </ButtonStyle2>
-        </Container>
+        </Container>}
+        
+        </>
     )
 }
 

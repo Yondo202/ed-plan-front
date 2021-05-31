@@ -11,7 +11,7 @@ import { NumberComma, NumberComma2 } from "components/misc/NumberComma"
 
 // code gesen talbar oorchlogdoj bolohgui
 
-const BusTwoMain = () => {
+const BusTwoMain = ({ modal }) => {
     const param = useParams().id;
     const ctx = useContext(UserContext);
     const history = useHistory();
@@ -21,7 +21,6 @@ const BusTwoMain = () => {
     const [ customDate, setCustomDate ] = useState(ctx?.approve);
     const [ HeadEdit, setHeadEdit ] = useState(false);
     
-
     useEffect(()=>{
         FetchData();
         FetchCount();
@@ -193,11 +192,9 @@ const BusTwoMain = () => {
         });
     }
 
-    console.log(`ctx.productId`, ctx.productId);
-
     return (
-        <Container>
-            <div className="customTable T3">
+        <Container style={modal&&{padding:"0px 0px"}}>
+            <div className={modal?`customTable T3 pageRender`:`customTable T3`}>
                     <div className="headPar">
                         <div className="title">Экспорт болон дотоодын борлуулалт</div>
                         {/* <div onClick={()=>setAddModal(true)} className="addBtn"><RiAddLine /><span>Нэмэх</span></div> */}
@@ -327,10 +324,11 @@ const BusTwoMain = () => {
                         </table>
                     </form>
             </div>
-            <ButtonStyle2 >
+
+            {!modal&&<ButtonStyle2 >
                 <div className="errTxt"></div>
                 <button onClick={clickHandle}  className="myBtn">Цааш үргэлжлүүлэх</button>
-            </ButtonStyle2>
+            </ButtonStyle2>}
         </Container>
     )
 }

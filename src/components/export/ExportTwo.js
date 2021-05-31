@@ -11,7 +11,7 @@ import axios from "global/axiosbase";
 import { NumberComma2 } from "components/misc/NumberComma"
 import { default as NumberFormat } from 'react-number-format';
 
-const InfoThree = () => {
+const InfoThree = ({modal}) => {
     const history = useHistory();
     const param = useParams().id;
     const slug = useParams().slug;
@@ -40,7 +40,7 @@ const InfoThree = () => {
     }
 
     const fetchDataActivity = async () =>{
-      await axios.get(`exportones?parent=${slug}&idd=${param}`).then(res=>{
+      await axios.get(`exportones?parent=${modal?ctx.targetProduct?.id:slug}&idd=${param}`).then(res=>{
           if(res.data.length){
             setActivityData(res.data);
           }
@@ -48,7 +48,7 @@ const InfoThree = () => {
     }
 
     const FetchProductsOne = async () =>{
-        await axios.get(`export-products?id=${slug}&idd=${param}`).then(res=>{
+        await axios.get(`export-products?id=${modal?ctx.targetProduct?.id:slug}&idd=${param}`).then(res=>{
             if(res.data.length){
                 setSelectedData(res.data[0]);
             }
@@ -106,11 +106,11 @@ const InfoThree = () => {
 
 
     return (
-        <Container className="contianer-fluid">
+        <Container style={modal&&{padding:"0px 0px"}} className="contianer-fluid">
             <form onSubmit={onSubmit}>
-                <div className="customTable">
+                <div className={modal?`customTable pageRender`:`customTable`}>
                     <div className="headPar">
-                        <div className="title">1 кг {selectedData?.name} хийх өртөг</div>
+                        <div className="title">{modal?`Өртгийн тооцоолол`:`1 кг ${selectedData?.name} хийх өртөг`}</div>
                         <div onClick={()=>setAddModal(true)} className="addBtn"><RiAddLine /><span>Нэмэх</span></div>
                     </div>
                     <table >
@@ -195,10 +195,10 @@ const InfoThree = () => {
                     </table>
                 </div>
 
-                <ButtonStyle2>
+                {!modal&&<ButtonStyle2>
                     <div className="errTxt">{errText&&`Мэдээлэлээ оруулна уу...`}</div>
                     <button type="submit" className="myBtn">Хадгалах</button>
-                </ButtonStyle2>
+                </ButtonStyle2>}
             </form>
             
             {addModal&&<AddModal SelectedName={ `1 кг ${selectedData?.name} хийх орц` } titles={{one:`Хэмжээ`, two:`Өртөг, ам. доллар /АНУ/`, three:`Өртөг, ам. доллар /Монголд/`}} setActivityData={setActivityData} setAddModal={setAddModal} />}

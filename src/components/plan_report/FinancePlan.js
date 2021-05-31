@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom"
 import axios from "global/axiosbase";
 import { NumberComma } from "components/misc/NumberComma"
 
-const FinancePlan = () => {
+const FinancePlan = ({modal}) => {
     const history = useHistory();
     const param = useParams().id;
     const ctx = useContext(UserContext);
@@ -23,7 +23,6 @@ const FinancePlan = () => {
     
     useEffect(()=>{
         fetchDataActivity();
-        
     },[]);
     
     useEffect(()=>{
@@ -72,11 +71,12 @@ const FinancePlan = () => {
     }
 
     return (
-        <Container className="contianer">
+        <Container style={modal&&{padding:"0px 0px"}} className="contianer">
             <form onSubmit={onSubmit}>
-                <div className="customTable">
+                <div className={modal?`customTable pageRender`:`customTable`}>
+                    {modal&&<div className="bigTitle">V. Үйл ажиллагаа болон санхүүгийн төлөвлөгөө</div>}
                     <div className="headPar">
-                        <div className="title">Үйл ажиллагаа болон санхүүгийн төлөвлөгөө</div>
+                        {!modal&&<div className="title">Үйл ажиллагаа болон санхүүгийн төлөвлөгөө</div>}
                         <div onClick={()=>setAddModal(true)} className="addBtn"><RiAddLine /><span>Нэмэх</span></div>
                     </div>
                     <table >
@@ -126,10 +126,10 @@ const FinancePlan = () => {
                     </table>
                 </div>
 
-                <ButtonStyle2>
+                {!modal&&<ButtonStyle2>
                     <div className="errTxt">{errText&&`Мэдээлэлээ оруулна уу...`}</div>
                     <button type="submit" className="myBtn">Хадгалах</button>
-                </ButtonStyle2>
+                </ButtonStyle2>}
             </form>
             
             {addModal&&<AddModal setActivityData={setActivityData} setAddModal={setAddModal} />}

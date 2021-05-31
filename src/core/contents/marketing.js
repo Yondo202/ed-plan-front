@@ -4,7 +4,7 @@ import { BrowserRouter as Switch, Route, useLocation, useParams } from "react-ro
 import MarketingMain from "components/marketing/MarketingMain"
 import UserContext from "global/UserContext"
 
-function Intro_main() {
+function Intro_main({modal}) {
     const ctx = useContext(UserContext);
     const params = useParams().id;
     let loc = useLocation();
@@ -26,26 +26,35 @@ function Intro_main() {
     // }
 
     return (
-        <HeaderTwo className="container">
-            <div className="smMenuPar">
-                <button  className={`itemsPar ${loc.pathname===`/${params}/marketing/1`&&`itemsPar2`}`}><span>Бүтээгдэхүүн</span></button>
-                <button  className={`itemsPar ${loc.pathname===`/${params}/marketing/2`&&`itemsPar2`}`} ><span>Үнэ</span></button>
-                <button  className={`itemsPar ${loc.pathname===`/${params}/marketing/3`&&`itemsPar2`}`}><span>Зах зээлд нэвтрэлт, хуваарилалтын сувгууд</span></button>
-                <button  className={`itemsPar ${loc.pathname===`/${params}/marketing/4`&&`itemsPar2`}`}><span>Идэвхижүүлэлт</span></button>
-                <button  className={`itemsPar ${loc.pathname===`/${params}/marketing/5`&&`itemsPar2`}`}><span>Үйл явц</span></button>
-            </div>
-
-            {/* <Route exact path="/:id/marketing/1"><MarketingMain title={"one"}/></Route>
-            <Route exact path="/:id/marketing/2"><MarketingMain title={"two"}/></Route>
-            <Route exact path="/:id/marketing/3"><MarketingMain title={"three"}/></Route> */}
-
+        <>
+          {modal? 
+            <>
             {marketingData.map((el,ind)=>{
                 return(
-                    <Route key={ind} exact path={`/:id/marketing/${el.code}`}><MarketingMain field={el.field} code={el.code} title={el.title} targeted={targeted} /></Route>
+                    <MarketingMain key={ind} modal={modal} field={el.field} code={el.code} title={el.title} modalPar={el.code===1?true:false} targeted={el.code===1?targeted:``}/>
                 )
-            })}
+            })}</>
+          :<HeaderTwo className="container">
+          <div className="smMenuPar">
+              <button  className={`itemsPar ${loc.pathname===`/${params}/marketing/1`&&`itemsPar2`}`}><span>Бүтээгдэхүүн</span></button>
+              <button  className={`itemsPar ${loc.pathname===`/${params}/marketing/2`&&`itemsPar2`}`} ><span>Үнэ</span></button>
+              <button  className={`itemsPar ${loc.pathname===`/${params}/marketing/3`&&`itemsPar2`}`}><span>Зах зээлд нэвтрэлт, хуваарилалтын сувгууд</span></button>
+              <button  className={`itemsPar ${loc.pathname===`/${params}/marketing/4`&&`itemsPar2`}`}><span>Идэвхижүүлэлт</span></button>
+              <button  className={`itemsPar ${loc.pathname===`/${params}/marketing/5`&&`itemsPar2`}`}><span>Үйл явц</span></button>
+          </div>
 
-        </HeaderTwo>
+          {/* <Route exact path="/:id/marketing/1"><MarketingMain title={"one"}/></Route>
+          <Route exact path="/:id/marketing/2"><MarketingMain title={"two"}/></Route>
+          <Route exact path="/:id/marketing/3"><MarketingMain title={"three"}/></Route> */}
+
+          {marketingData.map((el,ind)=>{
+              return(
+                  <Route key={ind} exact path={`/:id/marketing/${el.code}`}><MarketingMain field={el.field} code={el.code} title={el.title} targeted={targeted} /></Route>
+              )
+          })}
+
+      </HeaderTwo>}  
+        </>
     )
 }
 

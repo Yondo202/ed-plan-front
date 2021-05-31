@@ -11,7 +11,7 @@ import { useParams } from "react-router-dom"
 import axios from "global/axiosbase";
 import styled, { keyframes } from 'styled-components';
 
-const AnalysisMain = () => {
+const AnalysisMain = ({modal}) => {
     const history = useHistory();
     const param = useParams().id;
     const slug = useParams().slug;
@@ -31,7 +31,7 @@ const AnalysisMain = () => {
     },[]);
 
     const fetchDataActivity = async () =>{
-      await axios.get(`analysistwos?parent=${slug}&idd=${param}`).then(res=>{
+      await axios.get(`analysistwos?parent=${modal?ctx.targetProduct?.id:slug}&idd=${param}`).then(res=>{
           if(res.data.length){
             setActivityData(res.data);
             let re = res.data[0];
@@ -148,8 +148,6 @@ const AnalysisMain = () => {
         }
     }
 
-    console.log(`activityDataa`, activityData);
-
     const TargetHandle = (element) =>{
         console.log(`element`, element);
 
@@ -164,9 +162,9 @@ const AnalysisMain = () => {
     }
 
     return (
-        <Container className="contianer-fluid">
+        <Container style={modal&&{padding:"0px 0px"}}  className="contianer-fluid">
             <form onSubmit={onSubmit}>
-                <div style={{marginBottom:14}} className="customTable T3">
+                <div style={{marginBottom:14}} className={modal?`customTable T3 pageRender`:`customTable T3`}>
                     <div className="headPar">
                         <div className="title">Зорилтот зах зээл</div>
                         <div onClick={()=>AddHandle()} className="addBtn"><RiAddLine /><span>Нэмэх</span></div>
@@ -253,7 +251,7 @@ const AnalysisMain = () => {
                     </table>
                 </div>
 
-                <TargetButtons>
+               {!modal&&<><TargetButtons>
                     <div className="title">Голлох зорилтот орныг сонгох:</div>
                     <div className="menu">
                         {activityData.map(el=>{
@@ -270,7 +268,7 @@ const AnalysisMain = () => {
                 <ButtonStyle2>
                     <div className="errTxt">{errText&&`${errValue}`}</div>
                     <button type="submit" className="myBtn">Хадгалах</button>
-                </ButtonStyle2>
+                </ButtonStyle2></>}
             </form>
             
             {addModal&&<AddModal Headers={Headers} getHeader={getHeader} addTable={addTable} setActivityData={setActivityData} activityData={activityData} setAddModal={setAddModal} />}

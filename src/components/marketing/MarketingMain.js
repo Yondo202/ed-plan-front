@@ -5,8 +5,9 @@ import { useHistory } from "react-router-dom"
 import UserContext from "global/UserContext"
 import { useParams } from "react-router-dom"
 import axios from "global/axiosbase"
+import ContentParser from "components/misc/ContentParser"
 
-const MarketingMain = ({field, title, code, targeted}) => {
+const MarketingMain = ({field, title, code, targeted, modal, modalPar}) => {
     const history = useHistory();
     const ctx = useContext(UserContext);
     const param = useParams().id;
@@ -24,9 +25,8 @@ const MarketingMain = ({field, title, code, targeted}) => {
 
     const fetchData = () =>{
         axios.get(`marketings?${field}=true&idd=${param}`, ).then(res=>{
-            console.log(`res`, res);
             if(res.data.length){
-                setData(res.data[0]);
+                setData(res.data[0]?.body);
                 setFetchID(res.data[0]?.id);
             }
         })
@@ -64,14 +64,17 @@ const MarketingMain = ({field, title, code, targeted}) => {
     }
 
     return (
-        <Container>
-            <CkEditor data={data?.body} title={title} targeted={targeted}  setData={setData} />
+        <>
+            {modal? <ContentParser data={data} titleSm={`${title} ${targeted}`} titleBig={modalPar?`VI. Маркетингийн стратеги`:``} />
+            :<Container>
+                <CkEditor data={data} title={title} targeted={targeted} setData={setData} />
 
-            <ButtonStyle2 >
-                 <div className="errTxt">{errTxt&&`Утга оруулна уу`}</div>
-                <button onClick={clickHandle}  className="myBtn">Хадгалах</button>
-            </ButtonStyle2>
-        </Container>
+                <ButtonStyle2 >
+                    <div className="errTxt">{errTxt&&`Утга оруулна уу`}</div>
+                    <button onClick={clickHandle}  className="myBtn">Хадгалах</button>
+                </ButtonStyle2>
+            </Container>}
+        </>
     )
 }
 

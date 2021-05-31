@@ -5,8 +5,9 @@ import { useHistory } from "react-router-dom"
 import UserContext from "global/UserContext"
 import { useParams } from "react-router-dom"
 import axios from "global/axiosbase"
+import ContentParser from "components/misc/ContentParser"
 
-const BusinessInfoOne = () => {
+const BusinessInfoOne = ({ modal }) => {
     const history = useHistory();
     const ctx = useContext(UserContext);
     const param = useParams().id;
@@ -51,15 +52,19 @@ const BusinessInfoOne = () => {
     }
 
     return (
-        <Container>
+        <>
+        {modal?<ContentParser data={data?.body} titleSm={``} titleBig={`III. Дотоодын зах зээл дэх бизнесийн мэдээлэл`} />
+        :<Container>
             <CkEditor data={data?.body} setData={setData} height={20} title={`Танилцуулга`} />
 
 
             <ButtonStyle2 >
-                 <div className="errTxt">{errTxt&&`Утга оруулна уу`}</div>
+                <div className="errTxt">{errTxt&&`Утга оруулна уу`}</div>
                 <button onClick={clickHandle}  className="myBtn">Хадгалах</button>
             </ButtonStyle2>
-        </Container>
+        </Container>}
+            
+        </>
     )
 }
 

@@ -9,8 +9,9 @@ import UserContext from "global/UserContext"
 import { useParams } from "react-router-dom"
 import axios from "global/axiosbase";
 import CkEditor from 'components/misc/CkEditor';
+import ContentParser from "components/misc/ContentParser"
 
-const AnalysisMain = () => {
+const AnalysisMain = ({modal}) => {
     const history = useHistory();
     const param = useParams().id;
     const slug = useParams().slug;
@@ -33,7 +34,7 @@ const AnalysisMain = () => {
         fetchDataActivity();
     },[cond]);
     const fetchDataActivity = async () =>{
-        await axios.get(`analysisones?parent=${slug}&idd=${param}`).then(res=>{
+        await axios.get(`analysisones?parent=${modal?ctx.targetProduct?.id:slug}&idd=${param}`).then(res=>{
           if(res.data.length){
               setHeader({ title: res.data[0]?.head_title, measure: res.data[0]?.head_measure });
               setParentId(res.data[0].id);
@@ -122,9 +123,10 @@ const AnalysisMain = () => {
     }
 
     return (
-        <Container className="contianer-fluid">
+        <Container style={modal&&{padding:"0px 0px"}} className="contianer-fluid">
             <form onSubmit={onSubmit}>
-                <div style={{marginBottom:14}} className="customTable T3">
+                <div style={{marginBottom:14}} className={modal?`customTable T3 pageRender`:`customTable T3`}>
+                    {modal&&<div className="bigTitle">V. Экспортын зах зээлийн судалгаа</div>}
                     <div className="headPar">
                         <div className="title">Ази болон ойрх дорнодын {ctx.targetProduct?.name} - импорт</div>
                         <div onClick={()=>AddHandle()} className="addBtn"><RiAddLine /><span>Нэмэх</span></div>
@@ -191,20 +193,24 @@ const AnalysisMain = () => {
                             </tr>}
                     </table>
                 </div>
-
-                <InputStyle  style={{marginBottom:25}} className="inputt">
+                
+                {modal? <div className="source">Эх үүсвэр: {source}</div>
+                :<InputStyle  style={{marginBottom:25}} className="inputt">
                     <div className="label">Эх үүсвэр</div >
                     <input value={source} type="text" className="inpHead" onChange={(e)=> { setSource(e.target.value) }} placeholder="https://example.com" />
-                </InputStyle>
+                 </InputStyle>}
+                
 
-                <div style={{marginBottom:10}} className="label">Нэмэлт тайлбар оруулах:</div >
+                {!modal&&<div style={{marginBottom:10}} className="label">Нэмэлт тайлбар оруулах:</div >}
 
-                <CkEditor data={data} setData={setData} />
+                {modal? <ContentParser data={data} titleSm={`Нэмэлт тайлбар`} titleBig={``} />
+                :<CkEditor data={data} setData={setData} />}
+                
 
-                <ButtonStyle2>
+                {!modal&&<ButtonStyle2>
                     <div className="errTxt">{errText&&`Мэдээлэлээ оруулна уу...`}</div>
                     <button type="submit" className="myBtn">Хадгалах</button>
-                </ButtonStyle2>
+                </ButtonStyle2>}
             </form>
             
             {addModal&&<AddModal Header={Header} setActivityData={setActivityData} setAddModal={setAddModal} />}

@@ -5,8 +5,9 @@ import { useHistory } from "react-router-dom"
 import UserContext from "global/UserContext"
 import { useParams } from "react-router-dom"
 import axios from "global/axiosbase"
+import ContentParser from "components/misc/ContentParser"
 
-const Analysisthree = () => {
+const Analysisthree = ({modal}) => {
     const history = useHistory();
     const ctx = useContext(UserContext);
     const param = useParams().id;
@@ -17,9 +18,9 @@ const Analysisthree = () => {
 
     useEffect(()=>{
         const fetchData = async () =>{
-            await axios.get(`analysisfours?parent=${slug}&idd=${param}`).then(res=>{
+            await axios.get(`analysisfours?parent=${modal?ctx.targetProduct?.id:slug}&idd=${param}`).then(res=>{
                  if(res.data.length){
-                     setData(res.data[0]);
+                     setData(res.data[0]?.body);
                      setFetchID(res.data[0]?.id);
                  }else{
                      setData('');
@@ -29,8 +30,6 @@ const Analysisthree = () => {
         }
         fetchData();
     },[]);
-
-  
 
     const clickHandle = () =>{
         if(data.length){
@@ -59,14 +58,17 @@ const Analysisthree = () => {
     }
 
     return (
-        <Container>
-            <CkEditor title={`SWOT шинжилгээ - ${ctx.targetCountry?.country}`} data={data?.body} setData={setData} />
+        <>
+        {modal? <ContentParser data={data} titleSm={`SWOT шинжилгээ - ${ctx.targetCountry?.country}`} titleBig={``} />
+        :<Container>
+            <CkEditor title={`SWOT шинжилгээ - ${ctx.targetCountry?.country}`} data={data} setData={setData} />
 
-            <ButtonStyle2 >
-                 <div className="errTxt">{errTxt&&`Утга оруулна уу`}</div>
+          {!modal&&<ButtonStyle2 >
+                <div className="errTxt">{errTxt&&`Утга оруулна уу`}</div>
                 <button onClick={clickHandle}  className="myBtn">Хадгалах</button>
-            </ButtonStyle2>
-        </Container>
+            </ButtonStyle2>}  
+        </Container>}
+        </>
     )
 }
 

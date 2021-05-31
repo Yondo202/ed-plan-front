@@ -6,7 +6,7 @@ import { NumberComma } from "components/misc/NumberComma"
 import axios from "global/axiosbase"
 import { MaxDate } from "components/misc/BeforeYears"
 
-const BusinessInfoTwo = ( { title, subTitle, url, urlDetail, helpField, helpField2, setCond, cond} ) => {
+const BusinessInfoTwo = ( { title, subTitle, url, urlDetail, helpField, helpField2, setCond, cond, modal} ) => {
     const param = useParams().id;
     // const [ cond, setCond ] = useState(false);
     const [ dataOne, setDataOne ] = useState([]);
@@ -39,7 +39,7 @@ const BusinessInfoTwo = ( { title, subTitle, url, urlDetail, helpField, helpFiel
     }
 
     return (
-            <div className="customTable T2">
+            <div className={modal?`customTable T2 pageRender`:`customTable T2`}>
                     <div className="headPar">
                         <div className="title">{title}</div>
                         {/* <div onClick={()=>setAddModal(true)} className="addBtn"><RiAddLine /><span>Нэмэх</span></div> */}

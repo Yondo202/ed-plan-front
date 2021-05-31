@@ -8,7 +8,7 @@ import UserContext from "global/UserContext"
 import { useParams } from "react-router-dom"
 import axios from "global/axiosbase";
 
-const InfoThree = () => {
+const InfoThree = ({ modal }) => {
     const history = useHistory();
     const param = useParams().id;
     const ctx = useContext(UserContext);
@@ -59,9 +59,9 @@ const InfoThree = () => {
     }
 
     return (
-        <Container className="contianer-fluid">
+        <Container style={modal&&{padding:"0px 0px"}} className="contianer-fluid">
             <form onSubmit={onSubmit}>
-                <div className="customTable">
+                <div className={modal?`customTable pageRender`:`customTable`}>
                     <div className="headPar">
                         <div className="title">Эцсийн өмчлөгчдийн мэдээлэл</div>
                         <div onClick={()=>setAddModal(true)} className="addBtn"><RiAddLine /><span>Нэмэх</span></div>
@@ -109,10 +109,10 @@ const InfoThree = () => {
                     </table>
                 </div>
 
-                <ButtonStyle2>
+                {!modal&&<ButtonStyle2>
                     <div className="errTxt">{errText&&`Мэдээлэлээ оруулна уу...`}</div>
                     <button type="submit" className="myBtn">Хадгалах</button>
-                </ButtonStyle2>
+                </ButtonStyle2>}
             </form>
             
             {addModal&&<AddModal setActivityData={setActivityData} setAddModal={setAddModal} />}

@@ -6,7 +6,7 @@ import axios from "global/axiosbase"
 import { useParams, useHistory } from 'react-router-dom';
 import UserContext from "global/UserContext"
 
-const BusOneMain = () => {
+const BusOneMain = ({ modal }) => {
     const ctx = useContext(UserContext);
     const history = useHistory();
     const param = useParams().id;
@@ -40,8 +40,8 @@ const BusOneMain = () => {
     }
 
     return (
-        <Container>
-            <BusinessInfoOne cond={cond} setCond={setCond}  />
+        <Container style={modal&&{padding:"0px 0px"}}>
+            <BusinessInfoOne modal={modal} cond={cond} setCond={setCond}  />
             <BusinessInfoTwo
                 title={"Бүтээгдэхүүн болон борлуулалтын сувгийн харьцуулсан борлуулалтын мэдээ"}
                 subTitle={{ one: "Дотоодын борлуулалтын голлох бүтээгдэхүүн (ам.дол)", two: "Дотоодын борлуулалтын суваг (ам.дол)" }}
@@ -51,6 +51,7 @@ const BusOneMain = () => {
                 helpField2={"bustwodetails"}
                 cond={cond}
                 setCond={setCond}
+                modal={modal}
             />
 
             <BusinessInfoTwo
@@ -62,12 +63,13 @@ const BusOneMain = () => {
                 helpField2={"busthreedetails"}
                 cond={cond}
                 setCond={setCond}
+                modal={modal}
             />
             
-            <ButtonStyle2 >
+           {!modal&&<ButtonStyle2 >
                 <div className="errTxt"></div>
                 <button onClick={clickHandle}  className="myBtn">Дараагийн</button>
-            </ButtonStyle2>
+            </ButtonStyle2>}
         </Container>
     )
 }

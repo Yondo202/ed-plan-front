@@ -8,7 +8,7 @@ import UserContext from "global/UserContext"
 import { useParams } from "react-router-dom"
 import axios from "global/axiosbase";
 
-const InfoTwo = () => {
+const InfoTwo = ({ modal }) => {
     const history = useHistory();
     const param = useParams().id;
     const ctx = useContext(UserContext);
@@ -44,7 +44,6 @@ const InfoTwo = () => {
             final[el.name] = el.value;
         });
         final["idd"] = param
-
         if(activityData.length !== 0){
             ctx.loadFunc(true);
             setErrText(false);
@@ -69,7 +68,6 @@ const InfoTwo = () => {
                         history.push(`/${param}/intro/4`);
                     }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                 }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
-    
                 activityData.map((el)=>{
                     axios.post(`infotwodetails`, el);
                 })
@@ -80,9 +78,10 @@ const InfoTwo = () => {
     }
 
     return (
-        <Container className="contianer-fluid">
+        <Container style={modal&&{padding:"0px 0px"}} className="contianer-fluid">
             <form onSubmit={onSubmit}>
-                <div className="row">
+                {!modal&&<>
+                    <div className="row">
                     <div className="col-md-5 col-sm-5 col-12">
                         <InputStyle>
                             <div className="label">Регистерийн дугаар</div>
@@ -96,57 +95,81 @@ const InfoTwo = () => {
                             <input defaultValue={mainData?.comp_name} className="getInpp" name="comp_name" type="text" required />
                         </InputStyle>
                     </div>
-                </div>
+                    </div>
 
-                <div className="row">
-                    <div className="col-md-5 col-sm-5 col-12">
-                        <InputStyle>
-                            <div className="label">Бүртгэсэн огноо</div>
-                            <input className="getInpp" defaultValue={mainData?.approve_date} name="approve_date" max={MaxDate} type="text" onFocus={(e) => e.target.type = 'date'}
-                            //  placeholder="өдөр-сар-жил"
-                            required />
-                        </InputStyle>
+                    <div className="row">
+                        <div className="col-md-5 col-sm-5 col-12">
+                            <InputStyle>
+                                <div className="label">Бүртгэсэн огноо</div>
+                                <input className="getInpp" defaultValue={mainData?.approve_date} name="approve_date" max={MaxDate} type="text" onFocus={(e) => e.target.type = 'date'}
+                                //  placeholder="өдөр-сар-жил"
+                                required />
+                            </InputStyle>
+                        </div>
+                        <div className="col-md-1 col-sm-1 col-12"></div>
+                        <div className="col-md-5 col-sm-5 col-12">
+                            <InputStyle>
+                                <div className="label">Хэлбэр</div>
+                                <input className="getInpp" defaultValue={mainData?.sort} name="sort" type="text" required />
+                            </InputStyle>
+                        </div>
                     </div>
-                    <div className="col-md-1 col-sm-1 col-12"></div>
-                    <div className="col-md-5 col-sm-5 col-12">
-                        <InputStyle>
-                            <div className="label">Хэлбэр</div>
-                            <input className="getInpp" defaultValue={mainData?.sort} name="sort" type="text" required />
-                        </InputStyle>
-                    </div>
-                </div>
 
-                <div className="row">
-                    <div className="col-md-5 col-sm-5 col-12">
-                        <InputStyle>
-                            <div className="label">Төрөл</div>
-                            <input className="getInpp" defaultValue={mainData?.type} name="type" type="text" required />
-                        </InputStyle>
+                    <div className="row">
+                        <div className="col-md-5 col-sm-5 col-12">
+                            <InputStyle>
+                                <div className="label">Төрөл</div>
+                                <input className="getInpp" defaultValue={mainData?.type} name="type" type="text" required />
+                            </InputStyle>
+                        </div>
+                        <div className="col-md-1 col-sm-1 col-12"></div>
+                        <div className="col-md-5 col-sm-5 col-12">
+                            <InputStyle>
+                                <div className="label">Хувьцаа эзэмшигчдийн тоо</div>
+                                <input className="getInpp" defaultValue={mainData?.count} name="count" type="number" required />
+                            </InputStyle>
+                        </div>
                     </div>
-                    <div className="col-md-1 col-sm-1 col-12"></div>
-                    <div className="col-md-5 col-sm-5 col-12">
-                        <InputStyle>
-                            <div className="label">Хувьцаа эзэмшигчдийн тоо</div>
-                            <input className="getInpp" defaultValue={mainData?.count} name="count" type="number" required />
-                        </InputStyle>
-                    </div>
-                </div>
 
-                <div className="row">
-                    <div className="col-md-6 col-sm-6 col-12">
-                        <InputStyle>
-                            <div className="label">Хуулийн этгээдийн хаяг</div>
-                            <input className="getInpp" defaultValue={mainData?.address} name="address" type="text" required />
-                        </InputStyle>
+                    <div className="row">
+                        <div className="col-md-6 col-sm-6 col-12">
+                            <InputStyle>
+                                <div className="label">Хуулийн этгээдийн хаяг</div>
+                                <input className="getInpp" defaultValue={mainData?.address} name="address" type="text" required />
+                            </InputStyle>
+                        </div>
+                        <div className="col-md-1 col-sm-1 col-12"></div>
                     </div>
-                    <div className="col-md-1 col-sm-1 col-12"></div>
-                </div>
+                </>}
 
-                <div className="customTable">
+                <div className={modal?`customTable pageRender`:`customTable`}>
                     <div className="headPar">
                         <div className="title">Үйл ажиллагааны мэдээлэл</div>
                         <div onClick={()=>setAddModal(true)} className="addBtn"><RiAddLine /><span>Нэмэх</span></div>
                     </div>
+
+                    {modal&&<table style={{marginBottom:20}}>
+                        <tr>
+                            <th>Регистерийн дугаар</th>
+                            <th>Оноосон нэр</th>
+                            <th>Бүртгэсэн огноо</th>
+                            <th>Хэлбэр</th>
+                            <th>Төрөл</th>
+                            <th>Хувьцаа эзэмшигчдийн тоо</th>
+                            <th>Хуулийн этгээдийн хаяг</th>
+                            <th></th>
+                        </tr>
+                        <tr >
+                            <td>{mainData?.register}</td>
+                            <td>{mainData?.comp_name}</td>
+                            <td>{mainData?.approve_date}</td>
+                            <td>{mainData?.sort}</td>
+                            <td>{mainData?.type}</td>
+                            <td className="center">{mainData?.count}</td>
+                            <td>{mainData?.address}</td>
+                            <td className="editDelete"></td>
+                        </tr>
+                    </table>}
                     
                     <table >
                         <tr>
@@ -179,10 +202,10 @@ const InfoTwo = () => {
                     </table>
                 </div>
 
-                <ButtonStyle2>
+                {!modal&&<ButtonStyle2>
                     <div className="errTxt">{errText&&`Үйл ажиллагааны мэдээлэлээ оруулна уу...`}</div>
                     <button type="submit" className="myBtn">Хадгалах</button>
-                </ButtonStyle2>
+                </ButtonStyle2>}
             </form>
             
             {addModal&&<AddModal setActivityData={setActivityData} setAddModal={setAddModal} />}

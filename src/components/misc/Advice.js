@@ -6,7 +6,6 @@ import UserContext from "global/UserContext"
 import { BsArrowUpLeft } from "react-icons/bs";
 import {MaxDate} from "components/misc/BeforeYears"
 
-
 const Advice = () => {
     const ctx = useContext(UserContext);
     const [ Datas, setDatas ] = useState(false);

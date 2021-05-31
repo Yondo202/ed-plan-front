@@ -117,12 +117,12 @@ export const InputStyle = styled.div`
         overflow:hidden;
         width:100%;
         margin-bottom:15px;
-        
         .label{
             opacity:0.9;
             margin-bottom:8px;
         }
         input{
+            box-shadow:1px 1px 13px -8px #21659f;
             border-radius: 4px;
             align-self:flex-end;
             width:100%;
@@ -416,6 +416,43 @@ export const Container = styled.div`
             color: rgba(0, 18, 41, 0.8);
             .title{
                text-align:center;
+            }
+        }
+    }
+    .pageRender{
+       page-break-inside: avoid;
+       margin-bottom:30px;
+        width:100%;
+        .bigTitle{
+            font-size:20px;
+            margin-bottom:10px;
+            text-align:center;
+        }
+        .headPar{
+            justify-content:center;
+            .title{
+                margin-bottom:5px;
+                font-size:16px;
+                color:rgb(60,60,60);
+            }
+            .addBtn{
+                display:none;
+            } 
+        }
+        table{
+            th, td{
+                &:last-child{
+                    display:none;
+                }
+                padding:10px;
+            }
+        }
+        @media print{
+            table{
+                th{
+                    font-weight:400 !important;
+                }
+                font-size:13px !important;
             }
         }
     }

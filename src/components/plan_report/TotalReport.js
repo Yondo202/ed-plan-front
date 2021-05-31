@@ -11,7 +11,7 @@ import { NumberComma } from "components/misc/NumberComma"
 import CkEditor from 'components/misc/CkEditor';
 import styled, { keyframes } from 'styled-components';
 
-const TotalFinance = () => {
+const TotalFinance = ({ modal }) => {
     const history = useHistory();
     const initial = { managementdetails: [], body:'', code: 0 }
     const ctx = useContext(UserContext);

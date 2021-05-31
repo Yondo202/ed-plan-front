@@ -5,8 +5,9 @@ import { useHistory } from "react-router-dom"
 import UserContext from "global/UserContext"
 import { useParams } from "react-router-dom"
 import axios from "global/axiosbase"
+import ContentParser from "components/misc/ContentParser"
 
-const ExportOne = ({setProductName}) => {
+const ExportOne = ({setProductName, modal}) => {
     const history = useHistory();
     const ctx = useContext(UserContext);
     const param = useParams().id;
@@ -16,17 +17,15 @@ const ExportOne = ({setProductName}) => {
     const [ data, setData ] = useState('');
     const [ selectedData, setSelectedData ] = useState({});
 
-    console.log(`ctx`, ctx);
-
     useEffect(()=>{
         fetchData();
         FetchProductsOne();
     },[]);
 
     const fetchData = () =>{
-        axios.get(`exporttwos?parent=${slug}&idd=${param}`, ).then(res=>{
+        axios.get(`exporttwos?parent=${modal?ctx.targetProduct?.id:slug}&idd=${param}`, ).then(res=>{
             if(res.data.length){
-                setData(res.data[0]);
+                setData(res.data[0]?.body);
                 setFetchID(res.data[0]?.id);
             }
         })
@@ -34,14 +33,15 @@ const ExportOne = ({setProductName}) => {
 
     const FetchProductsOne = async () =>{
         axios.post(`graphql`, { query: `query{
-            exportProducts(where: { id : "${slug}", idd:"${param}" }){
+            exportProducts(where: { id : "${modal?ctx.targetProduct?.id:slug}", idd:"${param}" }){
               name id
             }
           }` }).then(res=>{
-              console.log(`res`, res);
-              if(res.data.data.exportProducts.length){
+              if(res.data.data.exportProducts?.length){
                 setSelectedData(res.data.data.exportProducts[0]);
-                setProductName(res.data.data.exportProducts[0].name);
+                if(!modal){
+                    setProductName(res.data.data.exportProducts[0].name);
+                }
               }
         });
     }
@@ -66,18 +66,26 @@ const ExportOne = ({setProductName}) => {
             }
         }else{
             setErrTxt(true);
+            setTimeout(() => {
+                setErrTxt(false);
+            }, 4000)
+            
         }
     }
 
     return (
-        <Container>
-            <CkEditor data={data?.body} setData={setData} title={`Экспортын бүтээгдэхүүний - ${selectedData?.name}`} />
+        <>
+        {modal? <ContentParser data={data} titleSm={`Экспортын бүтээгдэхүүний - ${selectedData?.name}`} titleBig={`IV. Экспортын бүтээгдэхүүн, үйлчилгээ`} />
+        :<Container>
+            <CkEditor data={data} setData={setData} title={`Экспортын бүтээгдэхүүний - ${selectedData?.name}`} />
 
             <ButtonStyle2 >
-                 <div className="errTxt">{errTxt&&`Утга оруулна уу`}</div>
+                <div className="errTxt">{errTxt&&`Утга оруулна уу`}</div>
                 <button onClick={clickHandle}  className="myBtn">Хадгалах</button>
             </ButtonStyle2>
-        </Container>
+        </Container>}
+            
+        </>
     )
 }
 

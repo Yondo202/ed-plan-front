@@ -5,8 +5,9 @@ import { useParams } from "react-router-dom"
 import CkEditor from "components/misc/CkEditor"
 import { ButtonStyle2, Container } from "components/misc/CustomTheme"
 import axios from "global/axiosbase"
+import ContentParser from "components/misc/ContentParser"
 
-const ProjectIntro = () => {
+const ProjectIntro = ({ modal }) => {
     const history = useHistory();
     const ctx = useContext(UserContext);
     const param = useParams().id;
@@ -50,13 +51,16 @@ const ProjectIntro = () => {
     }
 
     return (
-        <Container>
-            <CkEditor data={data?.body} setData={setData} />
-            <ButtonStyle2 >
-                 <div className="errTxt">{errTxt&&`Утга оруулна уу`}</div>
-                <button onClick={clickHandle}  className="myBtn">Хадгалах</button>
-            </ButtonStyle2>
-        </Container>
+        <>
+            {modal? <ContentParser data={data?.body} titleSm={`Бүтэц, зохион байгуулалт`} titleBig={`II. Аж ахуйн нэгжийн танилцуулга`} />
+            :<Container>
+                <CkEditor data={data?.body} setData={setData} />
+                <ButtonStyle2 >
+                    <div className="errTxt">{errTxt&&`Утга оруулна уу`}</div>
+                    <button onClick={clickHandle}  className="myBtn">Хадгалах</button>
+                </ButtonStyle2>
+            </Container>}
+        </>
     )
 }
 

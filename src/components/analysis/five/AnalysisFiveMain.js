@@ -11,7 +11,7 @@ import { NumberComma } from "components/misc/NumberComma"
 
 // code gesen talbar oorchlogdoj bolohgui
 
-const AnalysisFiveMain = () => {
+const AnalysisFiveMain = ({modal}) => {
     const param = useParams().id;
     const slug = useParams().slug;
     const ctx = useContext(UserContext);
@@ -51,7 +51,7 @@ const AnalysisFiveMain = () => {
     }
 
     const FetchDate = async () =>{
-        await axios.get(`analysisfiveyears?idd=${param}&parent=${slug}`).then(res=>{
+        await axios.get(`analysisfiveyears?idd=${param}&parent=${modal?ctx.targetProduct?.id:slug}`).then(res=>{
             if(res.data.length){
                 setCustomDate(res.data[0]);
             }
@@ -158,10 +158,10 @@ const AnalysisFiveMain = () => {
     }
 
     return (
-        <Container>
-            <div className="customTable T3">
+        <Container style={modal&&{padding:"0px 0px"}}>
+            <div className={modal?`customTable T3 pageRender`:`customTable T3`}>
                     <div className="headPar">
-                        <div className="title">Экспорт болон дотоодын борлуулалт</div>
+                        <div className="title">Экспортын борлуулалтын төлөвлөгөө</div>
                         {/* <div onClick={()=>setAddModal(true)} className="addBtn"><RiAddLine /><span>Нэмэх</span></div> */}
                     </div>
                     <form onSubmit={submitHandle}>
@@ -249,10 +249,12 @@ const AnalysisFiveMain = () => {
                         </table>
                     </form>
             </div>
-            <ButtonStyle2 >
+
+            {!modal&&<ButtonStyle2 >
                 <div className="errTxt"></div>
                 <button onClick={clickHandle}  className="myBtn">Цааш үргэлжлүүлэх</button>
-            </ButtonStyle2>
+            </ButtonStyle2>}
+            
         </Container>
     )
 }
