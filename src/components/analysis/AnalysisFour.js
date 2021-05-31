@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom"
 import axios from "global/axiosbase"
 import ContentParser from "components/misc/ContentParser"
 
-const Analysisthree = ({modal}) => {
+const Analysisthree = ({ modal }) => {
     const history = useHistory();
     const ctx = useContext(UserContext);
     const param = useParams().id;

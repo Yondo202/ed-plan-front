@@ -74,7 +74,7 @@ const FinancePlan = ({modal}) => {
         <Container style={modal&&{padding:"0px 0px"}} className="contianer">
             <form onSubmit={onSubmit}>
                 <div className={modal?`customTable pageRender`:`customTable`}>
-                    {modal&&<div className="bigTitle">V. Үйл ажиллагаа болон санхүүгийн төлөвлөгөө</div>}
+                    {modal&&<div className="bigTitle">VII. Үйл ажиллагаа болон санхүүгийн төлөвлөгөө</div>}
                     <div className="headPar">
                         {!modal&&<div className="title">Үйл ажиллагаа болон санхүүгийн төлөвлөгөө</div>}
                         <div onClick={()=>setAddModal(true)} className="addBtn"><RiAddLine /><span>Нэмэх</span></div>

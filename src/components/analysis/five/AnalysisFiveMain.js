@@ -166,6 +166,7 @@ const AnalysisFiveMain = ({modal}) => {
                     </div>
                     <form onSubmit={submitHandle}>
                         <table >
+                            <tbody>
                                 <tr>
                                     <th >дд</th>
                                     <th >Утга</th>
@@ -204,10 +205,9 @@ const AnalysisFiveMain = ({modal}) => {
                                             </div>
                                     </th>
                                 </tr>
-                                {staticData.map(el=>{
+                                {staticData.map((el,ind)=>{
                                     return(
-                                        <>
-                                        <tr className="parent">
+                                        <tr key={ind} className="parent">
                                             <td style={{width:"2rem"}}>{el.code}</td>
                                             <td style={{width:"22rem"}}>{el.desc}</td>
                                             {el.inp?<>
@@ -243,9 +243,9 @@ const AnalysisFiveMain = ({modal}) => {
                                                 </div>
                                             </td>
                                         </tr>
-                                        </>
                                     )
                                 })}
+                            </tbody>
                         </table>
                     </form>
             </div>

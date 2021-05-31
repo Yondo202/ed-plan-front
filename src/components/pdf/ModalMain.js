@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react'
 import styled, { keyframes } from 'styled-components'
+import { GrDocumentPdf } from "react-icons/gr"
 import { useReactToPrint } from "react-to-print";
 import InfoProject from "components/intro/ProjectIntro"
 import InfoOne from "components/intro/InfoOne";
@@ -18,8 +19,9 @@ import AnalysisFour from "components/analysis/AnalysisFour"
 import AnalysisFive from "components/analysis/five/AnalysisFiveMain"
 import MarketingMain from "core/contents/marketing"
 import FinancePlan from "components/plan_report/FinancePlan"
+// import TotalReport from "components/plan_report/TotalReport"
 
-export const ModalMain = ({setShowModal}) => {
+ const ModalMain = ({setShowModal}) => {
     const [ cssName, setCssName ] = useState('');
     const modalRef = useRef(null);
     const componentRef = useRef();
@@ -32,6 +34,7 @@ export const ModalMain = ({setShowModal}) => {
             }, 300)
         }
     }
+
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
     });
@@ -40,12 +43,11 @@ export const ModalMain = ({setShowModal}) => {
         <ModalStyle ref={modalRef} onClick={CloseHandle}>
             <div className={`Content ${cssName}`}>
                 <div className="header">
-                    <div onClick={handlePrint}>Хэвлэх</div>
+                    <div className="addBtn" onClick={handlePrint}><GrDocumentPdf /> <span> Хэвлэх болон pdf - татах</span></div>
+                    <div className="close">✖</div>
                 </div>
 
-
                 <div ref={componentRef}>
-
                     <InfoOne modal={true} />
                     <InfoProject modal={true} />
                     <InfoTwo modal={true} />
@@ -64,14 +66,13 @@ export const ModalMain = ({setShowModal}) => {
                     <MarketingMain modal={true} />
                     <FinancePlan modal={true} />
 
+                    {/* <TotalReport modal={true} /> */}
                 </div>
             </div>
-
-           
         </ModalStyle>
     )
 }
-
+export default ModalMain
 const animation = keyframes`
     0% { transform:translateX(-300px); }
     100% { transform:translateX(0px); }
@@ -86,7 +87,6 @@ const ModalStyle = styled.div`
     height:100%;
     z-index:1000;
     display:flex;
-    
     .A1{
         transition:all 0.3s ease;
         opacity:0;
@@ -100,9 +100,55 @@ const ModalStyle = styled.div`
         // width:40%;
         height:100vh;
         background-color:#fff;
-        padding:20px 20px;
+        padding:0px 20px;
         .header{
-
+            position:sticky;
+            top:0;
+            background-color:#fff;
+            margin-bottom:10px;
+            padding:15px 0px 15px 0px;
+            display:flex;
+            text-align:center;
+            justify-content:space-between;
+            border-bottom:1px solid rgba(0,0,0,0.1);
+            .addBtn{
+                cursor:pointer;
+                padding:5px 40px;
+                background-color: #fff;
+                border-color: #ddd;
+                color: #333;
+                border-radius: 4px;
+                border-width: 1px;
+                border-style: solid;
+                display:flex;
+                align-items:center;
+                span{
+                    font-weight:500;
+                    font-size:14px;
+                }
+                svg{
+                    margin-right:15px;
+                    font-size:18px;
+                }
+                &:hover{
+                    background-color:#ddd;
+                }
+            }
+            .close{
+                transition:all 0.15s ease;
+                border-radius:3px;
+                width:30px;
+                height:30px;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                background-color: rgba(0,0,0,.0);
+                cursor:pointer;
+                padding:8px;
+                &:hover{
+                    background-color: rgba(0,0,0,.055);
+                }
+            }
         }
     }
     @page {

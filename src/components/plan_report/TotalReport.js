@@ -136,10 +136,11 @@ const TotalFinance = ({ modal }) => {
     }
 
     return (
-        <Container style={{padding:"30px 30px"}}>
-                <div className="customTable T3">
+        <Container style={modal&&{padding:"0px 0px"}} style={modal?{padding:"30px 0px"}:{padding:"30px 30px"}}>
+                <div className={modal?`customTable T3 pageRender`:`customTable T3`}>
+                    {modal&&<div className="bigTitle">VIII. Удирдлагын багийн уулзалт, тайлан</div>}
                     <div className="headPar">
-                        <div className="title">Удирдлагын багийн уулзалт, тайлан</div>
+                    {!modal&&<div className="title">Удирдлагын багийн уулзалт, тайлан</div>}
                         {/* <div className="addBtn"><RiAddLine /><span>Нэмэх</span></div> */}
                     </div>
 
@@ -176,58 +177,57 @@ const TotalFinance = ({ modal }) => {
                         {ParentData.map(el=>{
                             return(
                                 <>
-                               {el.code > 1&&<div style={{opacity:"0.6"}} className="row Header">
-                                    {/* <div className="col col-1"> дд</div> */}
-                                    <div className="col col-2"><span className="count">#</span><span className="headFirst">Төслөөс санхүүжилт хүсч буй үйл ажиллагаа</span> </div>
-                                    <div className="col col-1">Үйл ажиллагааны ангилал</div>
-                                    <div className="col col-1">Эхлэх хугацаа</div>
-                                    <div className="col col-1">Дуусах хугацаа</div>
-                                    <div className="col col-1">Төсөвт зардал ам.дол</div>
-                                    <div className="col col-1">Төслөөс хүсч буй дүн ам.дол</div>
-                                    <div className="col col-1">Төслөөс хүсч буй санхүүжилтийн хувь</div>
-                                    <div className="col col-2">Хариуцах хүн</div>
-                                    <div className="col col-1">Тухайн ажлын талаар тайлагнах хугацаа</div>
-                                    <div className="col col-1"></div>
-                                </div>} 
-
-                              
-                                <div key={el.code} className="contentSector">
-                                    {el.managementdetails.map(elem=>{
-                                        return(
-                                            <div className="row Content">
-                                                <div className="col col-2"><span className="count">{el.code}.{elem.code}</span><span className="headFirst">{elem.desc}</span> </div>
-                                                <div className="col col-1">{elem.activity_category}</div>
-                                                <div className="col col-1">{elem.start_date}</div>
-                                                <div className="col col-1">{elem.end_date}</div>
-                                                <div className="col right col-1">{NumberComma(elem.budget_cost)}</div>
-                                                <div className="col right col-1">{NumberComma(elem.want_amount)}</div>
-                                                <div className="col right col-1">{elem.want_finance} %</div>
-                                                <div className="col col-2">{elem.responsible_person}</div>
-                                                <div className="col col-1">{elem.workreport_date}</div>
-                                                <div className="col col-1">
-                                                    <div className="editDeletePar">
-                                                        <div onClick={()=>EditHandle(elem, el)} className="smBtn"><RiEdit2Line /></div>
-                                                        {elem.id&&<div onClick={()=>DeleteHandle(elem, el)}  className="smBtn"><VscError /></div>} 
+                                    {el.code > 1&&<div style={{opacity:"0.6"}} className="row Header">
+                                        {/* <div className="col col-1"> дд</div> */}
+                                        <div className="col col-2"><span className="count">#</span><span className="headFirst">Төслөөс санхүүжилт хүсч буй үйл ажиллагаа</span> </div>
+                                        <div className="col col-1">Үйл ажиллагааны ангилал</div>
+                                        <div className="col col-1">Эхлэх хугацаа</div>
+                                        <div className="col col-1">Дуусах хугацаа</div>
+                                        <div className="col col-1">Төсөвт зардал ам.дол</div>
+                                        <div className="col col-1">Төслөөс хүсч буй дүн ам.дол</div>
+                                        <div className="col col-1">Төслөөс хүсч буй санхүүжилтийн хувь</div>
+                                        <div className="col col-2">Хариуцах хүн</div>
+                                        <div className="col col-1">Тухайн ажлын талаар тайлагнах хугацаа</div>
+                                        <div className="col col-1"></div>
+                                    </div>}
+                                
+                                    <div key={el.code} className="contentSector">
+                                        {el.managementdetails.map(elem=>{
+                                            return(
+                                                <div className="row Content">
+                                                    <div className="col col-2"><span className="count">{el.code}.{elem.code}</span><span className="headFirst">{elem.desc}</span> </div>
+                                                    <div className="col col-1">{elem.activity_category}</div>
+                                                    <div className="col col-1">{elem.start_date}</div>
+                                                    <div className="col col-1">{elem.end_date}</div>
+                                                    <div className="col right col-1">{NumberComma(elem.budget_cost)}</div>
+                                                    <div className="col right col-1">{NumberComma(elem.want_amount)}</div>
+                                                    <div className="col right col-1">{elem.want_finance} %</div>
+                                                    <div className="col col-2">{elem.responsible_person}</div>
+                                                    <div className="col col-1">{elem.workreport_date}</div>
+                                                    <div className="col col-1">
+                                                        <div className="editDeletePar">
+                                                            <div onClick={()=>EditHandle(elem, el)} className="smBtn"><RiEdit2Line /></div>
+                                                            {elem.id&&<div onClick={()=>DeleteHandle(elem, el)}  className="smBtn"><VscError /></div>} 
+                                                        </div>
                                                     </div>
                                                 </div>
+                                            )
+                                        })}
+                                        
+                                        <div className="Addition A1">
+                                            <div className="TableCount">{el.code}</div>
+                                            <div className="editor">
+                                            <div onClick={()=>AddChildHandles(el)} className="addBigBtn anime"> <IoMdAdd /> </div>
+                                                <div className="title">Гүйцэтгэл:</div>
+                                                <CkEditor data={el.body} setParentData={setParentData} setSelected={setSelected} element={el} selected={selected} height={true} />
                                             </div>
-                                        )
-                                    })}
-                                    
-                                    <div className="Addition A1">
-                                        <div className="TableCount">{el.code}</div>
-                                        <div className="editor">
-                                        <div onClick={()=>AddChildHandles(el)} className="addBigBtn anime"> <IoMdAdd /> </div>
-                                            <div className="title">Гүйцэтгэл:</div>
-                                            <CkEditor data={el.body} setParentData={setParentData} setSelected={setSelected} element={el} selected={selected} height={true} />
+                                        </div>
+
+                                        <div className="SaveBtn">
+                                            {!el.id?errText?<div className="errTxt">{errText&&`Мэдээлэлээ гүйцэд оруулна уу...`}</div>:<div />:<div />}
+                                            <button onClick={()=>sendHandle(el)} className="modalbtn anime"><VscSave style={el.id?{color:"green"}:{color:"rgba(0,0,0,0.3)"}} /> {el.code} . Хадгалах <span></span>  </button>
                                         </div>
                                     </div>
-
-                                    <div className="SaveBtn">
-                                        {!el.id?errText?<div className="errTxt">{errText&&`Мэдээлэлээ гүйцэд оруулна уу...`}</div>:<div />:<div />}
-                                        <button onClick={()=>sendHandle(el)} className="modalbtn anime"><VscSave style={el.id?{color:"green"}:{color:"rgba(0,0,0,0.3)"}} /> {el.code} . Хадгалах <span></span>  </button>
-                                    </div>
-                                </div>
                                 </>
                             )
                         })}
@@ -396,6 +396,13 @@ const BigTable = styled.div`
             justify-content:flex-end;
         }
     }
+    .contentSector22{
+        .col{
+            &:last-child{
+                display:none;
+            }
+        }
+    }
     .Ghost{
         opacity:0.5;
     }
@@ -454,6 +461,14 @@ const BigTable = styled.div`
                 }
             }
         }
+    }
+    .Header22{
+        .col{
+            &:last-child{
+                display:none;
+            }
+        }
+       
     }
     
     

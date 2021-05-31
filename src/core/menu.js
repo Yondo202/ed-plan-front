@@ -5,7 +5,7 @@ import { Link, useParams, useLocation  } from "react-router-dom";
 import { IoEye, IoHomeSharp } from "react-icons/io5";
 import { RiBookReadFill } from "react-icons/ri"
 import Advice from "components/misc/Advice"
-import {ModalMain} from "components/pdf/ModalMain"
+import ModalMain from "components/pdf/ModalMain"
 
 function Menu() {
     const loc = useLocation();
