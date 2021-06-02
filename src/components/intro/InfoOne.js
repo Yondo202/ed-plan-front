@@ -90,7 +90,7 @@ const InfoOne = ({ modal }) => {
 
     return (
         <>
-            {modal?<ContentParser data={data?.body} titleSm={``} titleBig={`I. Бүтэц, зохион байгуулалт`} />
+            {modal?<ContentParser data={data?.body} titleSm={`Бүтэц, зохион байгуулалт`} titleBig={`II. Аж ахуйн нэгжийн танилцуулга`} />
             :<Container>
                 <CkEditor title={`Бүтэц, зохион байгуулалт`} height={"35rem"} data={data?.body} setData={setData} />
 

@@ -77,7 +77,7 @@ export const UserStore = (props) => {
     }
 
     return (
-        <UserContext.Provider value={{ UserIdProvider, userId, loading, loadFunc, alert, alertFunc, total, approve, productId, setCond, targetCountry, targetProduct }}>
+        <UserContext.Provider value={{ UserIdProvider, userId, loading, loadFunc, alert, alertFunc, total, approve, productId, setCond, setApprove, targetCountry, targetProduct }}>
             {props.children}
         </UserContext.Provider>
     )

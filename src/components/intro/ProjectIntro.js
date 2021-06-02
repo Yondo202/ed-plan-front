@@ -52,7 +52,7 @@ const ProjectIntro = ({ modal }) => {
 
     return (
         <>
-            {modal? <ContentParser data={data?.body} titleSm={`Бүтэц, зохион байгуулалт`} titleBig={`II. Аж ахуйн нэгжийн танилцуулга`} />
+            {modal? <ContentParser data={data?.body} titleSm={``} titleBig={`I. Төслийн товч танилцуулга`} />
             :<Container>
                 <CkEditor data={data?.body} setData={setData} />
                 <ButtonStyle2 >

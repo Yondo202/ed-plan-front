@@ -48,8 +48,8 @@ import FinancePlan from "components/plan_report/FinancePlan"
                 </div>
 
                 <div ref={componentRef}>
-                    <InfoOne modal={true} />
                     <InfoProject modal={true} />
+                    <InfoOne modal={true} />
                     <InfoTwo modal={true} />
                     <InfoThree modal={true} />
                     <BusinessInfoDesc modal={true} />
