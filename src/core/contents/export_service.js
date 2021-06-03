@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
+import UserContext from "global/UserContext"
 import { HeaderTwo } from "components/misc/CustomTheme"
-import { BrowserRouter as Switch, Link, Route, useLocation, useParams } from "react-router-dom";
+import { BrowserRouter as Switch, Link, Route, useLocation, useParams, useHistory } from "react-router-dom";
 import ExportOne from "components/export/ExportOne"
 import{ Container } from "components/misc/CustomTheme";
 import ExportTwo from "components/export/ExportTwo"
@@ -10,6 +11,8 @@ import { MdKeyboardArrowRight } from "react-icons/md"
 import axios from 'global/axiosbase';
 
 function Intro_main() {
+    const history = useHistory();
+    const ctx = useContext(UserContext);
     const params = useParams().id;
     let loc = useLocation();
     const [ Products, setProducts ] = useState([]);
@@ -28,24 +31,24 @@ function Intro_main() {
        })
     }
 
-    // const clickHanlde = (element) => {
-    //     if(element === "show1" && ctx.productId){
-    //         history.push(`/${params}/export/1/${ctx.productId}`);
-    //     }
-    //     if(element === "show2" && ctx.productId){
-    //         history.push(`/${params}/export/2/${ctx.productId}`);
-    //     }
-    //     if(element === "show3" && ctx.productId){
-    //         history.push(`/${params}/export/3/${ctx.productId}`);
-    //     }
-    // }
+    const clickHanlde = (element) => {
+        if(element === "show1" && ctx.productId){
+            history.push(`/${params}/export/1/${ctx.productId}`);
+        }
+        if(element === "show2" && ctx.productId){
+            history.push(`/${params}/export/2/${ctx.productId}`);
+        }
+        if(element === "show3" && ctx.productId){
+            history.push(`/${params}/export/3/${ctx.productId}`);
+        }
+    }
 
     return (
         <HeaderTwo className="container">
             <div className="smMenuPar">
-                <button className={`itemsPar ${loc.pathname.includes(`/export/1`)&&`itemsPar2`}`}><span>Экспортын бүтээгдэхүүн {ProductName&&` - ${ProductName}`} </span></button>
-                <button className={`itemsPar ${loc.pathname.includes(`/export/2`)&&`itemsPar2`}`} ><span>Өртгийн тооцоолол</span></button>
-                <button className={`itemsPar ${loc.pathname.includes(`/export/3`)&&`itemsPar2`}`} ><span>Өртгийн задаргаа</span></button>
+                <button onClick={()=>clickHanlde("show1")} disabled={ctx.total?.exportone?false:true} className={`itemsPar ${ctx.total?.exportone&&`Active`} ${loc.pathname.includes(`/export/1`)&&`itemsPar2`}`}><span>Экспортын бүтээгдэхүүн {ProductName&&` - ${ProductName}`} </span></button>
+                <button onClick={()=>clickHanlde("show2")} disabled={ctx.total?.exporttwo?false:true} className={`itemsPar ${ctx.total?.exporttwo&&`Active`} ${loc.pathname.includes(`/export/2`)&&`itemsPar2`}`} ><span>Өртгийн тооцоолол</span></button>
+                <button onClick={()=>clickHanlde("show3")} disabled={ctx.total?.exporttwo?false:true} className={`itemsPa ${ctx.total?.exporttwo&&`Active`}r ${loc.pathname.includes(`/export/3`)&&`itemsPar2`}`} ><span>Өртгийн задаргаа</span></button>
                 {/* <button onClick={()=>clickHanlde("show5")} className={`itemsPar ${loc.pathname===`/${params}/export/5`&&`itemsPar2`}`}><span>Төслийн баг</span></button> */}
             </div>
             

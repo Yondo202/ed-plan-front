@@ -7,17 +7,22 @@ import { useHistory } from "react-router-dom"
 import UserContext from "global/UserContext"
 import { useParams } from "react-router-dom"
 import axios from "global/axiosbase";
+import FileUpload from "components/misc/FileUpload"
+import { edpurl } from "global/edpAxios"
 
 const InfoThree = ({ modal }) => {
     const history = useHistory();
     const param = useParams().id;
     const ctx = useContext(UserContext);
+    const [ errTxt, setErrTxt ] = useState({cond: false, text:''});
     const [ errText, setErrText ] = useState(false);
     const [ addModal, setAddModal ] = useState(false);
     const [ editModal, setEditModal ] = useState(false);
     const [ deleteModal, setDeleteModal ] = useState(false);
     const [ activityData, setActivityData ] = useState([]);
     const [ selected, setSelected ] = useState({});
+    const [ SelectedFile, setSelectedFile ] = useState([]);
+    const [ parentId, setParentId ] = useState(null);
     
     useEffect(()=>{
         fetchDataActivity();
@@ -27,34 +32,69 @@ const InfoThree = ({ modal }) => {
       await axios.get(`infothrees?idd=${param}`).then(res=>{
           setActivityData(res.data);
       });
+
+      await axios.get(`infothreefiles?idd=${param}`).then(res=>{
+          if(res.data.length){
+            setSelectedFile(res.data[0]?.edpuploads);
+            setParentId(res.data[0].id);
+          }
+      });
     }
 
     const onSubmit = (e) =>{
         e.preventDefault();
         if(activityData.length !== 0){
+            if(SelectedFile.length){
             ctx.loadFunc(true);
             setErrText(false);
-                activityData.map(el=>{
-                    if(el.id){
-                        axios.put(`infothrees/${el.id}`, el).then(res=>{
-                                axios.put(`totals/${ctx.total?.id}`, { infothree: true, idd: param }).then(res=>{
-                                    ctx.alertFunc('green','Амжилттай',true );
-                                    ctx.loadFunc(false);
-                                    history.push(`/${param}/businessinfo/1`);
-                                }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
-                        }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
-                    }else{
-                        axios.post(`infothrees`, el).then(res=>{
-                                axios.put(`totals/${ctx.total?.id}`, { infothree: true, idd: param }).then(res=>{
-                                    ctx.alertFunc('green','Амжилттай',true );
-                                    ctx.loadFunc(false);
-                                    history.push(`/${param}/businessinfo/1`);
-                                }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
-                        }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
-                    }
-                })
+            if(parentId){
+                axios.put(`infothreefiles/${parentId}`, { idd: param }).then(res=>{
+                    SelectedFile.forEach(el=>{
+                        if(el.idd){
+                            axios.put(`edpuploads/${el.id}`, { url: el.url, file_id: el.file_id, file_id: el.id, name:el.name, infothreefile: res.data.id,  idd: param, })
+                        }else{
+                            axios.post(`edpuploads`, { url: edpurl + el.fileUrl.replace("public", ""), file_id: el.id, name:el.name, infothreefile: res.data.id,  idd: param,  })
+                        }
+                    });
+            });
+            }else{
+                axios.post(`infothreefiles`, { idd: param }).then(res=>{
+                    SelectedFile.forEach(el=>{
+                        if(el.idd){
+                            axios.put(`edpuploads/${el.id}`, { url: el.url, file_id: el.file_id, file_id: el.id, name:el.name, infothreefile: res.data.id,  idd: param, })
+                        }else{
+                            axios.post(`edpuploads`, { url: edpurl + el.fileUrl.replace("public", ""), file_id: el.id, name:el.name, infothreefile: res.data.id,  idd: param,  })
+                        }
+                    });
+                });
+            }
+            
+            activityData.map(el=>{
+                if(el.id){
+                    axios.put(`infothrees/${el.id}`, el).then(res=>{
+                            axios.put(`totals/${ctx.total?.id}`, { infothree: true, idd: param }).then(res=>{
+                                ctx.alertFunc('green','Амжилттай',true );
+                                ctx.loadFunc(false);
+                                history.push(`/${param}/businessinfo/1`);
+                            }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+                    }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+                }else{
+                    axios.post(`infothrees`, el).then(res=>{
+                            axios.put(`totals/${ctx.total?.id}`, { infothree: true, idd: param }).then(res=>{
+                                ctx.alertFunc('green','Амжилттай',true );
+                                ctx.loadFunc(false);
+                                history.push(`/${param}/businessinfo/1`);
+                            }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+                    }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+                }
+            })
+            }else{
+                setErrTxt({cond:true, text: "Иргэний үнэмлэхний зурагийг хавсаргана уу .." });
+                setTimeout(() => { setErrTxt({cond:false, text: "" }); }, 4000);
+            }
         }else{
-            setErrText(true);
+            setErrTxt({cond:true, text: "Мэдээллээ гүйцэд оруулна уу.." });
+            setTimeout(() => { setErrTxt({cond:false, text: "" }); }, 4000);
         }
     }
 
@@ -109,8 +149,10 @@ const InfoThree = ({ modal }) => {
                     </table>
                 </div>
 
+                <FileUpload SelectedFile={SelectedFile} setSelectedFile={setSelectedFile} title={`Хавсралт. Иргэний үнэмлэх.`} />
+
                 {!modal&&<ButtonStyle2>
-                    <div className="errTxt">{errText&&`Мэдээлэлээ оруулна уу...`}</div>
+                    <div className="errTxt">{errTxt.cond&&`${errTxt.text}`}</div>
                     <button type="submit" className="myBtn">Хадгалах</button>
                 </ButtonStyle2>}
             </form>

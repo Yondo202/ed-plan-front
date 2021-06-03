@@ -7,18 +7,21 @@ import { useHistory } from "react-router-dom"
 import UserContext from "global/UserContext"
 import { useParams } from "react-router-dom"
 import axios from "global/axiosbase";
+import { edpurl } from "global/edpAxios"
+import FileUpload from "components/misc/FileUpload"
 
 const InfoTwo = ({ modal }) => {
     const history = useHistory();
     const param = useParams().id;
     const ctx = useContext(UserContext);
-    const [ errText, setErrText ] = useState(false);
+    const [ errTxt, setErrTxt ] = useState({cond: false, text:''});
     const [ mainData, setMainData ] = useState(null);
     const [ addModal, setAddModal ] = useState(false);
     const [ editModal, setEditModal ] = useState(false);
     const [ deleteModal, setDeleteModal ] = useState(false);
     const [ activityData, setActivityData ] = useState([]);
     const [ selected, setSelected ] = useState({});
+    const [ SelectedFile, setSelectedFile ] = useState([]);
     
     useEffect(()=>{
         fetchData();
@@ -27,7 +30,11 @@ const InfoTwo = ({ modal }) => {
 
     const fetchData = async () =>{
       await axios.get(`infotwos?idd=${param}`).then(res=>{
-          setMainData(res.data[0]);
+          console.log(`res`, res);
+          if(res.data.length){
+            setSelectedFile(res.data[0]?.edpuploads);
+            setMainData(res.data[0]);
+          }
       });
     }
 
@@ -45,37 +52,60 @@ const InfoTwo = ({ modal }) => {
         });
         final["idd"] = param
         if(activityData.length !== 0){
-            ctx.loadFunc(true);
-            setErrText(false);
-            if(mainData?.id){
-                axios.put(`infotwos/${mainData.id}`, final).then(res=>{
-                    ctx.alertFunc('green','Амжилттай',true );
-                    ctx.loadFunc(false);
-                    history.push(`/${param}/intro/4`);
-                }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
-                activityData.map((el)=>{
-                    if(el.id){
-                        axios.put(`infotwodetails/${el.id}`, el);   
-                    }else{
-                        axios.post(`infotwodetails`, el);
-                    }
-                })
-            }else{
-                axios.post(`infotwos`, final).then(res=>{
-                    axios.put(`totals/${ctx.total?.id}`, { infotwo: true, idd: param }).then(res=>{
+            if(SelectedFile.length){
+                ctx.loadFunc(true);
+                if(mainData?.id){
+                    axios.put(`infotwos/${mainData.id}`, final).then(res=>{
+                        console.log(`res+++++++++++`, res)
                         ctx.alertFunc('green','Амжилттай',true );
                         ctx.loadFunc(false);
                         history.push(`/${param}/intro/4`);
+                        SelectedFile.forEach(el=>{
+                            if(el.idd){
+                                axios.put(`edpuploads/${el.id}`, { url: el.url, file_id: el.file_id, file_id: el.id, name:el.name, infotwo: res.data.id,  idd: param, })
+                            }else{
+                                axios.post(`edpuploads`, { url: edpurl + el.fileUrl.replace("public", ""), file_id: el.id, name:el.name, infotwo: res.data.id,  idd: param,  })
+                            }
+                        });
                     }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
-                }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
-                activityData.map((el)=>{
-                    axios.post(`infotwodetails`, el);
-                })
+                    activityData.map((el)=>{
+                        if(el.id){
+                            axios.put(`infotwodetails/${el.id}`, el);   
+                        }else{
+                            axios.post(`infotwodetails`, el);
+                        }
+                    });
+                }else{
+                    axios.post(`infotwos`, final).then(res=>{
+                        axios.put(`totals/${ctx.total?.id}`, { infotwo: true, idd: param }).then(res=>{
+                            ctx.alertFunc('green','Амжилттай',true );
+                            ctx.loadFunc(false);
+                            history.push(`/${param}/intro/4`);
+                        }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+                        SelectedFile.forEach(el=>{
+                            if(el.idd){
+                                axios.put(`edpuploads/${el.id}`, { url: el.url, file_id: el.file_id, file_id: el.id, name:el.name, infotwo: res.data.id,  idd: param, })
+                            }else{
+                                axios.post(`edpuploads`, { url: edpurl + el.fileUrl.replace("public", ""), file_id: el.id, name:el.name, infotwo: res.data.id,  idd: param,  })
+                            }
+                        });
+                    }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+                    activityData.map((el)=>{
+                        axios.post(`infotwodetails`, el);
+                    })
+                }
+            }else{
+                setErrTxt({cond:true, text: "Улсын бүртгэлийн гэрчилгээгээ хавсрагана уу.." });
+                setTimeout(() => { setErrTxt({cond:false, text: "" }); }, 4000);
             }
+            
         }else{
-            setErrText(true);
+            setErrTxt({cond:true, text: "Мэдээллээ гүйцэд оруулна уу.." });
+            setTimeout(() => { setErrTxt({cond:false, text: "" }); }, 4000);
         }
     }
+
+    
 
     return (
         <Container style={modal&&{padding:"0px 0px"}} className="contianer-fluid">
@@ -149,61 +179,67 @@ const InfoTwo = ({ modal }) => {
                     </div>
 
                     {modal&&<table style={{marginBottom:20}}>
-                        <tr>
-                            <th>Регистерийн дугаар</th>
-                            <th>Оноосон нэр</th>
-                            <th>Бүртгэсэн огноо</th>
-                            <th>Хэлбэр</th>
-                            <th>Төрөл</th>
-                            <th>Хувьцаа эзэмшигчдийн тоо</th>
-                            <th>Хуулийн этгээдийн хаяг</th>
-                            <th></th>
-                        </tr>
-                        <tr >
-                            <td>{mainData?.register}</td>
-                            <td>{mainData?.comp_name}</td>
-                            <td>{mainData?.approve_date}</td>
-                            <td>{mainData?.sort}</td>
-                            <td>{mainData?.type}</td>
-                            <td className="center">{mainData?.count}</td>
-                            <td>{mainData?.address}</td>
-                            <td className="editDelete"></td>
-                        </tr>
+                        <tbody>
+                            <tr>
+                                <th>Регистерийн дугаар</th>
+                                <th>Оноосон нэр</th>
+                                <th>Бүртгэсэн огноо</th>
+                                <th>Хэлбэр</th>
+                                <th>Төрөл</th>
+                                <th>Хувьцаа эзэмшигчдийн тоо</th>
+                                <th>Хуулийн этгээдийн хаяг</th>
+                                <th></th>
+                            </tr>
+                            <tr >
+                                <td>{mainData?.register}</td>
+                                <td>{mainData?.comp_name}</td>
+                                <td>{mainData?.approve_date}</td>
+                                <td>{mainData?.sort}</td>
+                                <td>{mainData?.type}</td>
+                                <td className="center">{mainData?.count}</td>
+                                <td>{mainData?.address}</td>
+                                <td className="editDelete"></td>
+                            </tr>
+                        </tbody>
                     </table>}
                     
                     <table >
-                        <tr>
-                            <th>дд</th>
-                            <th>Үйл ажиллагааны код</th>
-                            <th>Үйл ажиллагааны чиглэл</th>
-                            <th></th>
-                        </tr>
-                        {activityData.map((el,i)=>{
-                            return(
-                                <tr key={i}>
-                                    <td>{i+1}</td>
-                                    <td>{el.code}</td>
-                                    <td>{el.direct}</td>
-                                    <td className="editDelete">
-                                        <div className="editDeletePar">
-                                            <div onClick={()=> { setSelected(el); setEditModal(true); }} className="smBtn"><RiEdit2Line /></div>
-                                            <div onClick={()=> { if(el.id){ setSelected(el); setDeleteModal(true) }else{ setActivityData(prev=>prev.filter(items=>items.code!==el.code))}}} className="smBtn"><VscError /></div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            )
-                        })}
-                        {activityData.length===0&&<tr className="ghost">
-                                <td>1</td>
-                                <td>1010</td>
-                                <td>Мах, махан бүтээгдэхүүний үйлдвэрлэл</td>
-                                <td></td>
-                            </tr>}
+                        <tbody>
+                            <tr>
+                                <th>дд</th>
+                                <th>Үйл ажиллагааны код</th>
+                                <th>Үйл ажиллагааны чиглэл</th>
+                                <th></th>
+                            </tr>
+                            {activityData.map((el,i)=>{
+                                return(
+                                    <tr key={i}>
+                                        <td>{i+1}</td>
+                                        <td>{el.code}</td>
+                                        <td>{el.direct}</td>
+                                        <td className="editDelete">
+                                            <div className="editDeletePar">
+                                                <div onClick={()=> { setSelected(el); setEditModal(true); }} className="smBtn"><RiEdit2Line /></div>
+                                                <div onClick={()=> { if(el.id){ setSelected(el); setDeleteModal(true) }else{ setActivityData(prev=>prev.filter(items=>items.code!==el.code))}}} className="smBtn"><VscError /></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                )
+                            })}
+                            {activityData.length===0&&<tr className="ghost">
+                                    <td>1</td>
+                                    <td>1010</td>
+                                    <td>Мах, махан бүтээгдэхүүний үйлдвэрлэл</td>
+                                    <td></td>
+                                </tr>}
+                        </tbody>
                     </table>
                 </div>
 
+                <FileUpload SelectedFile={SelectedFile} setSelectedFile={setSelectedFile} title={`Хавсралт. Улсын бүртгэлийн гэрчилгээ`} />
+
                 {!modal&&<ButtonStyle2>
-                    <div className="errTxt">{errText&&`Үйл ажиллагааны мэдээлэлээ оруулна уу...`}</div>
+                    <div className="errTxt">{errTxt.cond&&`${errTxt.text}`}</div>
                     <button type="submit" className="myBtn">Хадгалах</button>
                 </ButtonStyle2>}
             </form>

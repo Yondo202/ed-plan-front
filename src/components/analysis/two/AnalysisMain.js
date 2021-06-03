@@ -178,7 +178,7 @@ const AnalysisMain = ({modal}) => {
                             <th>Тариф</th>
                             <th>Тээвэрлэлтийн хувьд ойр байдал</th>
 
-                            {getHeader? 
+                            {getHeader?
                             <>
                               {Headers.head1?<th>{Headers.head1}</th>:null}  
                               {Headers.head2?<th>{Headers.head2}</th>:null}  
@@ -200,7 +200,7 @@ const AnalysisMain = ({modal}) => {
                                     </>
                                 )
                             })}
-                            <CustomThead className="center">{activityData.length === 0 && addTable.length !==4 && <span onClick={addColumn} className="child">+</span>}  Нийлбэр оноо</CustomThead>
+                            <CustomThead className="center">{!modal && activityData.length === 0 && addTable.length !==4 && <span onClick={addColumn} className="child">+</span>}  Нийлбэр оноо</CustomThead>
                             <th></th>
                         </tr>
 

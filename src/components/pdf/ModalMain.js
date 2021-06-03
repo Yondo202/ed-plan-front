@@ -1,5 +1,6 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useContext } from 'react'
 import styled, { keyframes } from 'styled-components'
+import UserContext from "global/UserContext"
 import { GrDocumentPdf } from "react-icons/gr"
 import { useReactToPrint } from "react-to-print";
 import InfoProject from "components/intro/ProjectIntro"
@@ -22,6 +23,7 @@ import FinancePlan from "components/plan_report/FinancePlan"
 // import TotalReport from "components/plan_report/TotalReport"
 
  const ModalMain = ({setShowModal}) => {
+    const ctx = useContext(UserContext)
     const [ cssName, setCssName ] = useState('');
     const modalRef = useRef(null);
     const componentRef = useRef();
@@ -31,40 +33,48 @@ import FinancePlan from "components/plan_report/FinancePlan"
             setCssName('A1');
             setTimeout(() => {
                 setShowModal(false);
-            }, 300)
+            }, 300);
         }
+    }
+    const CloseHandle2 =_=>{
+        setCssName('A1');
+        setTimeout(() => {
+            setShowModal(false);
+        }, 300);
     }
 
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
     });
 
+    const ttl = ctx.total 
+
     return (
         <ModalStyle ref={modalRef} onClick={CloseHandle}>
             <div className={`Content ${cssName}`}>
                 <div className="header">
                     <div className="addBtn" onClick={handlePrint}><GrDocumentPdf /> <span> Хэвлэх болон pdf - татах</span></div>
-                    <div className="close">✖</div>
+                    <div onClick={CloseHandle2} className="close">✖</div>
                 </div>
 
                 <div ref={componentRef}>
-                    <InfoProject modal={true} />
-                    <InfoOne modal={true} />
-                    <InfoTwo modal={true} />
-                    <InfoThree modal={true} />
-                    <BusinessInfoDesc modal={true} />
-                    <BusinessOneMain modal={true} />
-                    <BusinessTwoMain modal={true}/>
-                    <ExportOne modal={true}/>
-                    <ExportTwo modal={true} />
-                    <ExportThree modal={true} />
-                    <AnalysisOne modal={true} />
-                    <AnalysisTwo modal={true} />
-                    <AnalysisThree modal={true} />
-                    <AnalysisFour modal={true} />
-                    <AnalysisFive modal={true} />
-                    <MarketingMain modal={true} />
-                    <FinancePlan modal={true} />
+                    {ttl?.projectinfo&&<InfoProject modal={true} />}
+                    {ttl?.infoone&&<InfoOne modal={true} />}
+                    {ttl?.infotwo&&<InfoTwo modal={true} />}
+                    {ttl?.infothree&&<InfoThree modal={true} />}
+                    {ttl?.businessone&&<BusinessInfoDesc modal={true} />}
+                    {ttl?.busone&&<BusinessOneMain modal={true} />}
+                    {ttl?.bustwo&&<BusinessTwoMain modal={true}/>}
+                    {ttl?.exportone&&<ExportOne modal={true}/>}
+                    {ttl?.exporttwo&&<ExportTwo modal={true} />}
+                    {ttl?.exporttwo&&<ExportThree modal={true} />}
+                    {ttl?.analysisone&&<AnalysisOne modal={true} />}
+                    {ttl?.analysistwo&&<AnalysisTwo modal={true} />}
+                    {ttl?.analysisthree&&<AnalysisThree modal={true} />}
+                    {ttl?.analysisfour&&<AnalysisFour modal={true} />}
+                    {ttl?.analysisfive&&<AnalysisFive modal={true} />}
+                    {ttl?.m_one&&<MarketingMain modal={true} />}
+                    {ttl?.financeplan&&<FinancePlan modal={true} />}
 
                     {/* <TotalReport modal={true} /> */}
                 </div>

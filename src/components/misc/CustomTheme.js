@@ -262,15 +262,37 @@ export const HeaderTwo = styled.div`
             padding:10px 24px;
             border-radius: 5px 5px 0px 0px;
             outline: none;
+            color: rgba(${props=>props.theme.textColor},0.6);
         }
         .itemsPar2{
             border-style:none;
+            color: rgba(${props=>props.theme.textColor},1);
             // border-top:1px solid rgba(0,0,0,0.2);
             // border-right:1px solid rgba(0,0,0,0.2);
             // border-left:1px solid rgba(0,0,0,0.2);
             background-color:#fff;
             outline: none;
             box-shadow:-4px -5px 13px -11px black;
+        }
+        .Active{
+            border-top:2px solid green;
+            position:relative;
+                // &::before{
+                //     content:"✔";
+                //     position:absolute;
+                //     display:flex;
+                //     align-items:center;
+                //     justify-content:center;
+                //     z-index:1;
+                //     top:-10px;
+                //     left:5%;
+                //     border:1px solid green;
+                //     background-color:white;
+                //     color:green;
+                //     width:17px;
+                //     height:17px;
+                //     border-radius:50%;
+                // }
         }
         .dd{
             margin-left:0px;
@@ -561,6 +583,128 @@ export const CustomModal = styled.div`
         animation:${ModalAnimate2} 0.4s ease;
     }
     
+`
+
+export const CustomFileUpload = styled.div`
+    margin-top:10px;
+    padding:15px 0px;
+    .title{
+        font-size:14px;
+        font-weight:500;
+        padding-bottom:8px;
+        margin-bottom:8px;
+        border-bottom:1px solid rgba(0,0,0,0.2);
+    }
+    .contentPar{
+        padding:10px 0px;
+        display:flex;
+        align-items:center;
+        justify-content:start;
+        gap:15px;
+        flex-wrap: wrap;
+        .imgPar{
+            overflow:hidden;
+            position:relative;
+            border-radius:5px;
+            box-shadow:1px 1px 10px -4px;
+            width:90px;
+            height:90px;
+            &:hover{
+                .Addition{
+                    top:0px;
+                }
+            }
+            .Addition{
+                transition:all 0.3s ease;
+                position:absolute;
+                top:-90px;
+                left:0;
+                width:100%;
+                height:100%;
+                z-index:3;
+                background-color:rgba(0,0,0,0.5);
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                gap:10px;
+                svg{
+                    padding:2px;
+                    transition:all 0.1s ease;
+                    border-radius:8px;
+                    font-size:30px;
+                    color:#fff;
+                }
+                .delete{
+                    &:hover{
+                        background-color:#fff;
+                        color:black;
+                    }
+                    cursor:pointer;
+                }
+                .see{
+                    &:hover{
+                        background-color:#fff;
+                        color:black;
+                    }
+                    cursor:pointer;
+                }
+            }
+            img{
+                cursor:pointer;
+                top:0;
+                left:0;
+                position:absolute;
+                width:100%;
+                height:100%;
+                object-fit:cover;
+            }
+        }
+        .imgPar2{
+            width:120px;
+            height:100%;
+            .img{
+                width:100%;
+                height:auto;
+                object-fit:contain;
+            }
+        }
+        
+        .inputSector{
+            .inputStyle{
+                transition:all 0.3s ease;
+                margin-bottom:0px;
+                cursor:pointer;
+                padding:10px;
+                height:90px;
+                width:90px;
+                display:flex;
+                border:2px solid rgba(${props=>props.theme.textColor},0.4);
+                border-style:dashed;
+                svg{
+                    transition:all 0.3s ease;
+                    height:100%;
+                    width:100%;
+                    color:rgba(${props=>props.theme.textColor},0.4);
+                    // font-size:24px;
+                }
+                &:hover{
+                    border:2px solid rgba(${props=>props.theme.textColor});
+                    border-style:dashed;
+                    svg{
+                        color:rgba(${props=>props.theme.textColor});
+                    }
+                }
+            }
+
+            input[type="file"]{
+                display:none;
+            }
+        }
+    }
+    .contentPar2{
+        margin-bottom:30px;
+        justify-content:center;
+    }
 `
 
 

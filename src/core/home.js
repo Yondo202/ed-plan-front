@@ -12,13 +12,10 @@ function Home() {
         if(parseInt(param)){ setParamCond(param);  }
     },[param]);
 
-    console.log(`ctx.productId`, ctx.productId);
-
     return (
         <>
          <HomeComponent className="container">
             <div className="row">
-                
                     <div className="col-md-2 col-sm-2 itemsCol">
                         <div className="itemsPar">
                             <div className="mains">
