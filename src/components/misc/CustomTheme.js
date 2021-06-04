@@ -660,9 +660,14 @@ export const CustomFileUpload = styled.div`
             }
         }
         .imgPar2{
-            width:120px;
+            width:150px;
             height:100%;
+            box-shadow:none;
+            .Addition{
+                top:-100%;
+            }
             .img{
+                position:relative;
                 width:100%;
                 height:auto;
                 object-fit:contain;
@@ -703,7 +708,15 @@ export const CustomFileUpload = styled.div`
     }
     .contentPar2{
         margin-bottom:30px;
+        align-items:start;
         justify-content:center;
+    }
+    contentPar3{
+        align-items:start;
+        justify-content:start;
+        // .imgPar2{
+        //     height:100%;
+        // }
     }
 `
 

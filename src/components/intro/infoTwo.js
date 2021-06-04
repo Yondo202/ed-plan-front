@@ -56,7 +56,6 @@ const InfoTwo = ({ modal }) => {
                 ctx.loadFunc(true);
                 if(mainData?.id){
                     axios.put(`infotwos/${mainData.id}`, final).then(res=>{
-                        console.log(`res+++++++++++`, res)
                         ctx.alertFunc('green','Амжилттай',true );
                         ctx.loadFunc(false);
                         history.push(`/${param}/intro/4`);
@@ -104,8 +103,6 @@ const InfoTwo = ({ modal }) => {
             setTimeout(() => { setErrTxt({cond:false, text: "" }); }, 4000);
         }
     }
-
-    
 
     return (
         <Container style={modal&&{padding:"0px 0px"}} className="contianer-fluid">
