@@ -77,11 +77,13 @@ const InfoOne = ({ modal }) => {
 
     return (
         <>
-            {modal?<ContentParser data={data} titleSm={`Бүтэц, зохион байгуулалт`} titleBig={`II. Аж ахуйн нэгжийн танилцуулга`} />
+            {modal?<><ContentParser data={data} titleSm={`Бүтэц, зохион байгуулалт`} titleBig={`II. Аж ахуйн нэгжийн танилцуулга`} />
+            <FileUpload SelectedFile={SelectedFile} setSelectedFile={setSelectedFile} title={`Хавсралт. Бүтцийн зураг оруулах`} modal={modal} />
+            </>
             :<Container>
                 <CkEditor title={`Бүтэц, зохион байгуулалт`} height={"35rem"} data={data} setData={setData} />
 
-                <FileUpload SelectedFile={SelectedFile} setSelectedFile={setSelectedFile} title={`Хавсралт. Бүтцийн зураг оруулах`} />
+                <FileUpload SelectedFile={SelectedFile} setSelectedFile={setSelectedFile} title={`Хавсралт. Бүтцийн зураг оруулах`} modal={modal} />
 
                 <ButtonStyle2 >
                     <div className="errTxt">{errTxt.cond&&`${errTxt.text}`}</div>

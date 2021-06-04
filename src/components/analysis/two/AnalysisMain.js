@@ -54,7 +54,7 @@ const AnalysisMain = ({modal}) => {
                 }, 5000);
             }else{
                 ctx.loadFunc(true);
-                activityData.map(el=>{
+                activityData.forEach(el=>{
                     if(el.id){
                         axios.put(`analysistwos/${el.id}`,{ ...el, parent: slug, ...Headers}).then(res=>{
                                 ctx.alertFunc('green','Амжилттай',true );
@@ -170,84 +170,86 @@ const AnalysisMain = ({modal}) => {
                         <div onClick={()=>AddHandle()} className="addBtn"><RiAddLine /><span>Нэмэх</span></div>
                     </div>
                     <table >
+                        <tbody>
                         <tr>
-                            <th>дд</th>
-                            <th>Харьцуулах улс, орнууд</th>
-                            <th>Худалдах үнэ</th>
-                            <th>Стандарт шаардлага багатай</th>
-                            <th>Тариф</th>
-                            <th>Тээвэрлэлтийн хувьд ойр байдал</th>
+                                <th>дд</th>
+                                <th>Харьцуулах улс, орнууд</th>
+                                <th>Худалдах үнэ</th>
+                                <th>Стандарт шаардлага багатай</th>
+                                <th>Тариф</th>
+                                <th>Тээвэрлэлтийн хувьд ойр байдал</th>
 
-                            {getHeader?
-                            <>
-                              {Headers.head1?<th>{Headers.head1}</th>:null}  
-                              {Headers.head2?<th>{Headers.head2}</th>:null}  
-                              {Headers.head3?<th>{Headers.head3}</th>:null}  
-                              {Headers.head4?<th>{Headers.head4}</th>:null}  
-                            </>
-                            :addTable.map(el=>{
-                                return(
-                                    <>
-                                        {!el.approve?<InputHead key={Math.random()}>
-                                            <div className="content">
-                                                <InputStyle  style={{marginBottom:0}} className="inputt">
-                                                    <input defaultValue={el.head} type="text" className="inpHead" autoFocus name={el.headname} required />
-                                                </InputStyle>
-                                                <div onClick={headText} className="smBtn"><IoMdCheckmark /></div>
-                                            </div>
-                                            
-                                        </InputHead>:<th key={Math.random()}>{el.head}</th>}
-                                    </>
-                                )
-                            })}
-                            <CustomThead className="center">{!modal && activityData.length === 0 && addTable.length !==4 && <span onClick={addColumn} className="child">+</span>}  Нийлбэр оноо</CustomThead>
-                            <th></th>
-                        </tr>
-
-                        {activityData.map((el,i)=>{
-                            return(
-                                <tr style={el.target?{fontWeight:"600"}:{fontWeight:"400"}} key={el.code}>
-                                    <td>{i+1}</td>
-                                    <td>{el.country}</td>
-                                    <td className="center">{el.price}</td>
-                                    <td className="center">{el.standart}</td>
-                                    <td className="center">{el.tarif}</td>
-                                    <td className="center">{el.traffic_range}</td>
-                                    {el.add1?<td className="center">{el.add1}</td>:null}
-                                    {el.add2?<td className="center">{el.add2}</td>:null}
-                                    {el.add3?<td className="center">{el.add3}</td>:null}
-                                    {el.add4?<td className="center">{el.add4}</td>:null}
-                                    {/* {addTable.map(el=>{
-                                        return(
-                                            <td key={Math.random()}>{el.desc}</td>
-                                        )
-                                    })} */}
-                                    <td className="center" style={{fontWeight:"600"}}>{el.total}</td>
-                                    <td className="editDelete">
-                                        <div className="editDeletePar">
-                                            {/* <div onClick={()=> { setSelected(el); setEditModal(true); }} className="smBtn"><RiEdit2Line /></div> */}
-                                            <div onClick={()=> { if(el.id){ setSelected(el); setDeleteModal(true) }else{ setActivityData(prev=>prev.filter(items=>items.country!==el.country))}}} className="smBtn"><VscError /></div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            )
-                        })}
-                        
-                        {activityData.length===0&&<tr className="ghost">
-                                <td>1</td>
-                                <td>Хонг Конг</td>
-                                <td>3</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>2</td>
-                                {addTable.map(el=>{
+                                {getHeader?
+                                <>
+                                {Headers.head1?<th>{Headers.head1}</th>:null}  
+                                {Headers.head2?<th>{Headers.head2}</th>:null}  
+                                {Headers.head3?<th>{Headers.head3}</th>:null}  
+                                {Headers.head4?<th>{Headers.head4}</th>:null}  
+                                </>
+                                :addTable.map(el=>{
                                     return(
-                                        <td key={Math.random()}>0</td>
+                                        <>
+                                            {!el.approve?<InputHead key={Math.random()}>
+                                                <div className="content">
+                                                    <InputStyle  style={{marginBottom:0}} className="inputt">
+                                                        <input defaultValue={el.head} type="text" className="inpHead" autoFocus name={el.headname} required />
+                                                    </InputStyle>
+                                                    <div onClick={headText} className="smBtn"><IoMdCheckmark /></div>
+                                                </div>
+                                                
+                                            </InputHead>:<th key={Math.random()}>{el.head}</th>}
+                                        </>
                                     )
                                 })}
-                                <td>7</td>
-                                <td></td>
-                            </tr>}
+                                <CustomThead className="center">{!modal && activityData.length === 0 && addTable.length !==4 && <span onClick={addColumn} className="child">+</span>}  Нийлбэр оноо</CustomThead>
+                                <th></th>
+                            </tr>
+
+                            {activityData.map((el,i)=>{
+                                return(
+                                    <tr style={el.target?{fontWeight:"600"}:{fontWeight:"400"}} key={el.code}>
+                                        <td>{i+1}</td>
+                                        <td>{el.country}</td>
+                                        <td className="center">{el.price}</td>
+                                        <td className="center">{el.standart}</td>
+                                        <td className="center">{el.tarif}</td>
+                                        <td className="center">{el.traffic_range}</td>
+                                        {el.add1?<td className="center">{el.add1}</td>:null}
+                                        {el.add2?<td className="center">{el.add2}</td>:null}
+                                        {el.add3?<td className="center">{el.add3}</td>:null}
+                                        {el.add4?<td className="center">{el.add4}</td>:null}
+                                        {/* {addTable.map(el=>{
+                                            return(
+                                                <td key={Math.random()}>{el.desc}</td>
+                                            )
+                                        })} */}
+                                        <td className="center" style={{fontWeight:"600"}}>{el.total}</td>
+                                        <td className="editDelete">
+                                            <div className="editDeletePar">
+                                                {/* <div onClick={()=> { setSelected(el); setEditModal(true); }} className="smBtn"><RiEdit2Line /></div> */}
+                                                <div onClick={()=> { if(el.id){ setSelected(el); setDeleteModal(true) }else{ setActivityData(prev=>prev.filter(items=>items.country!==el.country))}}} className="smBtn"><VscError /></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                )
+                            })}
+                            
+                            {activityData.length===0&&<tr className="ghost">
+                                    <td>1</td>
+                                    <td>Хонг Конг</td>
+                                    <td>3</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>2</td>
+                                    {addTable.map(el=>{
+                                        return(
+                                            <td key={Math.random()}>0</td>
+                                        )
+                                    })}
+                                    <td>7</td>
+                                    <td></td>
+                                </tr>}
+                        </tbody>
                     </table>
                 </div>
 

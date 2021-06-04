@@ -37,7 +37,7 @@ const AnalysisFiveMain = ({modal}) => {
     const FetchData = async () =>{
        await axios.get(`analysisfives?idd=${param}`).then(res=>{
             setStaticData(prev=>[...prev.filter(item=>{
-                res.data.map(el=>{
+                res.data.forEach(el=>{
                     if(item.code === parseInt(el.code) ){
                        item.desc = el.desc
                        item.year_one = el.year_one
@@ -89,7 +89,7 @@ const AnalysisFiveMain = ({modal}) => {
 
     const SelectItem = ( el ) =>{
         let inp = document.querySelectorAll(".inpGet"); let arr = Array.from(inp); let child = {}; let final = el
-        arr.map(el=>{
+        arr.forEach(el=>{
             if(el.value){ child[el.name] = parseFloat(el.value.replaceAll(',','')); }
         });
         let keys = Object.keys(child).length;
@@ -134,7 +134,7 @@ const AnalysisFiveMain = ({modal}) => {
 
     const HeadHandle = (e) =>{
         let inp = document.querySelectorAll(".inpGettt"); let arr = Array.from(inp); let child = {};
-        arr.map(el=>{
+        arr.forEach(el=>{
             if(el.value) {child[el.name] = el.value; }
         });
         setCustomDate({
@@ -148,10 +148,12 @@ const AnalysisFiveMain = ({modal}) => {
 
         if(customDate.id){
             axios.put(`analysisfiveyears/${customDate.id}`, child).then(res=>{
+                setCond(prev=>!prev);
                 setHeadEdit(false);
             });
         }else{
             axios.post(`analysisfiveyears`, child).then(res=>{
+                setCond(prev=>!prev);
                 setHeadEdit(false);
             });
         }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import styled, { keyframes } from 'styled-components'
+import styled from 'styled-components'
 import { useParams } from "react-router-dom"
 import axios from "global/axiosbase"
 import UserContext from "global/UserContext"
@@ -58,11 +58,6 @@ const Advice = () => {
 }
 
 export default Advice
-
-const animateOne = keyframes`
-    from{-webkit-mask-image radial-gradient(2rem at 21.3% 14% , transparent 98%, black 100%); }
-    to{ -webkit-mask-image radial-gradient(6.4rem at 21.3% 14% , transparent 98%, black 100%); }
-` 
 
 const Container = styled.div`
     .ghost{

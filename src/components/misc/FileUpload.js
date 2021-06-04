@@ -7,7 +7,7 @@ import { RiImageAddFill, RiSearchEyeLine } from "react-icons/ri"
 import { TiDelete } from "react-icons/ti"
 import ImagePreview from "components/misc/ImagePreview"
 
-const FileUpload = ({ SelectedFile, setSelectedFile, title, first }) => {
+const FileUpload = ({ SelectedFile, setSelectedFile, title, first, modal }) => {
     const ctx = useContext(UserContext);
     const [ seeImg, setSeeImg ] = useState(false);
     const [ selectImg, setSelectImg ] = useState('');
@@ -39,7 +39,6 @@ const FileUpload = ({ SelectedFile, setSelectedFile, title, first }) => {
     }
 
     const seeParent = (url) =>{
-        console.log(`url`, url)
         setSeeImg(true);
         setSelectImg(url);
     }
@@ -55,19 +54,19 @@ const FileUpload = ({ SelectedFile, setSelectedFile, title, first }) => {
                                         {/* <img className="img" src={`${el.blob}`}/> */}
                                         <div className="Addition">
                                             <RiSearchEyeLine onClick={()=>seeParent(el.idd?first? el.image_url:el.url:`${edpurl + el.fileUrl.replace("public", "")}`)} className="see" />
-                                            <TiDelete onClick={()=>DeleteImage(el)} className="delete" />
+                                            {!modal&&<TiDelete onClick={()=>DeleteImage(el)} className="delete" />}
                                         </div>
-                                        {el.idd?first? <img className="img" src={el.image_url}/>: <img className="img" src={el.url}/>
-                                        :<img className="img" src={`${edpurl + el.fileUrl.replace("public", "")}`}/>}
+                                        {el.idd?first? <img className="img" src={el.image_url}/>: <img className="img" src={el.url} alt="bla2.png" />
+                                        :<img className="img" src={`${edpurl + el.fileUrl.replace("public", "")}`} alt="bla2.png" />}
                                     </div>
                                 )
                         })}
-                        <div className="inputSector">
+                        {!modal&&<div className="inputSector">
                             <label className="inputStyle" htmlFor="file-upload">
                                <RiImageAddFill />
                             </label>
                             <input id="file-upload" type="file" accept=".gif,.jpg,.jpeg,.png" name="file-input" onChange={onClickHandler} />
-                        </div>
+                        </div>}
                     </div>
                 </CustomFileUpload>
                 {seeImg&&<ImagePreview url={selectImg} setSeeImg={setSeeImg} />}

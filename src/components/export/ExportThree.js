@@ -60,7 +60,7 @@ const InfoThree = ({modal}) => {
                 let myLength = activityData.length
                 ctx.loadFunc(true);
                 setErrText(false);
-                    activityData.map((el, ind)=>{
+                    activityData.forEach((el, ind)=>{
                         if(el.id){
                             axios.put(`exportthrees/${el.id}`, { ...el, parent: slug, export_product: slug}).then(res=>{
                                 axios.put(`totals/${ctx.total?.id}`, { exporttwo: true, idd: param }).then(res=>{
@@ -111,51 +111,51 @@ const InfoThree = ({modal}) => {
                         <div onClick={()=>setAddModal(true)} className="addBtn"><RiAddLine /><span>Нэмэх</span></div>
                     </div>
                     <table >
-                        <tr className="center">
-                            <th>дд</th>
-                            <th>Өртгийн задаргаа</th>
-                            <th>Хувь</th>
-                            <th>Кг ам.дол /АНУ/</th>
-                            <th>Кг ам.дол /Монгол/</th>
-                            <th></th>
-                        </tr>
-                        {activityData.map((el,i)=>{
-                            return(
-                                <tr key={i}>
-                                    <td>{i+1}</td>
-                                    <td>{el.desc}</td>
-                                    <td className="center">{el.size?`${el.size}%`:null}</td>
-                                    <td className="right">{el.usd}</td>
-                                    <td className="right">{el.mnt}</td>
-                                    {/* <td>{el.name}</td> */}
-                                    <td className="editDelete">
-                                        <div className="editDeletePar">
-                                            <div onClick={()=> { setSelected(el); setEditModal(true); }} className="smBtn"><RiEdit2Line /></div>
-                                            <div onClick={()=> { if(el.id){ setSelected(el); setDeleteModal(true) }else{ setActivityData(prev=>prev.filter(items=>items.code!==el.code  ))}}} className="smBtn"><VscError /></div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            )
-                        })}
-                        {activityData.length===0&&<tr className="ghost">
-                                <td>1</td>
-                                <td>Орц: мах, амтлагч, савлагаа</td>
-                                <td className="center">68.8%</td>
-                                <td className="right">32</td>
-                                <td className="right">18</td>
-                                <td></td>
-                        </tr>}
+                        <tbody>
+                            <tr className="center">
+                                <th>дд</th>
+                                <th>Өртгийн задаргаа</th>
+                                <th>Хувь</th>
+                                <th>Кг ам.дол /АНУ/</th>
+                                <th>Кг ам.дол /Монгол/</th>
+                                <th></th>
+                            </tr>
+                            {activityData.map((el,i)=>{
+                                return(
+                                    <tr key={i}>
+                                        <td>{i+1}</td>
+                                        <td>{el.desc}</td>
+                                        <td className="center">{el.size?`${el.size}%`:null}</td>
+                                        <td className="right">{el.usd}</td>
+                                        <td className="right">{el.mnt}</td>
+                                        {/* <td>{el.name}</td> */}
+                                        <td className="editDelete">
+                                            <div className="editDeletePar">
+                                                <div onClick={()=> { setSelected(el); setEditModal(true); }} className="smBtn"><RiEdit2Line /></div>
+                                                <div onClick={()=> { if(el.id){ setSelected(el); setDeleteModal(true) }else{ setActivityData(prev=>prev.filter(items=>items.code!==el.code  ))}}} className="smBtn"><VscError /></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                )
+                            })}
+                            {activityData.length===0&&<tr className="ghost">
+                                    <td>1</td>
+                                    <td>Орц: мах, амтлагч, савлагаа</td>
+                                    <td className="center">68.8%</td>
+                                    <td className="right">32</td>
+                                    <td className="right">18</td>
+                                    <td></td>
+                            </tr>}
 
-                        <tr>
-                            <th></th>
-                            <th>Нийт</th>
-                            <th className="center">{totalCost.size}%</th>
-                            <th className="right">{totalCost.usd}</th>
-                            <th className="right">{totalCost.mnt}</th>
-                            <th></th>
-                        </tr>
-
-                        
+                            <tr>
+                                <th></th>
+                                <th>Нийт</th>
+                                <th className="center">{totalCost.size}%</th>
+                                <th className="right">{totalCost.usd}</th>
+                                <th className="right">{totalCost.mnt}</th>
+                                <th></th>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
 

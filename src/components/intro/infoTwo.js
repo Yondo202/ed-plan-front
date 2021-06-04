@@ -47,7 +47,7 @@ const InfoTwo = ({ modal }) => {
     const onSubmit = (e) =>{
         e.preventDefault();
         let inp = document.querySelectorAll(".getInpp"); let arr = Array.from(inp); let final = {};
-        arr.map(el=>{
+        arr.forEach(el=>{
             final[el.name] = el.value;
         });
         final["idd"] = param
@@ -67,7 +67,7 @@ const InfoTwo = ({ modal }) => {
                             }
                         });
                     }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
-                    activityData.map((el)=>{
+                    activityData.forEach((el)=>{
                         if(el.id){
                             axios.put(`infotwodetails/${el.id}`, el);   
                         }else{
@@ -89,7 +89,7 @@ const InfoTwo = ({ modal }) => {
                             }
                         });
                     }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
-                    activityData.map((el)=>{
+                    activityData.forEach((el)=>{
                         axios.post(`infotwodetails`, el);
                     })
                 }
@@ -233,7 +233,7 @@ const InfoTwo = ({ modal }) => {
                     </table>
                 </div>
 
-                <FileUpload SelectedFile={SelectedFile} setSelectedFile={setSelectedFile} title={`Хавсралт. Улсын бүртгэлийн гэрчилгээ`} />
+                <FileUpload SelectedFile={SelectedFile} setSelectedFile={setSelectedFile} title={`Хавсралт. Улсын бүртгэлийн гэрчилгээ`} modal={modal} />
 
                 {!modal&&<ButtonStyle2>
                     <div className="errTxt">{errTxt.cond&&`${errTxt.text}`}</div>

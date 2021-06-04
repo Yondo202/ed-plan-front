@@ -17,6 +17,7 @@ const ContentParser = ({data, titleSm, titleBig}) => {
 export default ContentParser
 
 const PrintStyle = styled.div`
+    page-break-inside: avoid;
     margin-bottom:35px;
     .ContentSector{
         text-align: justify;
@@ -35,13 +36,13 @@ const PrintStyle = styled.div`
     }
     @media print{
         .BigTitle{
-            font-size:20px;
+            font-size:26px;
         }
         .ContentSector{
-            font-size:13px;
+            font-size:18px;
         }
         .titleSm{
-            font-size:15px;
+            font-size:21px;
         }
 
     }

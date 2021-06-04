@@ -16,8 +16,6 @@ const BusinessInfoTwo = ( { title, subTitle, url, urlDetail, helpField, helpFiel
     const [ selectedData, setSelectedData ] = useState([]);
     // const [ years, setYears ] = useState({ one });
 
-    console.log(`dataOne`, dataOne);
-
     useEffect(()=>{
         fetchData();
     },[cond])
@@ -45,6 +43,7 @@ const BusinessInfoTwo = ( { title, subTitle, url, urlDetail, helpField, helpFiel
                         {/* <div onClick={()=>setAddModal(true)} className="addBtn"><RiAddLine /><span>Нэмэх</span></div> */}
                     </div>
                     <table >
+                        <tbody>
                             <tr>
                                 <th>дд</th>
                                 <th >Утга</th>
@@ -56,8 +55,8 @@ const BusinessInfoTwo = ( { title, subTitle, url, urlDetail, helpField, helpFiel
 
                             {dataOne.length?dataOne.map((el,i)=>{
                                 return(
-                                    <>
-                                        <tr key={el.id} className="parent">
+                                    <React.Fragment key={i}>
+                                        <tr  className="parent">
                                             <td>{i+1}</td>
                                             <td>{el.desc}</td>
                                             <td style={{textAlign:'right'}}>{dataOne.length?NumberComma(dataOne[0]?.year_three):null}</td>
@@ -93,7 +92,7 @@ const BusinessInfoTwo = ( { title, subTitle, url, urlDetail, helpField, helpFiel
                                                 </tr>
                                             )
                                         })}
-                                    </>
+                                    </React.Fragment>
                                 )
                             }):<></>}
                             
@@ -144,7 +143,7 @@ const BusinessInfoTwo = ( { title, subTitle, url, urlDetail, helpField, helpFiel
                                         <td></td>
                                 </tr>}
                             </>
-                            
+                        </tbody>
                     </table>
                 {addModal?<AddModal dataOne={dataOne} length={dataOne.length} customTitle={customTitle} helpField={helpField}  title={title} urlDetail={urlDetail} url={url} setCond={setCond} setAddModal={setAddModal} />:``}
                 {editModal?<EditModal dataOne={dataOne} length={dataOne.length} helpField={helpField}  title={title} urlDetail={urlDetail} url={url}  helpField2={helpField2} setCond={setCond} setAddModal={setEditModal} setDataOne={selectedData} />:``}

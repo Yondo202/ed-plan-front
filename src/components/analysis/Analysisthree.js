@@ -17,17 +17,18 @@ const Analysisthree = ({modal}) => {
     const [ data, setData ] = useState('');
 
     useEffect(()=>{
+        const fetchData = async () =>{
+            await axios.get(`analysisthrees?parent=${modal?ctx.targetProduct?.id:slug}&idd=${param}`, ).then(res=>{
+                 if(res.data.length){
+                     setData(res.data[0].body);
+                     setFetchID(res.data[0]?.id);
+                 }
+             })
+         }
         fetchData();
     },[]);
 
-    const fetchData = () =>{
-        axios.get(`analysisthrees?parent=${modal?ctx.targetProduct?.id:slug}&idd=${param}`, ).then(res=>{
-            if(res.data.length){
-                setData(res.data[0].body);
-                setFetchID(res.data[0]?.id);
-            }
-        })
-    }
+    
 
     const clickHandle = () =>{
         if(data.length){

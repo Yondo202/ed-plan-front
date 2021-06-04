@@ -80,49 +80,51 @@ const FinancePlan = ({modal}) => {
                         <div onClick={()=>setAddModal(true)} className="addBtn"><RiAddLine /><span>Нэмэх</span></div>
                     </div>
                     <table >
-                        <tr>
-                            <th>дд</th>
-                            <th>Үйл ажиллагаа</th>
-                            <th style={{textAlign:"center"}}>Төсөв ам.дол</th>
-                            <th>Хугацаа</th>
-                            <th>Хариуцах хүн</th>
-                            <th></th>
-                        </tr>
-                        {activityData.map((el,i)=>{
-                            return(
-                                <tr key={i}>
-                                    <td>{i+1}</td>
-                                    <td>{el.titile}</td>
-                                    <td style={{textAlign:"right"}}>{NumberComma(el.budget)}</td>
-                                    <td>{el.time}</td>
-                                    <td>{el.response_person}</td>
-                                    <td className="editDelete">
-                                        <div className="editDeletePar">
-                                            <div onClick={()=> { setSelected(el); setEditModal(true); }} className="smBtn"><RiEdit2Line /></div>
-                                            <div onClick={()=> { if(el.id){ setSelected(el); setDeleteModal(true) }else{ setActivityData(prev=>prev.filter(items=>items.name!==el.name && items.parent_name!==el.parent_name ))}}} className="smBtn"><VscError /></div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            )
-                        })}
-                        {activityData.length!==0&&
-                            <tr >
-                                <th style={{backgroundColor:"white"}}></th>
-                                <th style={{backgroundColor:"white"}}>Нийт</th>
-                                <th style={{backgroundColor:"white", textAlign:"right"}}>{total}</th>
-                                <th style={{backgroundColor:"white"}}></th>
-                                <th style={{backgroundColor:"white"}}></th>
-                                <th style={{backgroundColor:"white"}}></th>
-                            </tr>}
+                        <tbody>
+                            <tr>
+                                <th>дд</th>
+                                <th>Үйл ажиллагаа</th>
+                                <th style={{textAlign:"center"}}>Төсөв ам.дол</th>
+                                <th>Хугацаа</th>
+                                <th>Хариуцах хүн</th>
+                                <th></th>
+                            </tr>
+                            {activityData.map((el,i)=>{
+                                return(
+                                    <tr key={i}>
+                                        <td>{i+1}</td>
+                                        <td>{el.titile}</td>
+                                        <td style={{textAlign:"right"}}>{NumberComma(el.budget)}</td>
+                                        <td>{el.time}</td>
+                                        <td>{el.response_person}</td>
+                                        <td className="editDelete">
+                                            <div className="editDeletePar">
+                                                <div onClick={()=> { setSelected(el); setEditModal(true); }} className="smBtn"><RiEdit2Line /></div>
+                                                <div onClick={()=> { if(el.id){ setSelected(el); setDeleteModal(true) }else{ setActivityData(prev=>prev.filter(items=>items.name!==el.name && items.parent_name!==el.parent_name ))}}} className="smBtn"><VscError /></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                )
+                            })}
+                            {activityData.length!==0&&
+                                <tr >
+                                    <th style={{backgroundColor:"white"}}></th>
+                                    <th style={{backgroundColor:"white"}}>Нийт</th>
+                                    <th style={{backgroundColor:"white", textAlign:"right"}}>{total}</th>
+                                    <th style={{backgroundColor:"white"}}></th>
+                                    <th style={{backgroundColor:"white"}}></th>
+                                    <th style={{backgroundColor:"white"}}></th>
+                                </tr>}
 
-                        {activityData.length===0&&<tr className="ghost">
-                                <td>1</td>
-                                <td>Вэбсайт хөгжүүлэх</td>
-                                <td>10,000</td>
-                                <td>8-9 сар</td>
-                                <td>Маркетингийн менежер</td>
-                                <td></td>
-                            </tr>}
+                            {activityData.length===0&&<tr className="ghost">
+                                    <td>1</td>
+                                    <td>Вэбсайт хөгжүүлэх</td>
+                                    <td>10,000</td>
+                                    <td>8-9 сар</td>
+                                    <td>Маркетингийн менежер</td>
+                                    <td></td>
+                                </tr>}
+                        </tbody>
                     </table>
                 </div>
 

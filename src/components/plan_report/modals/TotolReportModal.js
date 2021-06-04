@@ -16,7 +16,7 @@ export const AddModal = ({ setShowAddModal, setParentData , selected  }) => {
     const SubmitHandle = (e) =>{
         e.preventDefault();
         let inp = document.querySelectorAll(".gettInp"); let arr = Array.from(inp); let final = {};
-        arr.map(el=>{
+        arr.forEach(el=>{
             if( el.name === 'budget_cost' || el.name === 'want_amount' || el.name === 'want_finance' ){
                 final[el.name] = parseInt(el.value.replaceAll(',',''));
             }else{ final[el.name] = el.value }
@@ -109,7 +109,7 @@ export const EditModal = ({ setShowAddModal, setParentData , selected, selectedD
     const SubmitHandle = (e) =>{
         e.preventDefault();
         let inp = document.querySelectorAll(".gettInp"); let arr = Array.from(inp); let final = {};
-        arr.map(el=>{
+        arr.forEach(el=>{
             if( el.name === 'budget_cost' || el.name === 'want_amount' || el.name === 'want_finance' ){
                 final[el.name] = parseInt(el.value.replaceAll(',',''));
             }else{ final[el.name] = el.value }

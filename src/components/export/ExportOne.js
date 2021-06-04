@@ -4,7 +4,7 @@ import{ Container, ButtonStyle2 } from "components/misc/CustomTheme";
 import { useHistory } from "react-router-dom"
 import UserContext from "global/UserContext"
 import { useParams } from "react-router-dom"
-import axios from "global/axiosbase"
+import axios, { axiosGraphql } from "global/axiosbase"
 import ContentParser from "components/misc/ContentParser"
 
 const ExportOne = ({setProductName, modal}) => {
@@ -32,7 +32,7 @@ const ExportOne = ({setProductName, modal}) => {
     }
 
     const FetchProductsOne = async () =>{
-        axios.post(`graphql`, { query: `query{
+        axiosGraphql.post(`graphql`, { query: `query{
             exportProducts(where: { id : "${modal?ctx.targetProduct?.id:slug}", idd:"${param}" }){
               name id
             }

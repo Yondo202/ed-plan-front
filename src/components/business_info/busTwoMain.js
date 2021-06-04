@@ -30,7 +30,7 @@ const BusTwoMain = ({ modal }) => {
     const fetchResult = async () => {
         await axios.get(`businessresults?idd=${param}`).then(res=>{
             setResultData(prev=>[...prev.filter(item=>{
-                res.data.map(el=>{
+                res.data.forEach(el=>{
                     if(item.code === parseInt(el.code) ){
                        item.desc = el.desc
                        item.year_one = el.year_one
@@ -46,7 +46,7 @@ const BusTwoMain = ({ modal }) => {
     const FetchData = async () =>{
        await axios.get(`businessinfothrees?idd=${param}`).then(res=>{
             setStaticData(prev=>[...prev.filter(item=>{
-                res.data.map(el=>{
+                res.data.forEach(el=>{
                     if(item.code === parseInt(el.code) ){
                        item.desc = el.desc
                        item.year_one = el.year_one
@@ -60,7 +60,7 @@ const BusTwoMain = ({ modal }) => {
     }
 
     useEffect(()=>{
-        resultData.map(el=>{
+        resultData.forEach(el=>{
             if(el.code !== 14){
                 AllResult(el.code, el.val1, el.val2);
             }else{
@@ -72,7 +72,7 @@ const BusTwoMain = ({ modal }) => {
     const AllResult = ( code, val1, val2, val3 ) =>{
         let obj1 = {}; let obj2 = {};
         if(!val3){
-            staticData.map((el)=>{
+            staticData.forEach((el)=>{
                 if(el.code === val1){ obj1 = el }
                 if(el.code === val2){ obj2 = el }
             });
@@ -85,7 +85,7 @@ const BusTwoMain = ({ modal }) => {
             }), ...prev ]);
         }else{
             let obj3 = {};
-            staticData.map((el)=>{
+            staticData.forEach((el)=>{
                 if(el.code === val1){ obj1 = el }
                 if(el.code === val2){ obj2 = el } 
                 if(el.code === val3){ obj3 = el }
@@ -126,7 +126,7 @@ const BusTwoMain = ({ modal }) => {
 
     const SelectItem = ( el ) =>{
         let inp = document.querySelectorAll(".inpGet"); let arr = Array.from(inp); let child = {}; let final = el
-        arr.map(el=>{
+        arr.forEach(el=>{
             if(el.value){child[el.name] = parseFloat(el.value.replaceAll(',','')); }
         });
         let keys = Object.keys(child).length;
@@ -136,7 +136,7 @@ const BusTwoMain = ({ modal }) => {
                 axios.put(`businessinfothrees/${final.id}`, final).then(res=>{
                     ctx.alertFunc('green','',true );
                     setStaticData(prev=> [...prev.filter(item=>{ item.inp = false; }), ...prev]);
-                    resultData.map((el)=>{ el.idd = param;  if(el.id){ axios.put(`businessresults/${el.id}`, el) }else{ axios.post(`businessresults`, el ) } });
+                    resultData.forEach((el)=>{ el.idd = param;  if(el.id){ axios.put(`businessresults/${el.id}`, el) }else{ axios.post(`businessresults`, el ) } });
                 }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
             }else{
                 axios.post(`businessinfothrees`, final).then(res=>{
@@ -163,7 +163,7 @@ const BusTwoMain = ({ modal }) => {
                     history.push(`/${param}/export`);
                 }
             });
-            resultData.map((el)=>{
+            resultData.forEach((el)=>{
                 el.idd = param;
                 if(el.id){
                     axios.put(`businessresults/${el.id}`, el)
@@ -178,7 +178,7 @@ const BusTwoMain = ({ modal }) => {
 
     const HeadHandle = (e) =>{
         let inp = document.querySelectorAll(".inpGettt"); let arr = Array.from(inp); let child = {};
-        arr.map(el=>{
+        arr.forEach(el=>{
             if(el.value) {child[el.name] = el.value; }
         });
         setCustomDate({
@@ -201,7 +201,8 @@ const BusTwoMain = ({ modal }) => {
                     </div>
                     <form onSubmit={submitHandle}>
                         <table >
-                                <tr>
+                            <tbody>
+                            <tr>
                                     <th >дд</th>
                                     <th >Санхүүгийн үзүүлэлтүүд</th>
                                     {HeadEdit?
@@ -239,46 +240,44 @@ const BusTwoMain = ({ modal }) => {
                                             </div>
                                     </th>
                                 </tr>
-                                {staticData.map(el=>{
+                                {staticData.map((el, ind)=>{
                                     return(
-                                        <>
-                                        <tr className="parent">
-                                            <td style={{width:"2rem"}}>{el.code}</td>
-                                            <td style={{width:"22rem"}}>{el.desc}</td>
-                                            {el.inp?<>
-                                                <td style={{textAlign:'right', width:"13rem"}}>
-                                                    <InputStyle  style={{marginBottom:0}} className="inputt">
-                                                        <NumberFormat defaultValue={el.year_three} className="cash inpGet" autoFocus name={`year_three`} thousandSeparator={true} placeholder="0" required />
-                                                    </InputStyle>
-                                                </td>
-                                                <td style={{textAlign:'right', width:"13rem"}}>
-                                                    <InputStyle style={{marginBottom:0}} className="inputt">
-                                                        <NumberFormat defaultValue={el.year_two} className="cash inpGet" name={`year_two`} thousandSeparator={true} placeholder="0" required />
-                                                    </InputStyle>
-                                                </td>
-                                                <td style={{textAlign:'right', width:"13rem"}}>
-                                                    <InputStyle style={{marginBottom:0}} className="inputt">
-                                                        <NumberFormat defaultValue={el.year_one} className="cash inpGet" name={`year_one`} thousandSeparator={true} placeholder="0" required />
-                                                    </InputStyle>
-                                                </td>
-                                            </>
-                                            :<>
-                                                <td style={{textAlign:'right'}}>{NumberComma(el.year_three)}</td>
-                                                <td style={{textAlign:'right'}}>{NumberComma(el.year_two)}</td>
-                                                <td style={{textAlign:'right'}}>{NumberComma(el.year_one)}</td>
-                                            </>}
+                                            <tr key={ind} className="parent">
+                                                <td style={{width:"2rem"}}>{el.code}</td>
+                                                <td style={{width:"22rem"}}>{el.desc}</td>
+                                                {el.inp?<>
+                                                    <td style={{textAlign:'right', width:"13rem"}}>
+                                                        <InputStyle  style={{marginBottom:0}} className="inputt">
+                                                            <NumberFormat defaultValue={el.year_three} className="cash inpGet" autoFocus name={`year_three`} thousandSeparator={true} placeholder="0" required />
+                                                        </InputStyle>
+                                                    </td>
+                                                    <td style={{textAlign:'right', width:"13rem"}}>
+                                                        <InputStyle style={{marginBottom:0}} className="inputt">
+                                                            <NumberFormat defaultValue={el.year_two} className="cash inpGet" name={`year_two`} thousandSeparator={true} placeholder="0" required />
+                                                        </InputStyle>
+                                                    </td>
+                                                    <td style={{textAlign:'right', width:"13rem"}}>
+                                                        <InputStyle style={{marginBottom:0}} className="inputt">
+                                                            <NumberFormat defaultValue={el.year_one} className="cash inpGet" name={`year_one`} thousandSeparator={true} placeholder="0" required />
+                                                        </InputStyle>
+                                                    </td>
+                                                </>
+                                                :<>
+                                                    <td style={{textAlign:'right'}}>{NumberComma(el.year_three)}</td>
+                                                    <td style={{textAlign:'right'}}>{NumberComma(el.year_two)}</td>
+                                                    <td style={{textAlign:'right'}}>{NumberComma(el.year_one)}</td>
+                                                </>}
 
-                                            <td style={{width:"6rem"}} className="editDelete">
-                                                <div className="editDeletePar">
-                                                    {el.inp?<>
-                                                    <button type="submit" onClick={()=>SelectItem(el)} className="smBtn"><IoMdCheckmark /></button>
-                                                    <div onClick={()=>shitchInp(el, false)} className="smBtn"><VscError /></div></>
-                                                    :<div onClick={()=>shitchInp(el, true)} className="smBtn"><RiEdit2Line /></div>}
-                                                    {/* {!el.id&&<div onClick={()=>setAddModal(true)} className="smBtn"><RiAddLine /></div>} */}
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        </>
+                                                <td style={{width:"6rem"}} className="editDelete">
+                                                    <div className="editDeletePar">
+                                                        {el.inp?<>
+                                                        <button type="submit" onClick={()=>SelectItem(el)} className="smBtn"><IoMdCheckmark /></button>
+                                                        <div onClick={()=>shitchInp(el, false)} className="smBtn"><VscError /></div></>
+                                                        :<div onClick={()=>shitchInp(el, true)} className="smBtn"><RiEdit2Line /></div>}
+                                                        {/* {!el.id&&<div onClick={()=>setAddModal(true)} className="smBtn"><RiAddLine /></div>} */}
+                                                    </div>
+                                                </td>
+                                            </tr>
                                     )
                                 })}
                                 <tr>
@@ -289,9 +288,9 @@ const BusTwoMain = ({ modal }) => {
                                     <th style={{textAlign:'center'}} >{customDate?.year_one}</th>
                                     <th ></th>
                                 </tr>
-                                {resultData.map(el=>{
+                                {resultData.map((el, ind)=>{
                                     return(
-                                        <tr className="parent">
+                                        <tr key={ind} className="parent">
                                             <td style={{width:"2rem"}}>{el.code}</td>
                                             <td style={{width:"22rem"}}>{el.desc}</td>
                                             {el.inp?<>
@@ -321,6 +320,7 @@ const BusTwoMain = ({ modal }) => {
                                         </tr>
                                     )
                                 })}
+                            </tbody>
                         </table>
                     </form>
             </div>

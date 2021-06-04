@@ -60,7 +60,7 @@ const InfoThree = ({modal}) => {
         if(activityData.length !== 0){
             ctx.loadFunc(true);
             setErrText(false);
-                activityData.map(el=>{
+                activityData.forEach(el=>{
                     if(el.id){
                         axios.put(`exportones/${el.id}`,{ ...el, parent: slug, export_product: slug}).then(res=>{
                                 ctx.alertFunc('green','Амжилттай',true );
@@ -95,7 +95,7 @@ const InfoThree = ({modal}) => {
 
     const HeadHandle = (e) =>{
         let inp = document.querySelectorAll(".totalInp"); let arr = Array.from(inp); let child = {};
-        arr.map(el=>{
+        arr.forEach(el=>{
             if(el.value) { child[el.name] = parseFloat(el.value.replaceAll(',','')) }
         });
         axios.put(`export-products/${selectedData.id}`, child).then(res=>{
@@ -113,84 +113,86 @@ const InfoThree = ({modal}) => {
                         <div onClick={()=>setAddModal(true)} className="addBtn"><RiAddLine /><span>Нэмэх</span></div>
                     </div>
                     <table >
-                        <tr className="center">
-                            <th>дд</th>
-                            <th>1 кг {selectedData?.name} хийх орц</th>
-                            <th>Хэмжээ</th>
-                            <th>Өртөг, ам. доллар /АНУ/</th>
-                            <th>Өртөг, ам. доллар /Монголд/</th>
-                            <th></th>
-                        </tr>
-                        {activityData.map((el,i)=>{
-                            return(
-                                <tr key={i}>
-                                    <td>{i+1}</td>
-                                    <td>{el.desc}</td>
-                                    <td className="center">{el.size}</td>
-                                    <td className="right">{el.usd}</td>
-                                    <td className="right">{el.mnt}</td>
-                                    {/* <td>{el.name}</td> */}
-                                    <td className="editDelete">
-                                        <div className="editDeletePar">
-                                            <div onClick={()=> { setSelected(el); setEditModal(true); }} className="smBtn"><RiEdit2Line /></div>
-                                            <div onClick={()=> { if(el.id){ setSelected(el); setDeleteModal(true) }else{ setActivityData(prev=>prev.filter(items=>items.code!==el.code  ))}}} className="smBtn"><VscError /></div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            )
-                        })}
-                        {activityData.length===0&&<tr className="ghost">
-                                <td>1</td>
-                                <td>1 кг {selectedData?.name} хийх орц</td>
-                                <td className="center">2,5</td>
-                                <td className="right">32</td>
-                                <td className="right">18</td>
-                                <td></td>
-                        </tr>}
+                        <tbody>
+                            <tr className="center">
+                                <th>дд</th>
+                                <th>1 кг {selectedData?.name} хийх орц</th>
+                                <th>Хэмжээ</th>
+                                <th>Өртөг, ам. доллар /АНУ/</th>
+                                <th>Өртөг, ам. доллар /Монголд/</th>
+                                <th></th>
+                            </tr>
+                            {activityData.map((el,i)=>{
+                                return(
+                                    <tr key={i}>
+                                        <td>{i+1}</td>
+                                        <td>{el.desc}</td>
+                                        <td className="center">{el.size}</td>
+                                        <td className="right">{el.usd}</td>
+                                        <td className="right">{el.mnt}</td>
+                                        {/* <td>{el.name}</td> */}
+                                        <td className="editDelete">
+                                            <div className="editDeletePar">
+                                                <div onClick={()=> { setSelected(el); setEditModal(true); }} className="smBtn"><RiEdit2Line /></div>
+                                                <div onClick={()=> { if(el.id){ setSelected(el); setDeleteModal(true) }else{ setActivityData(prev=>prev.filter(items=>items.code!==el.code  ))}}} className="smBtn"><VscError /></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                )
+                            })}
+                            {activityData.length===0&&<tr className="ghost">
+                                    <td>1</td>
+                                    <td>1 кг {selectedData?.name} хийх орц</td>
+                                    <td className="center">2,5</td>
+                                    <td className="right">32</td>
+                                    <td className="right">18</td>
+                                    <td></td>
+                            </tr>}
 
-                        <tr>
-                            <th></th>
-                            <th>НИЙТ ӨРТӨГ</th>
-                            <th></th>
-                            <th className="right">{totalCost.usd}</th>
-                            <th className="right">{totalCost.mnt}</th>
-                            <th></th>
-                        </tr>
+                            <tr>
+                                <th></th>
+                                <th>НИЙТ ӨРТӨГ</th>
+                                <th></th>
+                                <th className="right">{totalCost.usd}</th>
+                                <th className="right">{totalCost.mnt}</th>
+                                <th></th>
+                            </tr>
 
-                        <tr>
-                            <th></th>
-                            <th>ҮНЭ</th>
-                            <th></th>
-                            {HeadEdit?
-                                    <>
-                                        <th style={{textAlign:'center'}} >
-                                            <InputStyle  style={{marginBottom:0}} className="inputt">
-                                                <NumberFormat defaultValue={selectedData?.price_usd} className="cash totalInp" name={`price_usd`} isNumericString={true} thousandSeparator={true} placeholder="0" required />
-                                            </InputStyle>
-                                        </th>
-                                        <th style={{textAlign:'center'}} >
-                                            <InputStyle  style={{marginBottom:0}} className="inputt">
-                                                <NumberFormat defaultValue={selectedData?.price_mnt} className="cash totalInp" name={`price_mnt`} isNumericString={true} thousandSeparator={true} placeholder="0" required />
-                                            </InputStyle>
-                                        </th>
-                                       
-                                    </>
-                                    :<>
-                                        <th  className="right">{selectedData?.price_usd}</th>
-                                        <th  className="right">{selectedData?.price_mnt}</th>
-                                     </>
-                                    }
+                            <tr>
+                                <th></th>
+                                <th>ҮНЭ</th>
+                                <th></th>
+                                {HeadEdit?
+                                        <>
+                                            <th style={{textAlign:'center'}} >
+                                                <InputStyle  style={{marginBottom:0}} className="inputt">
+                                                    <NumberFormat defaultValue={selectedData?.price_usd} className="cash totalInp" name={`price_usd`} isNumericString={true} thousandSeparator={true} placeholder="0" required />
+                                                </InputStyle>
+                                            </th>
+                                            <th style={{textAlign:'center'}} >
+                                                <InputStyle  style={{marginBottom:0}} className="inputt">
+                                                    <NumberFormat defaultValue={selectedData?.price_mnt} className="cash totalInp" name={`price_mnt`} isNumericString={true} thousandSeparator={true} placeholder="0" required />
+                                                </InputStyle>
+                                            </th>
+                                        
+                                        </>
+                                        :<>
+                                            <th  className="right">{selectedData?.price_usd}</th>
+                                            <th  className="right">{selectedData?.price_mnt}</th>
+                                        </>
+                                        }
 
-                            <th style={{width:"6rem"}} className="editDelete">
-                                <div className="editDeletePar">
-                                    {HeadEdit?<>
-                                        <div onClick={HeadHandle} type="submit" className="smBtn"><IoMdCheckmark /></div>
-                                        <div onClick={()=>shitchInp2(false)} className="smBtn"><VscError /></div></>
-                                    :<div onClick={()=>shitchInp2(true)} className="smBtn"><RiEdit2Line /></div>}
-                                    {/* {!el.id&&<div onClick={()=>setAddModal(true)} className="smBtn"><RiAddLine /></div>} */}
-                                </div>
-                            </th>
-                        </tr>
+                                <th style={{width:"6rem"}} className="editDelete">
+                                    <div className="editDeletePar">
+                                        {HeadEdit?<>
+                                            <div onClick={HeadHandle} type="submit" className="smBtn"><IoMdCheckmark /></div>
+                                            <div onClick={()=>shitchInp2(false)} className="smBtn"><VscError /></div></>
+                                        :<div onClick={()=>shitchInp2(true)} className="smBtn"><RiEdit2Line /></div>}
+                                        {/* {!el.id&&<div onClick={()=>setAddModal(true)} className="smBtn"><RiAddLine /></div>} */}
+                                    </div>
+                                </th>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
 

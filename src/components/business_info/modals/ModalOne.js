@@ -19,13 +19,13 @@ export const AddModal = ({ setAddModal, setCond }) => {
     const SubmitHandle = (e) =>{
         e.preventDefault();
         let inp = document.querySelectorAll(".gettInppe"); let arr = Array.from(inp); let final = {};
-        arr.map(el=>{ final[el.name] = parseInt(el.value.replaceAll(',','')); }); final["idd"] = param;
+        arr.forEach(el=>{ final[el.name] = parseInt(el.value.replaceAll(',','')); }); final["idd"] = param;
 
         let detailInp = document.querySelectorAll(".getTable"); let arr2 = Array.from(detailInp); let finalDetail = []; 
-        arr2.map((el, i)=>{
+        arr2.forEach((el, i)=>{
             let obj = {};
             let detailInp = document.querySelectorAll(`.gettInppDetail${i + 1}`); let arr2 = Array.from(detailInp);
-            arr2.map(el=>{
+            arr2.forEach(el=>{
                 if(el.name !== "desc"){
                     obj[el.name] = parseInt(el.value.replaceAll(',',''));
                 }else{
@@ -39,7 +39,7 @@ export const AddModal = ({ setAddModal, setCond }) => {
         axios.post(`busones`, final).then(res=>{
             if(res.data.id){
                 let myLeng = finalDetail.length
-                finalDetail.map((el, ind)=>{
+                finalDetail.forEach((el, ind)=>{
                     el["busone"] = res.data.id;
                     axios.post(`busonedetails`, el).then(res=>{
                         if(myLeng - 1 === ind){
@@ -132,14 +132,14 @@ export const EditModal = ({ setAddModal, setCond, setDataOne }) => {
     const SubmitHandle = (e) =>{
         e.preventDefault();
         let inp = document.querySelectorAll(".gettInppe"); let arr = Array.from(inp); let final = {};
-        arr.map(el=>{ final[el.name] = parseInt(el.value.replaceAll(',','')); }); final["idd"] = param;
+        arr.forEach(el=>{ final[el.name] = parseInt(el.value.replaceAll(',','')); }); final["idd"] = param;
 
         let detailInp = document.querySelectorAll(".getTable2"); let arr2 = Array.from(detailInp); let finalDetail = []; 
         
-        arr2.map((el, i)=>{
+        arr2.forEach((el, i)=>{
             let obj = {};
             let detailInp = document.querySelectorAll(`.gettInppDetail2${i + 1}`); let arr2 = Array.from(detailInp);
-            arr2.map(elem=>{
+            arr2.forEach(elem=>{
                 if(elem.name !== "desc"){
                     obj[elem.name] = parseInt(elem.value.replaceAll(',',''));; 
                 }else{
@@ -155,7 +155,7 @@ export const EditModal = ({ setAddModal, setCond, setDataOne }) => {
         axios.put(`busones/${setDataOne[0]?.id}`, final).then(res=>{
             if(res.data.id){
                 let myLeng = finalDetail.length
-                finalDetail.map((el, ind)=>{
+                finalDetail.forEach((el, ind)=>{
                     el["busone"] = res.data.id;
                     axios.put(`busonedetails/${el.id}`, el).then(res=>{
 

@@ -14,7 +14,7 @@ export const AddModal = ({ setAddModal, setActivityData }) => {
     const SubmitHandle = (e) =>{
         e.preventDefault();
         let inp = document.querySelectorAll(".gettInp"); let arr = Array.from(inp); let final = {};
-        arr.map(el=>{ final[el.name] = el.value; }); final["idd"] = param
+        arr.forEach(el=>{ final[el.name] = el.value; }); final["idd"] = param
         setClose('contentParent2');
         setTimeout(() => {setActivityData(prev=> [ ...prev, final ]); setAddModal(false); setClose('') }, 300);
     }
@@ -79,7 +79,7 @@ export const EditModal = ({ setEditModal, setActivityData, selected }) => {
     const SubmitHandle = (e) =>{
         e.preventDefault();
         let inp = document.querySelectorAll(".gettInp"); let arr = Array.from(inp); let final = {};
-        arr.map(el=>{ final[el.name] = el.value; }); final["idd"] = param
+        arr.forEach(el=>{ final[el.name] = el.value; }); final["idd"] = param
         setClose('contentParent2');
         setTimeout(() => 
         {
@@ -157,7 +157,7 @@ export const DeleteModal = ({ setDeleteModal,setActivityData, selected }) => {
     const SubmitHandle = (e) =>{
         e.preventDefault();
         let inp = document.querySelectorAll(".gettInp"); let arr = Array.from(inp); let final = {};
-        arr.map(el=>{ final[el.name] = el.value; }); final["idd"] = param;
+        arr.forEach(el=>{ final[el.name] = el.value; }); final["idd"] = param;
         axios.delete(`infothrees/${selected?.id}`).then(res=>{
             setClose('contentParent2');ctx.alertFunc('green','Устгагдлаа',true );
             setTimeout(() => {  setActivityData(prev=>prev.filter(item=>item.id!==res.data.id)); setDeleteModal(false); setClose('') }, 300);

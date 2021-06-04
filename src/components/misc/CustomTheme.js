@@ -317,6 +317,7 @@ const rowAnimation = keyframes`
 
 
 export const Container = styled.div`
+    page-break-inside: avoid;
     animation: ${bigAnimation} 0.6s ease;
     width:100%;
     background-color: ${props=>props.theme.Color2};
@@ -474,7 +475,7 @@ export const Container = styled.div`
                 th{
                     font-weight:400 !important;
                 }
-                font-size:13px !important;
+                font-size:15px !important;
             }
         }
     }
@@ -617,7 +618,7 @@ export const CustomFileUpload = styled.div`
             .Addition{
                 transition:all 0.3s ease;
                 position:absolute;
-                top:-90px;
+                top:-100%;
                 left:0;
                 width:100%;
                 height:100%;
@@ -626,7 +627,7 @@ export const CustomFileUpload = styled.div`
                 display:flex;
                 align-items:center;
                 justify-content:center;
-                gap:10px;
+                gap:15px;
                 svg{
                     padding:2px;
                     transition:all 0.1s ease;
@@ -714,9 +715,34 @@ export const CustomFileUpload = styled.div`
     contentPar3{
         align-items:start;
         justify-content:start;
-        // .imgPar2{
-        //     height:100%;
-        // }
+    }
+
+    @media print{
+        margin-bottom:30px;
+        .contentPar{
+            .imgPar{
+                width:220px;
+                height:220px;
+                .img{
+                    object-fit:cover;
+                }
+            }
+            .imgPar2{
+                width:300px;
+                height:100%;
+                box-shadow:none;
+                .Addition{
+                    top:-100%;
+                }
+                .img{
+                    position:relative;
+                    width:100%;
+                    height:auto;
+                    object-fit:contain;
+                }
+            }
+        }
+        
     }
 `
 

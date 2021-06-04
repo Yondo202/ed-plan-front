@@ -31,24 +31,26 @@ const AnalysisMain = ({modal}) => {
     const [ fetchID, setFetchID ] = useState(null);
     
     useEffect(()=>{
+        const fetchDataActivity = async () =>{
+            await axios.get(`analysisones?parent=${modal?ctx.targetProduct?.id:slug}&idd=${param}`).then(res=>{
+              if(res.data.length){
+                  setHeader({ title: res.data[0]?.head_title, measure: res.data[0]?.head_measure });
+                  setParentId(res.data[0].id);
+                  if(res.data[0].analysisonedetails.length){
+                      setActivityData(res.data[0].analysisonedetails);
+                  }
+                  if(res.data[0].analysisonebody){
+                      setSource(res.data[0].analysisonebody.source);
+                      setFetchID(res.data[0].analysisonebody?.id);
+                      setData(res.data[0].analysisonebody.body);
+                  }
+              }
+            });
+        }
         fetchDataActivity();
     },[cond]);
-    const fetchDataActivity = async () =>{
-        await axios.get(`analysisones?parent=${modal?ctx.targetProduct?.id:slug}&idd=${param}`).then(res=>{
-          if(res.data.length){
-              setHeader({ title: res.data[0]?.head_title, measure: res.data[0]?.head_measure });
-              setParentId(res.data[0].id);
-              if(res.data[0].analysisonedetails.length){
-                  setActivityData(res.data[0].analysisonedetails);
-              }
-              if(res.data[0].analysisonebody){
-                  setSource(res.data[0].analysisonebody.source);
-                  setFetchID(res.data[0].analysisonebody?.id);
-                  setData(res.data[0].analysisonebody.body);
-              }
-          }
-        });
-    }
+
+    
 
     
 
@@ -57,7 +59,7 @@ const AnalysisMain = ({modal}) => {
         if(activityData.length !== 0){
             ctx.loadFunc(true);
             setErrText(false);
-                activityData.map(el=>{
+                activityData.forEach(el=>{
                     if(el.id){
                         axios.put(`analysisonedetails/${el.id}`,{ ...el, analysisone: ParentId, parent: slug}).then(res=>{
                                 ctx.alertFunc('green','Амжилттай',true );
@@ -94,7 +96,7 @@ const AnalysisMain = ({modal}) => {
 
     const HeadHandle = (e) =>{
         let inp = document.querySelectorAll(".inpHead"); let arr = Array.from(inp); let child = {};
-        arr.map(el=>{
+        arr.forEach(el=>{
             if(el.value) {child[el.name] = el.value; el.classList =- " red"; el.classList += " inpHead"; }else{ el.classList += " red" }
         });
         if(Object.keys(child).length > 1){
@@ -132,6 +134,7 @@ const AnalysisMain = ({modal}) => {
                         <div onClick={()=>AddHandle()} className="addBtn"><RiAddLine /><span>Нэмэх</span></div>
                     </div>
                     <table >
+                        <tbody>
                         <tr>
                             <th>дд</th>
                             {HeadEdit?<th style={{textAlign:'center'}} >
@@ -191,6 +194,7 @@ const AnalysisMain = ({modal}) => {
                                 <td>0%</td>
                                 <td></td>
                             </tr>}
+                        </tbody>
                     </table>
                 </div>
                 

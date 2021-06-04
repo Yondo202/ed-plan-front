@@ -69,7 +69,7 @@ const InfoThree = ({ modal }) => {
                 });
             }
             
-            activityData.map(el=>{
+            activityData.forEach(el=>{
                 if(el.id){
                     axios.put(`infothrees/${el.id}`, el).then(res=>{
                             axios.put(`totals/${ctx.total?.id}`, { infothree: true, idd: param }).then(res=>{
@@ -107,49 +107,51 @@ const InfoThree = ({ modal }) => {
                         <div onClick={()=>setAddModal(true)} className="addBtn"><RiAddLine /><span>Нэмэх</span></div>
                     </div>
                     <table >
-                        <tr>
-                            <th>дд</th>
-                            <th>Ангилал</th>
-                            <th>Улсын нэр</th>
-                            <th>Эцэг /эх/-ийн нэр</th>
-                            <th>Нэр</th>
-                            <th>Бүртгэсэн огноо</th>
-                            <th>Эзэмшлийн хувь </th>
-                            <th></th>
-                        </tr>
-                        {activityData.map((el,i)=>{
-                            return(
-                                <tr key={i}>
-                                    <td>{i+1}</td>
-                                    <td>{el.category}</td>
-                                    <td>{el.country}</td>
-                                    <td>{el.parent_name}</td>
-                                    <td>{el.name}</td>
-                                    <td>{el.approve_date}</td>
-                                    <td>{el.possess_percent}%</td>
-                                    <td className="editDelete">
-                                        <div className="editDeletePar">
-                                            <div onClick={()=> { setSelected(el); setEditModal(true); }} className="smBtn"><RiEdit2Line /></div>
-                                            <div onClick={()=> { if(el.id){ setSelected(el); setDeleteModal(true) }else{ setActivityData(prev=>prev.filter(items=>items.name!==el.name && items.parent_name!==el.parent_name ))}}} className="smBtn"><VscError /></div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            )
-                        })}
-                        {activityData.length===0&&<tr className="ghost">
-                                <td>1</td>
-                                <td>Иргэн</td>
-                                <td>Монгол</td>
-                                <td>Бат-Эрдэнэ</td>
-                                <td>Тэмүүлэн</td>
-                                <td>2018.01.01</td>
-                                <td>51%</td>
-                                <td></td>
-                            </tr>}
+                        <tbody>
+                            <tr>
+                                <th>дд</th>
+                                <th>Ангилал</th>
+                                <th>Улсын нэр</th>
+                                <th>Эцэг /эх/-ийн нэр</th>
+                                <th>Нэр</th>
+                                <th>Бүртгэсэн огноо</th>
+                                <th>Эзэмшлийн хувь </th>
+                                <th></th>
+                            </tr>
+                            {activityData.map((el,i)=>{
+                                return(
+                                    <tr key={i}>
+                                        <td>{i+1}</td>
+                                        <td>{el.category}</td>
+                                        <td>{el.country}</td>
+                                        <td>{el.parent_name}</td>
+                                        <td>{el.name}</td>
+                                        <td>{el.approve_date}</td>
+                                        <td>{el.possess_percent}%</td>
+                                        <td className="editDelete">
+                                            <div className="editDeletePar">
+                                                <div onClick={()=> { setSelected(el); setEditModal(true); }} className="smBtn"><RiEdit2Line /></div>
+                                                <div onClick={()=> { if(el.id){ setSelected(el); setDeleteModal(true) }else{ setActivityData(prev=>prev.filter(items=>items.name!==el.name && items.parent_name!==el.parent_name ))}}} className="smBtn"><VscError /></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                )
+                            })}
+                            {activityData.length===0&&<tr className="ghost">
+                                    <td>1</td>
+                                    <td>Иргэн</td>
+                                    <td>Монгол</td>
+                                    <td>Бат-Эрдэнэ</td>
+                                    <td>Тэмүүлэн</td>
+                                    <td>2018.01.01</td>
+                                    <td>51%</td>
+                                    <td></td>
+                                </tr>}
+                        </tbody>
                     </table>
                 </div>
 
-                <FileUpload SelectedFile={SelectedFile} setSelectedFile={setSelectedFile} title={`Хавсралт. Иргэний үнэмлэх.`} />
+                <FileUpload SelectedFile={SelectedFile} setSelectedFile={setSelectedFile} title={`Хавсралт. Иргэний үнэмлэх.`} modal={modal} />
 
                 {!modal&&<ButtonStyle2>
                     <div className="errTxt">{errTxt.cond&&`${errTxt.text}`}</div>

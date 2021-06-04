@@ -15,7 +15,7 @@ export const AddModal = ({ setAddModal, setActivityData, SelectedName, titles })
     const SubmitHandle = (e) =>{
         e.preventDefault();
         let inp = document.querySelectorAll(".gettInpp"); let arr = Array.from(inp); let final = {};
-        arr.map(el=>{
+        arr.forEach(el=>{
             if(el.name !== "desc"){
                 final[el.name] = parseFloat(el.value.replaceAll(',',''));
             }else{
@@ -76,7 +76,7 @@ export const EditModal = ({ setEditModal, setActivityData, selected, SelectedNam
     const SubmitHandle = (e) =>{
         e.preventDefault();
         let inp = document.querySelectorAll(".gettInpp"); let arr = Array.from(inp); let final = {};
-        arr.map(el=>{ 
+        arr.forEach(el=>{ 
             if(el.name !== "desc"){
                 final[el.name] = parseFloat(el.value.replaceAll(',',''));
             }else{
@@ -149,7 +149,7 @@ export const DeleteModal = ({ setDeleteModal,setActivityData, selected, Selected
     const SubmitHandle = (e) =>{
         e.preventDefault();
         let inp = document.querySelectorAll(".gettInpp"); let arr = Array.from(inp); let final = {};
-        arr.map(el=>{ if(el.name !== "desc"){
+        arr.forEach(el=>{ if(el.name !== "desc"){
                 final[el.name] = parseFloat(el.value.replaceAll(',',''));
             }else{
                 final[el.name] = el.value;

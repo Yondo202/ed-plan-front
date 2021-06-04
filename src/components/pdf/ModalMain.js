@@ -60,7 +60,7 @@ import FirstPage from "components/first_page/FirstPage"
 
                 <div ref={componentRef}>
                     {/* <FirstPage modal={true} /> */}
-                    {/* {ttl?.firstpage&&<FirstPage modal={true} />} */}
+                    {ttl?.firstpage&&<FirstPage modal={true} />}
                     {ttl?.projectinfo&&<InfoProject modal={true} />}
                     {ttl?.infoone&&<InfoOne modal={true} />}
                     {ttl?.infotwo&&<InfoTwo modal={true} />}
@@ -106,6 +106,7 @@ const ModalStyle = styled.div`
         transform:translateX(-300px);
     }
     .Content{
+        box-shadow:none !important;
         width:854px;
         overflow-y:scroll;
         transition:all 0.4s ease;
@@ -117,6 +118,7 @@ const ModalStyle = styled.div`
         .header{
             position:sticky;
             top:0;
+            z-index:3;
             background-color:#fff;
             margin-bottom:10px;
             padding:15px 0px 15px 0px;

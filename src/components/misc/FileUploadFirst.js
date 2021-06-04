@@ -1,16 +1,11 @@
 import React, { useState, useContext } from 'react'
 import{  CustomFileUpload} from "components/misc/CustomTheme";
 import UserContext from "global/UserContext"
-import axios from "global/axiosbase"
 import edpAxios, { edpurl } from "global/edpAxios"
-import { RiImageAddFill, RiSearchEyeLine } from "react-icons/ri"
-import { TiDelete } from "react-icons/ti"
-import ImagePreview from "components/misc/ImagePreview"
+import { RiImageAddFill } from "react-icons/ri"
 
 const FileUploadLogo = ( { selectLogo, setSelectLogo, first }) => {
     const ctx = useContext(UserContext);
-    const [ seeImg, setSeeImg ] = useState(false);
-    const [ selectImg, setSelectImg ] = useState('');
 
     const onClickHandler = (e) => {
         if(e.target.files.length!==0){
@@ -22,23 +17,9 @@ const FileUploadLogo = ( { selectLogo, setSelectLogo, first }) => {
             edpAxios.post(`attach-files`, data, { headers: { 'Authorization': ctx.approve.token, 'Content-Type': 'multipart/form-data',
             }}).then(res=>{
                 setSelectLogo(res.data.data);
-            }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа (хавсаргах)',true ));
+            }).catch(_=>ctx.alertFunc('orange','Алдаа гарлаа (хавсаргах)',true ));
         }
     };
-    const DeleteImage = (el) => {
-        console.log(`el`, el);
-        if(el.size){
-            setSelectLogo({})
-        }else{
-            axios.delete(`edpuploads/${el.ids}`).then(res=>{
-                setSelectLogo({})
-            })
-        }
-    }
-    const seeParent = (url) =>{
-        setSeeImg(true);
-        setSelectImg(url);
-    }
 
     return (
         <>
@@ -46,7 +27,7 @@ const FileUploadLogo = ( { selectLogo, setSelectLogo, first }) => {
                     {/* <div className="title">{title}</div> */}
                     <div className="contentPar contentPar2">
 
-                        {selectLogo.id&&<div className="imgPar imgPar2">
+                        {selectLogo.id&&<div className="imgPar imgPar2 imgPar3">
                             {/* <img className="img" src={`${el.blob}`}/> */}
                             {/* {<div className="Addition">
                                 <RiSearchEyeLine onClick={()=>seeParent(selectLogo.idd?selectLogo.fileUrl:`${edpurl + selectLogo.fileUrl?.replace("public", "")}`)} className="see" />

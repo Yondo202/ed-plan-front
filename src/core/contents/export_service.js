@@ -48,7 +48,7 @@ function Intro_main() {
             <div className="smMenuPar">
                 <button onClick={()=>clickHanlde("show1")} disabled={ctx.total?.exportone?false:true} className={`itemsPar ${ctx.total?.exportone&&`Active`} ${loc.pathname.includes(`/export/1`)&&`itemsPar2`}`}><span>Экспортын бүтээгдэхүүн {ProductName&&` - ${ProductName}`} </span></button>
                 <button onClick={()=>clickHanlde("show2")} disabled={ctx.total?.exporttwo?false:true} className={`itemsPar ${ctx.total?.exporttwo&&`Active`} ${loc.pathname.includes(`/export/2`)&&`itemsPar2`}`} ><span>Өртгийн тооцоолол</span></button>
-                <button onClick={()=>clickHanlde("show3")} disabled={ctx.total?.exporttwo?false:true} className={`itemsPa ${ctx.total?.exporttwo&&`Active`}r ${loc.pathname.includes(`/export/3`)&&`itemsPar2`}`} ><span>Өртгийн задаргаа</span></button>
+                <button onClick={()=>clickHanlde("show3")} disabled={ctx.total?.exporttwo?false:true} className={`itemsPar ${ctx.total?.exporttwo&&`Active`} ${loc.pathname.includes(`/export/3`)&&`itemsPar2`}`} ><span>Өртгийн задаргаа</span></button>
                 {/* <button onClick={()=>clickHanlde("show5")} className={`itemsPar ${loc.pathname===`/${params}/export/5`&&`itemsPar2`}`}><span>Төслийн баг</span></button> */}
             </div>
             

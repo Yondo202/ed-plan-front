@@ -5,7 +5,6 @@ import { MaxDate } from "components/misc/BeforeYears"
 import { default as NumberFormat } from 'react-number-format';
 import axios from "global/axiosbase";
 import UserContext from "global/UserContext"
-import { NumberComma } from "components/misc/NumberComma"
 
 export const AddModal = ({ setAddModal, setCond, urlDetail, url, title, customTitle, helpField, length, dataOne }) => {
     const history = useHistory();
@@ -23,13 +22,13 @@ export const AddModal = ({ setAddModal, setCond, urlDetail, url, title, customTi
     const SubmitHandle = (e) =>{
         e.preventDefault();
         let inp = document.querySelectorAll(".gettInppe"); let arr = Array.from(inp); let final = {};
-        arr.map(el=>{ final[el.name] = parseInt(el.value.replaceAll(',','')); }); final["desc"] = customTitle; final["idd"] = param;
+        arr.forEach(el=>{ final[el.name] = parseInt(el.value.replaceAll(',','')); }); final["desc"] = customTitle; final["idd"] = param;
 
         let detailInp = document.querySelectorAll(".getTable"); let arr2 = Array.from(detailInp); let finalDetail = []; 
-        arr2.map((el, i)=>{
+        arr2.forEach((el, i)=>{
             let obj = {};
             let detailInp = document.querySelectorAll(`.gettInppDetail${i + 1}`); let arr2 = Array.from(detailInp);
-            arr2.map(el=>{
+            arr2.forEach(el=>{
                 if(el.name !== "desc"){
                     obj[el.name] = parseInt(el.value.replaceAll(',',''));
                 }else{
@@ -43,7 +42,7 @@ export const AddModal = ({ setAddModal, setCond, urlDetail, url, title, customTi
         axios.post(url, final).then(res=>{
             if(res.data.id){
                 const datalength = finalDetail.length
-                finalDetail.map((el, ind)=>{
+                finalDetail.forEach((el, ind)=>{
                     el[helpField] = res.data.id;
                     if(url === "busthrees" && length === 0){
                         axios.post(`export-products`, { idd: param, name: el.desc })
@@ -67,9 +66,6 @@ export const AddModal = ({ setAddModal, setCond, urlDetail, url, title, customTi
             }
         }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
     }
-
-    console.log(`dataOne`, dataOne);
-
 
     return (
         <CustomModal>
@@ -154,14 +150,14 @@ export const EditModal = ({ setAddModal, setCond, setDataOne, helpField2, urlDet
     const SubmitHandle = (e) =>{
         e.preventDefault();
         let inp = document.querySelectorAll(".gettInppe"); let arr = Array.from(inp); let final = {};
-        arr.map(el=>{ final[el.name] = parseInt(el.value.replaceAll(',','')); }); final["idd"] = param;
+        arr.forEach(el=>{ final[el.name] = parseInt(el.value.replaceAll(',','')); }); final["idd"] = param;
 
         let detailInp = document.querySelectorAll(".getTable2"); let arr2 = Array.from(detailInp); let finalDetail = []; 
         
-        arr2.map((el, i)=>{
+        arr2.forEach((el, i)=>{
             let obj = {};
             let detailInp = document.querySelectorAll(`.gettInppDetail2${i + 1}`); let arr2 = Array.from(detailInp);
-            arr2.map(elem=>{
+            arr2.forEach(elem=>{
                 if(elem.name !== "desc"){
                     obj[elem.name] = parseInt(elem.value.replaceAll(',',''));; 
                 }else{
@@ -177,7 +173,7 @@ export const EditModal = ({ setAddModal, setCond, setDataOne, helpField2, urlDet
         axios.put(`${url}/${setDataOne[0]?.id}`, final).then(res=>{
             if(res.data.id){
                 const datalength = finalDetail.length
-                finalDetail.map((el, ind)=>{
+                finalDetail.forEach((el, ind)=>{
                     el[helpField] = res.data.id;
                     axios.put(`${urlDetail}/${el.id}`, el).then(res=>{
                         if(datalength - 1 === ind){

@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
-import{ Container} from "components/misc/CustomTheme";
-import { IoMdAdd} from "react-icons/io"
+import{ Container, ButtonStyle2 } from "components/misc/CustomTheme";
+import { IoMdAdd } from "react-icons/io"
 import { RiEdit2Line } from "react-icons/ri"
 import { VscError, VscSave } from "react-icons/vsc"
 import { AddModal, EditModal, DeleteModal } from "components/plan_report/modals/TotolReportModal"
@@ -24,6 +24,8 @@ const TotalFinance = ({ modal }) => {
     const [ editModalShow, setEditModalShow ] = useState(false);
     const [ deleteModalShow, setDeleteModalShow ] = useState(false);
     const [ selectedDetail, setSelectedDetail ] = useState({});
+
+    console.log(`ParentData`, ParentData);
 
     useEffect(()=>{
         FetchData();
@@ -71,7 +73,7 @@ const TotalFinance = ({ modal }) => {
                 axios.put(`managementmains/${elem.id}`, { body: elem.body, code: elem.code, idd: param, }).then(res=>{
                     if(res.data.id){
                         // let myLeng = elem.managementdetails.length - 1
-                        elem.managementdetails.map((elems, ind)=>{
+                        elem.managementdetails.forEach((elems, ind)=>{
                             if(elems.id){
                                 axios.put(`managementdetails/${elems.id}`, { ...elems, idd: param, managementmain: res.data.id }).then(res=>{
                                     setCond(prev=>!prev);
@@ -95,7 +97,7 @@ const TotalFinance = ({ modal }) => {
                 axios.post(`managementmains`, {body: elem.body, code: elem.code, idd: param, }).then(res=>{
                     if(res.data.id){
                         let myLeng = elem.managementdetails.length - 1
-                        elem.managementdetails.map((elem, ind)=>{
+                        elem.managementdetails.forEach((elem, ind)=>{
                             if(myLeng === ind){
                                 axios.post(`managementdetails`, { ...elem, idd: param, managementmain: res.data.id }).then(res=>{
                                     setCond(prev=>!prev);
@@ -133,6 +135,14 @@ const TotalFinance = ({ modal }) => {
         setSelected(elBig);
         setSelectedDetail(el);
         setDeleteModalShow(true);
+    }
+
+    const FinalHandle = () =>{
+        if(ParentData.length){
+            history.push(`/${param}/firstpage`);
+        }else{
+            ctx.alertFunc('orange','Мэдээллийг гүйцэд оруулна уу',true );
+        }
     }
 
     return (
@@ -174,9 +184,9 @@ const TotalFinance = ({ modal }) => {
                         </div>}
                         
 
-                        {ParentData.map(el=>{
+                        {ParentData.map((el, ind)=>{
                             return(
-                                <>
+                                <React.Fragment key={ind}>
                                     {el.code > 1&&<div style={{opacity:"0.6"}} className="row Header">
                                         {/* <div className="col col-1"> дд</div> */}
                                         <div className="col col-2"><span className="count">#</span><span className="headFirst">Төслөөс санхүүжилт хүсч буй үйл ажиллагаа</span> </div>
@@ -191,10 +201,10 @@ const TotalFinance = ({ modal }) => {
                                         <div className="col col-1"></div>
                                     </div>}
                                 
-                                    <div key={el.code} className="contentSector">
-                                        {el.managementdetails.map(elem=>{
+                                    <div className="contentSector">
+                                        {el.managementdetails.map((elem, index)=>{
                                             return(
-                                                <div className="row Content">
+                                                <div key={index} className="row Content">
                                                     <div className="col col-2"><span className="count">{el.code}.{elem.code}</span><span className="headFirst">{elem.desc}</span> </div>
                                                     <div className="col col-1">{elem.activity_category}</div>
                                                     <div className="col col-1">{elem.start_date}</div>
@@ -228,11 +238,19 @@ const TotalFinance = ({ modal }) => {
                                             <button onClick={()=>sendHandle(el)} className="modalbtn anime"><VscSave style={el.id?{color:"green"}:{color:"rgba(0,0,0,0.3)"}} /> {el.code} . Хадгалах <span></span>  </button>
                                         </div>
                                     </div>
-                                </>
+                                </React.Fragment>
                             )
                         })}
                         <div onClick={parentAddHandle} className="addBigBtn A1"> <IoMdAdd /> </div>
                     </BigTable>
+
+
+
+                    <ButtonStyle2>
+                        <div className="errTxt"></div>
+                        <button style={{width:"40%", fontSize:"15px"}} onClick={FinalHandle} type="submit" className="myBtn">Дуусгах</button>
+                        <div></div>
+                    </ButtonStyle2>
                 </div>
 
                 {showAddModal&&<AddModal selected={selected} setShowAddModal={setShowAddModal} setParentData={setParentData} />}

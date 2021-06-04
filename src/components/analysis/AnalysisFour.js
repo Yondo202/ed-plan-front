@@ -10,15 +10,14 @@ import ContentParser from "components/misc/ContentParser"
 const Analysisthree = ({ modal }) => {
     const history = useHistory();
     const ctx = useContext(UserContext);
-    const param = useParams().id;
-    const slug = useParams().slug;
+    const { id, slug } = useParams();
     const [ errTxt, setErrTxt ] = useState(false);
     const [ fetchID, setFetchID ] = useState(null);
     const [ data, setData ] = useState('');
 
     useEffect(()=>{
         const fetchData = async () =>{
-            await axios.get(`analysisfours?parent=${modal?ctx.targetProduct?.id:slug}&idd=${param}`).then(res=>{
+            await axios.get(`analysisfours?parent=${modal?ctx.targetProduct?.id:slug}&idd=${id}`).then(res=>{
                  if(res.data.length){
                      setData(res.data[0]?.body);
                      setFetchID(res.data[0]?.id);
@@ -35,17 +34,17 @@ const Analysisthree = ({ modal }) => {
         if(data.length){
             ctx.loadFunc(true);
             if(fetchID){
-                axios.put(`analysisfours/${fetchID}`, { body: data, idd: param, parent:slug }).then(res=>{
+                axios.put(`analysisfours/${fetchID}`, { body: data, idd: id, parent:slug }).then(res=>{
                     ctx.alertFunc('green','Амжилттай',true );
                     ctx.loadFunc(false);
-                    history.push(`/${param}/analysis/5/${slug}`);
+                    history.push(`/${id}/analysis/5/${slug}`);
                 }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
             }else{
-                axios.post(`analysisfours`, { body: data, idd: param, parent:slug  }).then(res=>{
-                    axios.put(`totals/${ctx.total?.id}`, { analysisfour: true, idd: param}).then(res=>{
+                axios.post(`analysisfours`, { body: data, idd: id, parent:slug  }).then(res=>{
+                    axios.put(`totals/${ctx.total?.id}`, { analysisfour: true, idd: id}).then(res=>{
                         ctx.alertFunc('green','Амжилттай',true );
                         ctx.loadFunc(false);
-                        history.push(`/${param}/analysis/5/${slug}`);
+                        history.push(`/${id}/analysis/5/${slug}`);
                     }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                 }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
             }

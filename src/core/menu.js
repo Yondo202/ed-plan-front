@@ -63,7 +63,7 @@ function Menu() {
             </PreviewTools>}
 
             {context.approve?.approve&&<PreviewTools>
-                <a href="https://drive.google.com/file/d/1H7tb0eDklwtzfte9hSSEfSrYPvZBisPY/view" target="_blank">
+                <a href="https://drive.google.com/file/d/1H7tb0eDklwtzfte9hSSEfSrYPvZBisPY/view" rel="noreferrer" target="_blank">
                     <div className="Preview example">
                         <div className="title">Жишээ загвар харах</div>
                         <RiBookReadFill />
@@ -159,9 +159,10 @@ const Containers = styled.div`
         text-align:center;
         a{
             text-decoration:none;
-            color:white;
+            color:
         }
         .items{
+            color:rgb(200,200,200);
             cursor:pointer;
             padding-top:13px;
             padding-bottom:13px;
@@ -177,6 +178,7 @@ const Containers = styled.div`
         }
         .active{
             // background-color:#11457c;
+            color:rgb(250,250,250);
             position:relative;
             &:before{
                 transition:all 0.4s ease;
