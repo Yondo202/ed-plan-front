@@ -48,7 +48,7 @@ import FirstPage from "components/first_page/FirstPage"
         content: () => componentRef.current,
     });
 
-    const ttl = ctx.total 
+    const ttl = ctx.total
 
     return (
         <ModalStyle ref={modalRef} onClick={CloseHandle}>
@@ -57,7 +57,6 @@ import FirstPage from "components/first_page/FirstPage"
                     <div className="addBtn" onClick={handlePrint}><GrDocumentPdf /> <span> Хэвлэх болон pdf - татах</span></div>
                     <div onClick={CloseHandle2} className="close">✖</div>
                 </div>
-
                 <div ref={componentRef}>
                     {/* <FirstPage modal={true} /> */}
                     {ttl?.firstpage&&<FirstPage modal={true} />}

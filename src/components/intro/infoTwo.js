@@ -105,7 +105,7 @@ const InfoTwo = ({ modal }) => {
     }
 
     return (
-        <Container style={modal&&{padding:"0px 0px"}} className="contianer-fluid">
+        <Container style={modal&&{padding:"0px 0px",boxShadow:"none"}} className="contianer-fluid">
             <form onSubmit={onSubmit}>
                 {!modal&&<>
                     <div className="row">
