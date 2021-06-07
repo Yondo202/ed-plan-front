@@ -4,7 +4,7 @@ import{ Container, ButtonStyle2 } from "components/misc/CustomTheme";
 import { useHistory } from "react-router-dom"
 import UserContext from "global/UserContext"
 import { useParams } from "react-router-dom"
-import axios, { axiosGraphql } from "global/axiosbase"
+import axios from "global/axiosbase"
 import ContentParser from "components/misc/ContentParser"
 
 const ExportOne = ({setProductName, modal}) => {
@@ -32,18 +32,27 @@ const ExportOne = ({setProductName, modal}) => {
     }
 
     const FetchProductsOne = async () =>{
-        axiosGraphql.post(`graphql`, { query: `query{
-            exportProducts(where: { id : "${modal?ctx.targetProduct?.id:slug}", idd:"${param}" }){
-              name id
-            }
-          }` }).then(res=>{
-              if(res.data.data.exportProducts?.length){
-                setSelectedData(res.data.data.exportProducts[0]);
+
+        axios.get(`export-products?idd=${param}&selected=true&id=${modal?ctx.targetProduct?.id:slug}`).then(res=>{
+            if(res.data.length){
+                setSelectedData(res.data[0]);
                 if(!modal){
-                    setProductName(res.data.data.exportProducts[0].name);
+                    setProductName(res.data[0].name);
                 }
-              }
-        });
+            }
+        })
+        // axiosGraphql.post(`graphql`, { query: `query{
+        //     exportProducts(where: { id : "${modal?ctx.targetProduct?.id:slug}", idd:"${param}" }){
+        //       name id
+        //     }
+        //   }` }).then(res=>{
+        //       if(res.data.data.exportProducts?.length){
+        //         setSelectedData(res.data.data.exportProducts[0]);
+        //         if(!modal){
+        //             setProductName(res.data.data.exportProducts[0].name);
+        //         }
+        //       }
+        // });
     }
 
     const clickHandle = () =>{

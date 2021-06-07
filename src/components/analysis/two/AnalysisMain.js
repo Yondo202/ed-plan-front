@@ -68,6 +68,7 @@ const AnalysisMain = ({modal}) => {
                                     ctx.loadFunc(false);
                                     history.push(`/${param}/analysis/3/${slug}`);
                                 }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+                                ctx.setCond(prev=>!prev);
                         }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                     }
                 });
@@ -149,8 +150,6 @@ const AnalysisMain = ({modal}) => {
     }
 
     const TargetHandle = (element) =>{
-        console.log(`element`, element);
-
         setActivityData(prev=> [ ...prev.filter(item=>{
             if(item.code === element.code){
                 item.target = true

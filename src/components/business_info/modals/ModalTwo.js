@@ -253,7 +253,7 @@ export const EditModal = ({ setAddModal, setCond, setDataOne, helpField2, urlDet
                                                 <div key={elem.id} id={elem.id} className="TableHead getTable2">
                                                     <InputStyle className="inputt">
                                                         <div className="label">Задаргааны тодорхойлолт</div>
-                                                        <input name="desc" defaultValue={elem.desc} className={`gettInppDetail2${ind + 1}`} type="text" required />
+                                                        <input name="desc" value={elem.desc} className={`gettInppDetail2${ind + 1}`} type="text" required />
                                                     </InputStyle>
                                                     <InputStyle className="inputt">
                                                         <div className="label">{MaxDate.three} </div>

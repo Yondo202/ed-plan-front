@@ -67,20 +67,21 @@ const InfoThree = ({modal}) => {
                                 ctx.loadFunc(false);
                                 history.push(`/${param}/export/3/${slug}`);
                                 // axios.put(`totals/${ctx.total?.id}`, { exporttwo: true, idd: param }).then(res=>{
-                                    
-                                //     // history.push(`/${param}/businessinfo/1`);
+                                //     ctx.alertFunc('green','Амжилттай',true );
+                                //     ctx.loadFunc(false);
+                                //     history.push(`/${param}/export/3/${slug}`);
                                 // }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                         }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                     }else{
                         axios.post(`exportones`,{ ...el, parent: slug, export_product: slug}).then(res=>{
                             ctx.alertFunc('green','Амжилттай',true );
                             ctx.loadFunc(false);
-                            history.push(`/${param}/export/3/${slug}`);
-                                // axios.put(`totals/${ctx.total?.id}`, { exporttwo: true, idd: param }).then(res=>{
-                                //     ctx.alertFunc('green','Амжилттай',true );
-                                //     ctx.loadFunc(false);
-                                //     // history.push(`/${param}/businessinfo/1`);
-                                // }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+                            // history.push(`/${param}/export/3/${slug}`);
+                            //     axios.put(`totals/${ctx.total?.id}`, { exporttwo: true, idd: param }).then(res=>{
+                            //         ctx.alertFunc('green','Амжилттай',true );
+                            //         ctx.loadFunc(false);
+                            //         history.push(`/${param}/export/3/${slug}`);
+                            //     }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                         }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                     }
                 })

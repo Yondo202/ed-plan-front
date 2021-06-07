@@ -64,7 +64,7 @@ const BusinessInfoTwo = ( { title, subTitle, url, urlDetail, helpField, helpFiel
                                             <td style={{textAlign:'right'}}>{dataOne.length?NumberComma(dataOne[0]?.year_one):null}</td>
                                             <td className="editDelete">
                                                 <div className="editDeletePar">
-                                                    {!el.id&&<div onClick={()=>setAddModal(true)} className="smBtn"><RiAddLine /></div>} 
+                                                    {!el.id&&<div onClick={()=>setAddModal(true)} className="smBtn"><RiAddLine /></div>}
                                                     <div onClick={()=>editShow(el)} className="smBtn"><RiEdit2Line /></div>
                                                 </div>
                                             </td>

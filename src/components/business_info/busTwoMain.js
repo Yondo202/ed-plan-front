@@ -23,9 +23,11 @@ const BusTwoMain = ({ modal }) => {
     
     useEffect(()=>{
         FetchData();
-        FetchCount();
         fetchResult();
     },[]);
+    useEffect(()=>{
+        FetchCount();
+    });
 
     const fetchResult = async () => {
         await axios.get(`businessresults?idd=${param}`).then(res=>{
@@ -152,7 +154,7 @@ const BusTwoMain = ({ modal }) => {
     }
     
     const clickHandle = () =>{
-        if(dataLength > 8){
+        if(dataLength > 7){
             ctx.loadFunc(true);
             axios.put(`totals/${ctx.total?.id}`, { bustwo: true, idd: param }).then(res=>{
                 ctx.alertFunc('green','Амжилттай',true );

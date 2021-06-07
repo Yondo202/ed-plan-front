@@ -139,7 +139,10 @@ const TotalFinance = ({ modal }) => {
 
     const FinalHandle = () =>{
         if(ParentData.length){
-            history.push(`/${param}/firstpage`);
+            if(ParentData[0].id){
+                history.push(`/${param}/firstpage`);
+            }
+            ctx.alertFunc('orange','Мэдээллийг гүйцэд оруулна уу',true );
         }else{
             ctx.alertFunc('orange','Мэдээллийг гүйцэд оруулна уу',true );
         }
@@ -248,7 +251,7 @@ const TotalFinance = ({ modal }) => {
 
                     <ButtonStyle2>
                         <div className="errTxt"></div>
-                        <button style={{width:"40%", fontSize:"15px"}} onClick={FinalHandle} type="submit" className="myBtn">Дуусгах</button>
+                        <button disabled={ParentData.length===0?true:false} style={{width:"40%", fontSize:"15px"}} onClick={FinalHandle} type="submit" className="myBtn">Дуусгах</button>
                         <div></div>
                     </ButtonStyle2>
                 </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import axios, { axiosGraphql } from "global/axiosbase"
+import axios from "global/axiosbase"
 const UserContext = React.createContext();
 
 export const UserStore = (props) => {
@@ -49,16 +49,22 @@ export const UserStore = (props) => {
     }
 
     const fetchProductId = () =>{
-        axiosGraphql.post(`graphql`, { query: `query{
-            exportProducts(where: { idd: "${userId}", selected : true }){
-              name id
+        axios.get(`export-products?idd=${userId}&selected=true`).then(res=>{
+            if(res.data.length){
+                setProductId(res.data[0].id);
+                setTargetProduct(res.data[0]);
             }
-          }` }).then(res=>{
-              if(res.data.data.exportProducts?.length){
-                setProductId(res.data.data.exportProducts[0].id);
-                setTargetProduct(res.data.data.exportProducts[0]);
-              }
-          })
+        })
+        // axiosGraphql.post(`graphql`, { query: `query{
+        //     exportProducts(where: { idd: "${userId}", selected: true }){
+        //       name id
+        //     }
+        //   }` }).then(res=>{
+        //       if(res.data.data.exportProducts?.length){
+        //         setProductId(res.data.data.exportProducts[0].id);
+        //         setTargetProduct(res.data.data.exportProducts[0]);
+        //       }
+        //   })
     }
 
     const UserIdProvider = (id) =>{

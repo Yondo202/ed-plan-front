@@ -43,6 +43,12 @@ function Intro_main() {
         }
     }
 
+    const PostHandleClick = (el) =>{
+        axios.put(`export-products/${el.id}`, { selected:true }).then(_=>{
+            ctx.setCond(prev=>!prev);
+        })
+    }
+
     return (
         <HeaderTwo className="container">
             <div className="smMenuPar">
@@ -59,7 +65,9 @@ function Intro_main() {
                         <div className="menu">
                             {Products.map(el=>{
                                 return(
-                                    <Link key={Math.random()} to={`/${params}/export/1/${el.id}`} className={el.exporttwo?.id?`buttons`:`buttons A1`}><span>{el.name}</span><MdKeyboardArrowRight /> <MdKeyboardArrowRight className="one" /> <MdKeyboardArrowRight className="two" /></Link>
+                                    <Link onClick={()=>PostHandleClick(el)} key={Math.random()}
+                                     to={`/${params}/export/1/${el.id}`}
+                                    className={el.exporttwo?.id?`buttons`:`buttons A1`}><span>{el.name}</span><MdKeyboardArrowRight /> <MdKeyboardArrowRight className="one" /> <MdKeyboardArrowRight className="two" /></Link>
                                 )
                             })}
                         </div>
