@@ -54,8 +54,7 @@ export const UserStore = (props) => {
               name id
             }
           }` }).then(res=>{
-              console.log(`res+++++++`, res);
-              if(res.data.data.exportProducts.length){
+              if(res.data.data.exportProducts?.length){
                 setProductId(res.data.data.exportProducts[0].id);
                 setTargetProduct(res.data.data.exportProducts[0]);
               }

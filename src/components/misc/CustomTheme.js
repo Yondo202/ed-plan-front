@@ -18,6 +18,35 @@ export const ButtonStyle = styled.button`
         outline: none;
     }
 `
+const animeSkeleton = keyframes`
+    0%{ left:-100%; }
+    100%{ left:100% }
+`
+
+export const Skeleton = styled.div`
+    margin:10px 0px 30px 0px; 
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:18px;
+    .item{
+        overflow: hidden;
+        height:150px;
+        width:150px;
+        box-shadow:1px 1px 8px -4px;
+        border-radius:6px;
+        position:relative;
+        .child{
+            position:absolute;
+            top:0;
+            width:50%;
+            height:100%;
+            background-image: linear-gradient(to right, rgba(60,60,60,0), rgba(120,120,120,0.2), rgba(60,60,60,0));
+            animation: ${animeSkeleton} 0.8s linear infinite;
+        }
+    }
+`
+
 export const ButtonStyle2 = styled.div`
         padding:30px 0px;
         display:flex;

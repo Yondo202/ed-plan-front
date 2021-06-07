@@ -3,7 +3,7 @@ import { useParams, useHistory } from "react-router-dom"
 import styled from 'styled-components'
 import axios from "global/axiosbase"
 import { edpurl } from "global/edpAxios"
-import{  ButtonStyle2, InputStyle, MaxDate } from "components/misc/CustomTheme";
+import{  ButtonStyle2, InputStyle, MaxDate, Skeleton } from "components/misc/CustomTheme";
 import UserContext from "global/UserContext"
 import FileUploads from "components/misc/FileUpload"
 import FileUploadFirst from "components/misc/FileUploadFirst"
@@ -88,7 +88,7 @@ const FirstPage = ({modal}) => {
 
         
     }
-    // firstpageimages
+
     return (
         <Container className="container">
             <form onSubmit={ClickHandle}>
@@ -96,7 +96,10 @@ const FirstPage = ({modal}) => {
                     {/* <div className="LogoPar">
                         <img src="https://idreamleaguesoccerkits.com/wp-content/uploads/2018/03/Korea-Republic-Logo-512x512-URL-300x300.png" />
                     </div> */}
-                    <FileUploadFirst selectLogo={selectLogo} setSelectLogo={setSelectLogo} />
+                   {modal?selectLogo.fileUrl?<FileUploadFirst selectLogo={selectLogo} setSelectLogo={setSelectLogo} />
+                   :<Skeleton><div className="item" ><div className="child" /></div> </Skeleton>
+                   :<FileUploadFirst selectLogo={selectLogo} setSelectLogo={setSelectLogo} />}
+
                     <div className="firstPageInp">
                         <div className="title">Аж ахуйн нэгжийн нэр: {modal&&getData.comp_name}</div>
                         {!modal&&<InputStyle className="inpt">
