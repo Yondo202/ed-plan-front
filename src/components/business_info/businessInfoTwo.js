@@ -6,9 +6,9 @@ import { NumberComma } from "components/misc/NumberComma"
 import axios from "global/axiosbase"
 import { MaxDate } from "components/misc/BeforeYears"
 
-const BusinessInfoTwo = ( { title, subTitle, url, urlDetail, helpField, helpField2, setCond, cond, modal} ) => {
+const BusinessInfoTwo = ( { title, subTitle, url, urlDetail, helpField, helpField2, modal, setCond2} ) => {
     const param = useParams().id;
-    // const [ cond, setCond ] = useState(false);
+    const [ cond, setCond ] = useState(false);
     const [ dataOne, setDataOne ] = useState([]);
     const [ addModal, setAddModal ] = useState(false);
     const [ editModal, setEditModal ] = useState(false);
@@ -145,8 +145,8 @@ const BusinessInfoTwo = ( { title, subTitle, url, urlDetail, helpField, helpFiel
                             </>
                         </tbody>
                     </table>
-                {addModal?<AddModal dataOne={dataOne} length={dataOne.length} customTitle={customTitle} helpField={helpField}  title={title} urlDetail={urlDetail} url={url} setCond={setCond} setAddModal={setAddModal} />:``}
-                {editModal?<EditModal dataOne={dataOne} length={dataOne.length} helpField={helpField}  title={title} urlDetail={urlDetail} url={url}  helpField2={helpField2} setCond={setCond} setAddModal={setEditModal} setDataOne={selectedData} />:``}
+                {addModal?<AddModal dataOne={dataOne} setCond2={setCond2} length={dataOne.length} customTitle={customTitle} helpField={helpField}  title={title} urlDetail={urlDetail} url={url} setCond={setCond} setAddModal={setAddModal} />:``}
+                {editModal?<EditModal dataOne={dataOne} setCond2={setCond2} length={dataOne.length} helpField={helpField}  title={title} urlDetail={urlDetail} url={url}  helpField2={helpField2} setCond={setCond} setAddModal={setEditModal} setDataOne={selectedData} />:``}
             </div>
          
     )

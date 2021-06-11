@@ -146,7 +146,7 @@ export const EditModal = ({ setEditModal, setActivityData, selected, Header }) =
 
                         <InputStyle >
                             <div className="label">Тариф</div>
-                            <input defaultValue={selected.tarif} className="gettInp" name={`tarif`} thousandSeparator={true} required />
+                            <input max={100} defaultValue={selected.tarif} className="gettInp" name={`tarif`} thousandSeparator={true} required />
                         </InputStyle>
 
                         <div className="modalbtnPar">

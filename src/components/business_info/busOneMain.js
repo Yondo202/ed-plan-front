@@ -17,18 +17,22 @@ const BusOneMain = ({ modal }) => {
 
     useEffect(()=>{
         const fetchOne = async () =>{
-            await axios.get(`busones/count?=idd=${param}`).then(res=>{
+            await axios.get(`busones/count?idd=${param}`).then(res=>{
                 setCountOne(res.data);
             })
-            await axios.get(`bustwos/count?=idd=${param}`).then(res=>{
+            await axios.get(`bustwos/count?idd=${param}`).then(res=>{
                 setCountTwo(res.data);
             })
-            await axios.get(`busthrees/count?=idd=${param}`).then(res=>{
+            await axios.get(`busthrees/count?idd=${param}`).then(res=>{
                 setCountThree(res.data);
             })
         }
         fetchOne();
     },[cond]);
+
+    console.log(`countOne`, countOne);
+    console.log(`countTwo`, countTwo);
+    console.log(`countThree`, countThree);
 
     
     const clickHandle = () =>{
@@ -41,7 +45,7 @@ const BusOneMain = ({ modal }) => {
 
     return (
         <Container style={modal&&{padding:"0px 0px"}}>
-            <BusinessInfoOne modal={modal} cond={cond} setCond={setCond}  />
+            <BusinessInfoOne modal={modal} cond2={cond} setCond2={setCond}  />
             <BusinessInfoTwo
                 title={"Бүтээгдэхүүн болон борлуулалтын сувгийн харьцуулсан борлуулалтын мэдээ"}
                 subTitle={{ one: "Дотоодын борлуулалтын голлох бүтээгдэхүүн (ам.дол)", two: "Дотоодын борлуулалтын суваг (ам.дол)" }}
@@ -49,8 +53,8 @@ const BusOneMain = ({ modal }) => {
                 urlDetail={"bustwodetails"}
                 helpField={"bustwo"}
                 helpField2={"bustwodetails"}
-                cond={cond}
-                setCond={setCond}
+                cond2={cond}
+                setCond2={setCond}
                 modal={modal}
             />
 
@@ -61,8 +65,8 @@ const BusOneMain = ({ modal }) => {
                 urlDetail={"busthreedetails"}
                 helpField={"busthree"}
                 helpField2={"busthreedetails"}
-                cond={cond}
-                setCond={setCond}
+                cond2={cond}
+                setCond2={setCond}
                 modal={modal}
             />
             

@@ -36,7 +36,7 @@ export const UserStore = (props) => {
     },[userId]);
 
     useEffect(()=>{
-        fetchProductId();
+        fetchProductId(userId);
         fetchTargetCountry();
     },[cond, userId]);
 
@@ -48,8 +48,9 @@ export const UserStore = (props) => {
         });
     }
 
-    const fetchProductId = () =>{
-        axios.get(`export-products?idd=${userId}&selected=true`).then(res=>{
+    const fetchProductId = (elem) =>{
+        console.log("------------------");
+        axios.get(`export-products?idd=${elem}&selected=true`).then(res=>{
             if(res.data.length){
                 setProductId(res.data[0].id);
                 setTargetProduct(res.data[0]);
@@ -83,7 +84,7 @@ export const UserStore = (props) => {
     }
 
     return (
-        <UserContext.Provider value={{ UserIdProvider, userId, loading, loadFunc, alert, alertFunc, total, approve, productId, setCond, setApprove, targetCountry, targetProduct }}>
+        <UserContext.Provider value={{ UserIdProvider, userId, loading, loadFunc, alert, alertFunc, total, approve, productId, setCond, setApprove, targetCountry, targetProduct, fetchProductId }}>
             {props.children}
         </UserContext.Provider>
     )

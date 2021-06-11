@@ -6,9 +6,9 @@ import { NumberComma } from "components/misc/NumberComma"
 import axios from "global/axiosbase"
 
 
-const BusinessInfoOne = ({ cond, setCond, modal }) => {
+const BusinessInfoOne = ({ modal, setCond2 }) => {
     const param = useParams().id;
-    // const [ cond, setCond ] = useState(false);
+    const [ cond, setCond ] = useState(false);
     const [ dataOne, setDataOne ] = useState([]);
     const [ addModal, setAddModal ] = useState(false);
     const [ editModal, setEditModal ] = useState(false);
@@ -95,8 +95,8 @@ const BusinessInfoOne = ({ cond, setCond, modal }) => {
                             </>}
                         </tbody>
                     </table>
-                {addModal?<AddModal setCond={setCond} setAddModal={setAddModal} />:``}
-                {editModal?<EditModal setCond={setCond} setAddModal={setEditModal} setDataOne={dataOne} />:``}
+                {addModal?<AddModal setCond2={setCond2} setCond={setCond} setAddModal={setAddModal} />:``}
+                {editModal?<EditModal setCond={setCond} setCond2={setCond2} setAddModal={setEditModal} setDataOne={dataOne} />:``}
             </div>
          
     )

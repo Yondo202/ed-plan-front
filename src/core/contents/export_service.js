@@ -44,7 +44,8 @@ function Intro_main() {
     }
 
     const PostHandleClick = (el) =>{
-        axios.put(`export-products/${el.id}`, { selected:true }).then(_=>{
+        axios.put(`export-products/${el.id}`, { selected:true }).then(res=>{
+            ctx.fetchProductId(params);
             ctx.setCond(prev=>!prev);
         })
     }

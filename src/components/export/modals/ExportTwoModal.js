@@ -41,7 +41,7 @@ export const AddModal = ({ setAddModal, setActivityData, SelectedName, titles })
                         </InputStyle>
                         <InputStyle >
                             <div className="label">{titles.one}</div>
-                            <NumberFormat className="cash gettInpp" name={`size`} isNumericString={true} thousandSeparator={true} placeholder="0" required />
+                            <NumberFormat max={12} className="cash gettInpp" name={`size`} isNumericString={true} thousandSeparator={true} placeholder="0" required />
                         </InputStyle>
 
                         <InputStyle >

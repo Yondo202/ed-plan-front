@@ -6,7 +6,7 @@ import { default as NumberFormat } from 'react-number-format';
 import axios from "global/axiosbase";
 import UserContext from "global/UserContext"
 
-export const AddModal = ({ setAddModal, setCond }) => {
+export const AddModal = ({ setAddModal, setCond, setCond2 }) => {
     const param = useParams().id;
     const initial = { idd: param }
     const ctx = useContext(UserContext);
@@ -35,24 +35,31 @@ export const AddModal = ({ setAddModal, setCond }) => {
             obj["idd"] = param
             finalDetail.push(obj);
         });
-        ctx.loadFunc(true);
-        axios.post(`busones`, final).then(res=>{
-            if(res.data.id){
-                let myLeng = finalDetail.length
-                finalDetail.forEach((el, ind)=>{
-                    el["busone"] = res.data.id;
-                    axios.post(`busonedetails`, el).then(res=>{
-                        if(myLeng - 1 === ind){
-                            ctx.alertFunc('green','Амжилттай',true );
-                            ctx.loadFunc(false);
-                            setClose('contentParent2');
-                            setTimeout(() => { setAddModal(false); setClose(''); setCond(prev=>!prev); }, 300);
-                        }
-                    }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
-                });
-                // setCond(prev=>!prev);
-            }
-        }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+        if(finalDetail.length > 1){
+            ctx.loadFunc(true);
+            axios.post(`busones`, final).then(res=>{
+                if(res.data.id){
+                    let myLeng = finalDetail.length
+                    finalDetail.forEach((el, ind)=>{
+                        el["busone"] = res.data.id;
+                        axios.post(`busonedetails`, el).then(res=>{
+                            if(myLeng - 1 === ind){
+                                ctx.alertFunc('green','Амжилттай',true );
+                                ctx.loadFunc(false);
+                                setClose('contentParent2');
+                                setCond2(prev=>!prev);
+                                setTimeout(() => { setAddModal(false); setClose(''); setCond(prev=>!prev); }, 300);
+                            }
+                        }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+                    });
+                    // setCond(prev=>!prev);
+                }
+            }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+        }else{
+            setDetails(prev=> [...prev, initial ])
+        }
+        
+
     }
     return (
         <CustomModal>
@@ -118,7 +125,7 @@ export const AddModal = ({ setAddModal, setCond }) => {
 }
 
 
-export const EditModal = ({ setAddModal, setCond, setDataOne }) => {
+export const EditModal = ({ setAddModal, setCond, setDataOne, setCond2 }) => {
     const param = useParams().id;
     // const initial = { idd: param }
     const ctx = useContext(UserContext);
@@ -163,6 +170,7 @@ export const EditModal = ({ setAddModal, setCond, setDataOne }) => {
                             ctx.alertFunc('green','Амжилттай',true );
                             ctx.loadFunc(false);
                             setClose('contentParent2');
+                            setCond2(prev=>!prev);
                             setTimeout(() => { setAddModal(false); setClose(''); setCond(prev=>!prev); }, 300);
                         }
                         

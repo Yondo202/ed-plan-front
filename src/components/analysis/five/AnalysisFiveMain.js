@@ -21,6 +21,7 @@ const AnalysisFiveMain = ({modal}) => {
     const [ dataLength, setDatalength ] = useState(null);
     const [ customDate, setCustomDate ] = useState({});
     const [ HeadEdit, setHeadEdit ] = useState(false);
+    const [ inpMax, setInpMax ] = useState(false);
     
     useEffect(()=>{
         setStaticData(prev=>[...prev.filter(item=> {
@@ -88,31 +89,27 @@ const AnalysisFiveMain = ({modal}) => {
     }
 
     const SelectItem = ( el ) =>{
-        let inp = document.querySelectorAll(".inpGet"); let arr = Array.from(inp); let child = {}; let final = el
-        arr.forEach(el=>{
-            if(el.value){ child[el.name] = parseFloat(el.value.replaceAll(',','')); }
-        });
-        let keys = Object.keys(child).length;
-
-
-        if(keys > 2 ){
-            final["idd"] = param; final["parent"] = slug; final.year_one = child.year_one; final.year_three = child.year_three; final.year_two = child.year_two;
-
-
-            if(final.id){
-                axios.put(`analysisfives/${final.id}`, final).then(res=>{
-                    ctx.alertFunc('green','',true );
-                    setCond(prev=>!prev);
-                    setStaticData(prev=> [...prev.filter(item=>{ item.inp = false; }), ...prev]);
-                }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
-            }else{
-                axios.post(`analysisfives`, final).then(res=>{
-                    setCond(prev=>!prev);
-                    ctx.alertFunc('green','',true );
-                    setStaticData(prev=> [...prev.filter(item=>{ item.inp = false; }, ), ...prev]);
-                }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+            let inp = document.querySelectorAll(".inpGet"); let arr = Array.from(inp); let child = {}; let final = el
+            arr.forEach(el=>{
+                if(el.value){ child[el.name] = parseFloat(el.value.replaceAll(',','')); }
+            });
+            let keys = Object.keys(child).length;
+            if(keys > 2 ){
+                final["idd"] = param; final["parent"] = slug; final.year_one = child.year_one; final.year_three = child.year_three; final.year_two = child.year_two;
+                if(final.id){
+                    axios.put(`analysisfives/${final.id}`, final).then(res=>{
+                        ctx.alertFunc('green','',true );
+                        setCond(prev=>!prev);
+                        setStaticData(prev=> [...prev.filter(item=>{ item.inp = false; }), ...prev]);
+                    }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+                }else{
+                    axios.post(`analysisfives`, final).then(res=>{
+                        setCond(prev=>!prev);
+                        ctx.alertFunc('green','',true );
+                        setStaticData(prev=> [...prev.filter(item=>{ item.inp = false; }, ), ...prev]);
+                    }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+                }
             }
-        }
     }
 
     const submitHandle = (e) =>{
@@ -212,7 +209,25 @@ const AnalysisFiveMain = ({modal}) => {
                                         <tr key={ind} className="parent">
                                             <td style={{width:"2rem"}}>{el.code}</td>
                                             <td style={{width:"22rem"}}>{el.desc}</td>
-                                            {el.inp?<>
+                                            {el.inp?el.procent?
+                                            <>
+                                            <td style={{textAlign:'right', width:"13rem"}}>
+                                                    <InputStyle  style={{marginBottom:0}} className="inputt">
+                                                        <input type="number" max={100} defaultValue={el.year_three} className="cash inpGet" autoFocus name={`year_three`} placeholder="0" required />
+                                                    </InputStyle>
+                                                </td>
+                                                <td style={{textAlign:'right', width:"13rem"}}>
+                                                    <InputStyle style={{marginBottom:0}} className="inputt">
+                                                        <input type="number" max={100} defaultValue={el.year_two} className="cash inpGet" name={`year_two`} placeholder="0" required />
+                                                    </InputStyle>
+                                                </td>
+                                                <td style={{textAlign:'right', width:"13rem"}}>
+                                                    <InputStyle style={{marginBottom:0}} className="inputt">
+                                                        <input type="number" max={100} defaultValue={el.year_one} className="cash inpGet" name={`year_one`} placeholder="0" required />
+                                                    </InputStyle>
+                                                </td>
+                                            </>
+                                            :<>
                                                 <td style={{textAlign:'right', width:"13rem"}}>
                                                     <InputStyle  style={{marginBottom:0}} className="inputt">
                                                         <NumberFormat defaultValue={el.year_three} className="cash inpGet" autoFocus name={`year_three`} thousandSeparator={true} placeholder="0" required />
@@ -264,8 +279,8 @@ const AnalysisFiveMain = ({modal}) => {
 export default AnalysisFiveMain
 
 const Data = [
-    { code : 1, desc: "Нийт борлуулалт", year_one: null, year_two: null,  year_three: null, idd: null, inp:false },
-    { code : 2, desc: "Экспорт", year_one: null, year_two: null,  year_three: null, idd: null, inp:false  },
-    { code : 3, desc: "Жерки-Хонг Конг", year_one: null, year_two: null,  year_three: null, idd: null, inp:false  },
-    { code : 4, desc: "Хонг Конг ЗЗЭХ", year_one: null, year_two: null,  year_three: null, idd: null, inp:false  },
+    { code : 1, desc: "Нийт борлуулалт", year_one: null, year_two: null,  year_three: null, idd: null, inp:false, procent:false  },
+    { code : 2, desc: "Экспорт", year_one: null, year_two: null,  year_three: null, idd: null, inp:false, procent:false   },
+    { code : 3, desc: "Жерки-Хонг Конг", year_one: null, year_two: null,  year_three: null, idd: null, inp:false, procent:false   },
+    { code : 4, desc: "Хонг Конг ЗЗЭХ", year_one: null, year_two: null,  year_three: null, idd: null, inp:false, procent:true  },
 ]

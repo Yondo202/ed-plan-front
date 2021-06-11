@@ -6,7 +6,7 @@ import { default as NumberFormat } from 'react-number-format';
 import axios from "global/axiosbase";
 import UserContext from "global/UserContext"
 
-export const AddModal = ({ setAddModal, setCond, urlDetail, url, title, customTitle, helpField, length, dataOne }) => {
+export const AddModal = ({ setAddModal, setCond, urlDetail, url, title, customTitle, helpField, length, dataOne, setCond2 }) => {
     const history = useHistory();
     const param = useParams().id;
     const initial = { idd: param }
@@ -38,33 +38,40 @@ export const AddModal = ({ setAddModal, setCond, urlDetail, url, title, customTi
             obj["idd"] = param
             finalDetail.push(obj);
         });
-        ctx.loadFunc(true);
-        axios.post(url, final).then(res=>{
-            if(res.data.id){
-                const datalength = finalDetail.length
-                finalDetail.forEach((el, ind)=>{
-                    el[helpField] = res.data.id;
-                    if(url === "busthrees" && length === 0){
-                        axios.post(`export-products`, { idd: param, name: el.desc })
-                    }
-                    axios.post(urlDetail, el).then(res=>{
-                        if(datalength - 1 === ind){
-                            ctx.alertFunc('green','Амжилттай',true );
-                            ctx.loadFunc(false);
-                            setClose('contentParent2');
-                            setTimeout(() => { setAddModal(false); setClose(''); setCond(prev=>!prev) }, 300);
-                            if(helpField === "busthree" && length > 0){
-                                axios.put(`totals/${ctx.total?.id}`, { busone: true, idd: param }).then(res=>{
-                                    ctx.alertFunc('green','Амжилттай',true );
-                                    ctx.loadFunc(false);
-                                    history.push(`/${param}/businessinfo/3`);
-                                })
-                            }
+        if(finalDetail.length > 1){
+            ctx.loadFunc(true);
+            axios.post(url, final).then(res=>{
+                if(res.data.id){
+                    const datalength = finalDetail.length
+                    finalDetail.forEach((el, ind)=>{
+                        el[helpField] = res.data.id;
+                        console.log(`helpField`, helpField);
+                        if(url === "busthrees" && length === 0){
+                            axios.post(`export-products`, { idd: param, name: el.desc })
                         }
-                    }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
-                });
-            }
-        }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+                        axios.post(urlDetail, el).then(res=>{
+                            if(datalength - 1 === ind){
+                                ctx.alertFunc('green','Амжилттай',true );
+                                ctx.loadFunc(false);
+                                setClose('contentParent2');
+                                setTimeout(() => { setAddModal(false); setClose(''); setCond(prev=>!prev) }, 300);
+                                if(helpField === "busthree" && length > 0){
+                                    axios.put(`totals/${ctx.total?.id}`, { busone: true, idd: param }).then(res=>{
+                                        ctx.alertFunc('green','Амжилттай',true );
+                                        ctx.loadFunc(false);
+                                        setCond2(prev=>!prev);
+                                        // history.push(`/${param}/businessinfo/3`);
+                                    })
+                                }
+                            }
+                        }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+                    });
+                }
+            }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+        }else{
+            setDetails(prev=> [...prev, initial ])
+        }
+        
     }
 
     return (
@@ -135,7 +142,7 @@ export const AddModal = ({ setAddModal, setCond, urlDetail, url, title, customTi
 }
 
 
-export const EditModal = ({ setAddModal, setCond, setDataOne, helpField2, urlDetail, url, title, helpField, length }) => {
+export const EditModal = ({ setAddModal, setCond, setDataOne, helpField2, urlDetail, url, title, helpField, length, setCond2 }) => {
     const history = useHistory();
     const param = useParams().id;
     // const initial = { idd: param }
@@ -157,6 +164,7 @@ export const EditModal = ({ setAddModal, setCond, setDataOne, helpField2, urlDet
         arr2.forEach((el, i)=>{
             let obj = {};
             let detailInp = document.querySelectorAll(`.gettInppDetail2${i + 1}`); let arr2 = Array.from(detailInp);
+
             arr2.forEach(elem=>{
                 if(elem.name !== "desc"){
                     obj[elem.name] = parseInt(elem.value.replaceAll(',',''));; 
@@ -186,7 +194,8 @@ export const EditModal = ({ setAddModal, setCond, setDataOne, helpField2, urlDet
                                 axios.put(`totals/${ctx.total?.id}`, { busone: true, idd: param }).then(res=>{
                                     ctx.alertFunc('green','Амжилттай',true );
                                     ctx.loadFunc(false);
-                                    history.push(`/${param}/businessinfo/3`);
+                                    setCond2(prev=>!prev);
+                                    // history.push(`/${param}/businessinfo/3`);
                                 })
                             }
 

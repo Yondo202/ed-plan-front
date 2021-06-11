@@ -50,10 +50,6 @@ const AnalysisMain = ({modal}) => {
         fetchDataActivity();
     },[cond]);
 
-    
-
-    
-
     const onSubmit = (e) =>{
         e.preventDefault();
         if(activityData.length !== 0){
