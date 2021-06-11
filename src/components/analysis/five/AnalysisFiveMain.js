@@ -80,7 +80,6 @@ const AnalysisFiveMain = ({modal}) => {
         }else{
             setHeadEdit(cond);
         }
-            
     }
 
     const shitchInp2 = (cond) =>{
