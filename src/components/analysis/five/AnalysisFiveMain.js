@@ -21,7 +21,6 @@ const AnalysisFiveMain = ({modal}) => {
     const [ dataLength, setDatalength ] = useState(null);
     const [ customDate, setCustomDate ] = useState({});
     const [ HeadEdit, setHeadEdit ] = useState(false);
-    const [ inpMax, setInpMax ] = useState(false);
     
     useEffect(()=>{
         setStaticData(prev=>[...prev.filter(item=> {
