@@ -54,12 +54,12 @@ export const AddModal = ({ setShowAddModal, setParentData , selected  }) => {
 
                         <InputStyle >
                             <div className="label">Эхлэх хугацаа</div>
-                            <input type="text" onFocus={(e) => e.target.type = 'date'} max={MaxDate} className="gettInp" name="start_date" required />
+                            <input type="text" onFocus={(e) => e.target.type = 'date'} className="gettInp" name="start_date" required />
                         </InputStyle>
 
                         <InputStyle >
                             <div className="label">Дуусах хугацаа</div>
-                            <input type="text" onFocus={(e) => e.target.type = 'date'} max={MaxDate} className="gettInp" name="end_date" required />
+                            <input type="text" onFocus={(e) => e.target.type = 'date'} className="gettInp" name="end_date" required />
                         </InputStyle>
 
                         <InputStyle >
@@ -84,7 +84,7 @@ export const AddModal = ({ setShowAddModal, setParentData , selected  }) => {
 
                         <InputStyle >
                             <div className="label">Тухайн ажлын талаар тайлагнах хугацаа</div>
-                            <input type="text" onFocus={(e) => e.target.type = 'date'} max={MaxDate}  className="gettInp" name="workreport_date" required />
+                            <input type="text" onFocus={(e) => e.target.type = 'date'} className="gettInp" name="workreport_date" required />
                         </InputStyle>
 
 
