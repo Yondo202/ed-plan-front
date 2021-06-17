@@ -53,9 +53,9 @@ function Home() {
                             <div className="mains">
                                 <Link to={ctx.total?.bustwo?ctx.productId?ctx.total?.exportone?`/${paramC}/export/1/${ctx.productId}`:`/${paramC}/export`:`/${paramC}/export`:`#`} className={ctx.total?.exportone?`itemsActive`:`items`}>Экспортын бүтээгдэхүүн</Link>
                                 <div className="line " ></div>
-                                <Link to={ctx.total?.exportone?ctx.productId?`/${paramC}/export/2/${ctx.productId}`:`/${paramC}/export`:`#`} className={ctx.total?.exporttwo?`itemsActive`:`items`}>Өртгийн тооцоолол</Link>
+                                <Link to={ctx.total?.exportone?ctx.productId?`/${paramC}/export/2/${ctx.productId}`:`/${paramC}/export`:`#`} className={ctx.total?.exportthree?`itemsActive`:`items`}>Өртгийн тооцоолол</Link>
                                 <div className="line " ></div>
-                                <Link to={ctx.total?.exporttwo?ctx.productId?`/${paramC}/export/3/${ctx.productId}`:`/${paramC}/export`:`#`} className={ctx.total?.exporttwo?`itemsActive`:`items`}>Өртгийн задаргаа</Link>
+                                <Link to={ctx.total?.exportthree?ctx.productId?`/${paramC}/export/3/${ctx.productId}`:`/${paramC}/export`:`#`} className={ctx.total?.exporttwo?`itemsActive`:`items`}>Өртгийн задаргаа</Link>
                             </div>
                         </div>
                     </div>

@@ -37,7 +37,12 @@ const BusOneMain = ({ modal }) => {
     
     const clickHandle = () =>{
         if(countOne > 0 && countTwo > 1 && countThree > 1 ){
-            history.push(`/${param}/businessinfo/3`);
+            ctx.loadFunc(true);
+            axios.put(`totals/${ctx.total?.id}`, { busone: true, idd: param }).then(res=>{
+                ctx.alertFunc('green','Амжилттай',true );
+                ctx.loadFunc(false);
+                history.push(`/${param}/businessinfo/3`);
+            });
         }else{
             ctx.alertFunc("orange", "Мэдээллээ гүйцэд оруулна уу", true);
         }

@@ -22,6 +22,8 @@ const InfoTwo = ({ modal }) => {
     const [ activityData, setActivityData ] = useState([]);
     const [ selected, setSelected ] = useState({});
     const [ SelectedFile, setSelectedFile ] = useState([]);
+
+    const [reg, setReg] = useState('');
     
     useEffect(()=>{
         fetchData();
@@ -34,6 +36,7 @@ const InfoTwo = ({ modal }) => {
           if(res.data.length){
             setSelectedFile(res.data[0]?.edpuploads);
             setMainData(res.data[0]);
+            setReg(res.data[0]?.register);
           }
       });
     }
@@ -50,49 +53,58 @@ const InfoTwo = ({ modal }) => {
         arr.forEach(el=>{
             final[el.name] = el.value;
         });
+
         final["idd"] = param
+
         if(activityData.length !== 0){
+            
             if(SelectedFile.length){
-                ctx.loadFunc(true);
-                if(mainData?.id){
-                    axios.put(`infotwos/${mainData.id}`, final).then(res=>{
-                        ctx.alertFunc('green','Амжилттай',true );
-                        ctx.loadFunc(false);
-                        history.push(`/${param}/intro/4`);
-                        SelectedFile.forEach(el=>{
-                            if(el.idd){
-                                axios.put(`edpuploads/${el.id}`, { url: el.url, file_id: el.file_id, file_id: el.id, name:el.name, infotwo: res.data.id,  idd: param, })
-                            }else{
-                                axios.post(`edpuploads`, { url: edpurl + el.fileUrl.replace("public", ""), file_id: el.id, name:el.name, infotwo: res.data.id,  idd: param,  })
-                            }
-                        });
-                    }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
-                    activityData.forEach((el)=>{
-                        if(el.id){
-                            axios.put(`infotwodetails/${el.id}`, el);   
-                        }else{
-                            axios.post(`infotwodetails`, el);
-                        }
-                    });
-                }else{
-                    axios.post(`infotwos`, final).then(res=>{
-                        axios.put(`totals/${ctx.total?.id}`, { infotwo: true, idd: param }).then(res=>{
+                if(reg.length === 7){
+                    ctx.loadFunc(true);
+                    if(mainData?.id){
+                        axios.put(`infotwos/${mainData.id}`, final).then(res=>{
                             ctx.alertFunc('green','Амжилттай',true );
                             ctx.loadFunc(false);
                             history.push(`/${param}/intro/4`);
+                            SelectedFile.forEach(el=>{
+                                if(el.idd){
+                                    axios.put(`edpuploads/${el.id}`, { url: el.url, file_id: el.file_id, file_id: el.id, name:el.name, infotwo: res.data.id,  idd: param, })
+                                }else{
+                                    axios.post(`edpuploads`, { url: edpurl + el.fileUrl.replace("public", ""), file_id: el.id, name:el.name, infotwo: res.data.id,  idd: param,  })
+                                }
+                            });
                         }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
-                        SelectedFile.forEach(el=>{
-                            if(el.idd){
-                                axios.put(`edpuploads/${el.id}`, { url: el.url, file_id: el.file_id, file_id: el.id, name:el.name, infotwo: res.data.id,  idd: param, })
+                        activityData.forEach((el)=>{
+                            if(el.id){
+                                axios.put(`infotwodetails/${el.id}`, el);   
                             }else{
-                                axios.post(`edpuploads`, { url: edpurl + el.fileUrl.replace("public", ""), file_id: el.id, name:el.name, infotwo: res.data.id,  idd: param,  })
+                                axios.post(`infotwodetails`, el);
                             }
                         });
-                    }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
-                    activityData.forEach((el)=>{
-                        axios.post(`infotwodetails`, el);
-                    })
+                    }else{
+                        axios.post(`infotwos`, final).then(res=>{
+                            axios.put(`totals/${ctx.total?.id}`, { infotwo: true, idd: param }).then(res=>{
+                                ctx.alertFunc('green','Амжилттай',true );
+                                ctx.loadFunc(false);
+                                history.push(`/${param}/intro/4`);
+                            }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+                            SelectedFile.forEach(el=>{
+                                if(el.idd){
+                                    axios.put(`edpuploads/${el.id}`, { url: el.url, file_id: el.file_id, file_id: el.id, name:el.name, infotwo: res.data.id,  idd: param, })
+                                }else{
+                                    axios.post(`edpuploads`, { url: edpurl + el.fileUrl.replace("public", ""), file_id: el.id, name:el.name, infotwo: res.data.id,  idd: param,  })
+                                }
+                            });
+                        }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+                        activityData.forEach((el)=>{
+                            axios.post(`infotwodetails`, el);
+                        })
+                    }
+                }else{
+                    setErrTxt({cond:true, text: "Регистерийн дугаараа шалгана уу.." });
+                    setTimeout(() => { setErrTxt({cond:false, text: "" }); }, 4000);
                 }
+                
             }else{
                 setErrTxt({cond:true, text: "Улсын бүртгэлийн гэрчилгээгээ хавсрагана уу.." });
                 setTimeout(() => { setErrTxt({cond:false, text: "" }); }, 4000);
@@ -104,6 +116,15 @@ const InfoTwo = ({ modal }) => {
         }
     }
 
+    const registerHandle = (e) =>{
+        if(e.target.value.length < 8){
+          setReg(e.target.value);
+        }
+    }
+
+
+    console.log(`reg`, reg);
+
     return (
         <Container style={modal&&{padding:"0px 0px",boxShadow:"none"}} className="contianer-fluid">
             <form onSubmit={onSubmit}>
@@ -112,7 +133,7 @@ const InfoTwo = ({ modal }) => {
                     <div className="col-md-5 col-sm-5 col-12">
                         <InputStyle>
                             <div className="label">Регистерийн дугаар</div>
-                            <input defaultValue={mainData?.register} className="getInpp" name="register" type="number" required />
+                            <input value={reg} onChange={registerHandle} defaultValue={mainData?.register} className="getInpp" name="register" type="number" required />
                         </InputStyle>
                     </div>
                     <div className="col-md-1 col-sm-1 col-12"></div>

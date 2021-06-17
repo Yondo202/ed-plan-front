@@ -25,9 +25,7 @@ const BusTwoMain = ({ modal }) => {
         FetchData();
         fetchResult();
     },[]);
-    useEffect(()=>{
-        FetchCount();
-    });
+    
 
     const fetchResult = async () => {
         await axios.get(`businessresults?idd=${param}`).then(res=>{
@@ -101,6 +99,10 @@ const BusTwoMain = ({ modal }) => {
             }), ...prev ]);
         }
     }
+
+    useEffect(()=>{
+        FetchCount();
+    },[resultData]);
     
     const FetchCount = async () =>{
         await axios.get(`businessinfothrees/count?idd=${param}`).then(res=>{
@@ -154,7 +156,7 @@ const BusTwoMain = ({ modal }) => {
     }
     
     const clickHandle = () =>{
-        if(dataLength > 7){
+        if(dataLength === 9){
             ctx.loadFunc(true);
             axios.put(`totals/${ctx.total?.id}`, { bustwo: true, idd: param }).then(res=>{
                 ctx.alertFunc('green','Амжилттай',true );

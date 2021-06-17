@@ -25,8 +25,6 @@ const TotalFinance = ({ modal }) => {
     const [ deleteModalShow, setDeleteModalShow ] = useState(false);
     const [ selectedDetail, setSelectedDetail ] = useState({});
 
-    console.log(`ParentData`, ParentData);
-
     useEffect(()=>{
         FetchData();
     },[cond])

@@ -7,7 +7,7 @@ export const NumberComma = (el) => {
         var commas = num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         return commas
     }else{
-        return null
+        return 0
     }
 }
 
@@ -18,7 +18,7 @@ export const NumberComma2 = (el) => {
         var commas = parseFloat(commas)
         return commas
     }else{
-        return null
+        return 0
     }
 }
 

@@ -59,32 +59,33 @@ const InfoThree = ({modal}) => {
 
     const onSubmit = (e) =>{
         e.preventDefault();
-
-        if(activityData.length > 1){
+        if(activityData.length > 0){
             ctx.loadFunc(true);
             setErrText(false);
                 activityData.forEach(el=>{
                     if(el.id){
                         axios.put(`exportones/${el.id}`,{ ...el, parent: slug, export_product: slug}).then(res=>{
-                                ctx.alertFunc('green','Амжилттай',true );
-                                ctx.loadFunc(false);
-                                history.push(`/${param}/export/3/${slug}`);
-                                // axios.put(`totals/${ctx.total?.id}`, { exporttwo: true, idd: param }).then(res=>{
-                                //     ctx.alertFunc('green','Амжилттай',true );
-                                //     ctx.loadFunc(false);
-                                //     history.push(`/${param}/export/3/${slug}`);
-                                // }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+                                // ctx.alertFunc('green','Амжилттай',true );
+                                // ctx.loadFunc(false);
+                                // history.push(`/${param}/export/3/${slug}`);
+                                axios.put(`totals/${ctx.total?.id}`, { exportthree: true, idd: param }).then(res=>{
+                                    console.log(`res-total`, res);
+                                    ctx.alertFunc('green','Амжилттай',true );
+                                    ctx.loadFunc(false);
+                                    history.push(`/${param}/export/3/${slug}`);
+                                }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                         }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                     }else{
                         axios.post(`exportones`,{ ...el, parent: slug, export_product: slug}).then(res=>{
-                            ctx.alertFunc('green','Амжилттай',true );
-                            ctx.loadFunc(false);
-                            history.push(`/${param}/export/3/${slug}`);
-                            //     axios.put(`totals/${ctx.total?.id}`, { exporttwo: true, idd: param }).then(res=>{
-                            //         ctx.alertFunc('green','Амжилттай',true );
-                            //         ctx.loadFunc(false);
-                            //         history.push(`/${param}/export/3/${slug}`);
-                            //     }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+                            // ctx.alertFunc('green','Амжилттай',true );
+                            // ctx.loadFunc(false);
+                            // history.push(`/${param}/export/3/${slug}`);
+                                axios.put(`totals/${ctx.total?.id}`, { exportthree: true, idd: param }).then(res=>{
+                                    console.log(`res-total`, res);
+                                    ctx.alertFunc('green','Амжилттай',true );
+                                    ctx.loadFunc(false);
+                                    history.push(`/${param}/export/3/${slug}`);
+                                }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                         }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                     }
                 })
