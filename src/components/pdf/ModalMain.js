@@ -4,6 +4,7 @@ import UserContext from "global/UserContext"
 import { GrDocumentPdf } from "react-icons/gr"
 import { useReactToPrint } from "react-to-print";
 import InfoProject from "components/intro/ProjectIntro"
+import Infohistory from "components/intro/Infohistory"
 import InfoOne from "components/intro/InfoOne";
 import InfoTwo from "components/intro/infoTwo";
 import InfoThree from "components/intro/InfoThree";
@@ -61,6 +62,7 @@ import FirstPage from "components/first_page/FirstPage"
                     {/* <FirstPage modal={true} /> */}
                     {ttl?.firstpage&&<FirstPage modal={true} />}
                     {ttl?.projectinfo&&<InfoProject modal={true} />}
+                    {ttl?.infohistory&&<Infohistory modal={true} />}
                     {ttl?.infoone&&<InfoOne modal={true} />}
                     {ttl?.infotwo&&<InfoTwo modal={true} />}
                     {ttl?.infothree&&<InfoThree modal={true} />}

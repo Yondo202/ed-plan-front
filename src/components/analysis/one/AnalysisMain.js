@@ -126,7 +126,7 @@ const AnalysisMain = ({modal}) => {
                 <div style={{marginBottom:14}} className={modal?`customTable T3 pageRender`:`customTable T3`}>
                     {modal&&<div className="bigTitle">V. Экспортын зах зээлийн судалгаа</div>}
                     <div className="headPar">
-                        <div className="title">Ази болон ойрх дорнодын {ctx.targetProduct?.name} - импорт</div>
+                        <div className="title">Зорилтот зах зээлийн {ctx.targetProduct?.name} -импорт</div>
                         <div onClick={()=>AddHandle()} className="addBtn"><RiAddLine /><span>Нэмэх</span></div>
                     </div>
                     <table >

@@ -21,11 +21,13 @@ function Home() {
                             <div className="mains">
                                 <Link to={`/${paramC}/intro/1`}  className={ctx.total?.projectinfo?`itemsActive`:`items`}>Төслийн товч танилцуулга</Link>
                                 <div className="line line2" ></div>
-                                <Link to={ctx.total?.projectinfo?`/${paramC}/intro/2`:`#`} className={ctx.total?.infoone?`itemsActive`:`items`}>Бүтэц, зохион байгуулалт</Link>
+                                <Link to={ctx.total?.projectinfo?`/${paramC}/intro/2`:`#`}  className={ctx.total?.infohistory?`itemsActive`:`items`}>Компанийн туршлага, түүхэн мэдээлэл</Link>
                                 <div className="line line2" ></div>
-                                <Link to={ctx.total?.infoone?`/${paramC}/intro/3`:`#`} className={ctx.total?.infotwo?`itemsActive`:`items`}>Гэрчилгээ, үйл ажиллагааны мэдээлэл</Link>
+                                <Link to={ctx.total?.infohistory?`/${paramC}/intro/3`:`#`} className={ctx.total?.infoone?`itemsActive`:`items`}>Бүтэц, зохион байгуулалт</Link>
                                 <div className="line line2" ></div>
-                                <Link to={ctx.total?.infotwo?`/${paramC}/intro/4`:`#`} className={ctx.total?.infothree?`itemsActive`:`items`}>Эцсийн өмчлөгчдийн мэдээлэл</Link>
+                                <Link to={ctx.total?.infoone?`/${paramC}/intro/4`:`#`} className={ctx.total?.infotwo?`itemsActive`:`items`}>Гэрчилгээ, үйл ажиллагааны мэдээлэл</Link>
+                                <div className="line line2" ></div>
+                                <Link to={ctx.total?.infotwo?`/${paramC}/intro/5`:`#`} className={ctx.total?.infothree?`itemsActive`:`items`}>Эцсийн өмчлөгчдийн мэдээлэл</Link>
                                 {/* <div className="line line2" ></div>
                                 <Link to="/intro/4" className="itemsActive">СВОТ</Link>
                                 <div className="line line2" ></div>
@@ -39,7 +41,7 @@ function Home() {
                     <div className="col-md-2 col-sm-2 itemsCol">
                         <div className="itemsPar">
                             <div className="mains">
-                                <Link to={ctx.total?.infothree?`/${paramC}/businessinfo/1`:`#`} className={ctx.total?.businessone?`itemsActive`:`items`}>Танилцуулга</Link>
+                                <Link to={ctx.total?.infothree?`/${paramC}/businessinfo/1`:`#`} className={ctx.total?.businessone?`itemsActive`:`items`}>Бүтээгдэхүүн, үйлчилгээ</Link>
                                 <div className="line line2" ></div>
                                 <Link to={ctx.total?.businessone?`/${paramC}/businessinfo/2`:`#`} className={ctx.total?.busone?`itemsActive`:`items`}>Борлуулалтын мэдээлэл</Link>
                                 <div className="line line2" ></div>

@@ -26,7 +26,7 @@ const BusinessInfoOne = ({ modal, setCond2 }) => {
     return (
             <div className={modal?`customTable T2 pageRender`:`customTable T2`}>
                     <div className="headPar">
-                        <div className="title">Экспорт болон дотоодын борлуулалт</div>
+                        <div className="title">Нийт борлуулалт (Экспорт ба дотоод)-ам.доллар</div>
                         {/* <div onClick={()=>setAddModal(true)} className="addBtn"><RiAddLine /><span>Нэмэх</span></div> */}
                     </div>
                     <table >

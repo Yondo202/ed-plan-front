@@ -55,8 +55,6 @@ const InfoThree = ({modal}) => {
         })
     }
 
-    console.log(`totalCost`, totalCost);
-
     const onSubmit = (e) =>{
         e.preventDefault();
         if(activityData.length > 0){
@@ -69,7 +67,6 @@ const InfoThree = ({modal}) => {
                                 // ctx.loadFunc(false);
                                 // history.push(`/${param}/export/3/${slug}`);
                                 axios.put(`totals/${ctx.total?.id}`, { exportthree: true, idd: param }).then(res=>{
-                                    console.log(`res-total`, res);
                                     ctx.alertFunc('green','Амжилттай',true );
                                     ctx.loadFunc(false);
                                     history.push(`/${param}/export/3/${slug}`);
@@ -84,9 +81,9 @@ const InfoThree = ({modal}) => {
                                     console.log(`res-total`, res);
                                     ctx.alertFunc('green','Амжилттай',true );
                                     ctx.loadFunc(false);
-                                    history.push(`/${param}/export/3/${slug}`);
-                                }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
-                        }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+                                    // history.push(`/${param}/export/3/${slug}`);
+                                }).catch(_=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+                        }).catch(_=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                     }
                 })
         }else{
@@ -111,19 +108,23 @@ const InfoThree = ({modal}) => {
         });
     }
 
+    console.log(`activityData`, activityData);
+
     return (
         <Container style={modal&&{padding:"0px 0px"}} className="contianer-fluid">
             <form onSubmit={onSubmit}>
                 <div className={modal?`customTable pageRender`:`customTable`}>
                     <div className="headPar">
-                        <div className="title">{modal?`Өртгийн тооцоолол`:`1 кг ${selectedData?.name} хийх өртөг`}</div>
+                        <div className="title">{modal?`Өртгийн тооцоолол`:`Нэгжийн өртөг - ${selectedData?.name}`}</div>
                         <div onClick={()=>setAddModal(true)} className="addBtn"><RiAddLine /><span>Нэмэх</span></div>
                     </div>
                     <table >
                         <tbody>
                             <tr className="center">
                                 <th>дд</th>
-                                <th>1 кг {selectedData?.name} хийх орц</th>
+                                {/* <th>1 кг {selectedData?.name} хийх орц</th> */}
+                                <th>Хэмжих нэгж</th>
+                                <th>Нэгжийн хийх орц - {selectedData?.name} </th>
                                 <th>Хэмжээ</th>
                                 <th>Өртөг, ам. доллар /АНУ/</th>
                                 <th>Өртөг, ам. доллар /Монголд/</th>
@@ -133,6 +134,7 @@ const InfoThree = ({modal}) => {
                                 return(
                                     <tr key={i}>
                                         <td>{i+1}</td>
+                                        <td style={{fontWeight:`500`}} className="center">{el.measure}</td>
                                         <td>{el.desc}</td>
                                         <td className="center">{el.size}</td>
                                         <td className="right">{el.usd}</td>
@@ -149,7 +151,8 @@ const InfoThree = ({modal}) => {
                             })}
                             {activityData.length===0&&<tr className="ghost">
                                     <td>1</td>
-                                    <td>1 кг {selectedData?.name} хийх орц</td>
+                                    <td>КГ</td>
+                                    <td>Нэгжийн хийх орц - {selectedData?.name}</td>
                                     <td className="center">2,5</td>
                                     <td className="right">32</td>
                                     <td className="right">18</td>
@@ -157,6 +160,7 @@ const InfoThree = ({modal}) => {
                             </tr>}
 
                             <tr>
+                                <th></th>
                                 <th></th>
                                 <th>НИЙТ ӨРТӨГ</th>
                                 <th></th>
@@ -166,6 +170,7 @@ const InfoThree = ({modal}) => {
                             </tr>
 
                             <tr>
+                                <th></th>
                                 <th></th>
                                 <th>ҮНЭ</th>
                                 <th></th>
@@ -209,9 +214,9 @@ const InfoThree = ({modal}) => {
                 </ButtonStyle2>}
             </form>
             
-            {addModal&&<AddModal SelectedName={ `1 кг ${selectedData?.name} хийх орц` } titles={{one:`Хэмжээ`, two:`Өртөг, ам. доллар /АНУ/`, three:`Өртөг, ам. доллар /Монголд/`}} setActivityData={setActivityData} setAddModal={setAddModal} />}
-            {editModal&&<EditModal selected={selected} titles={{one:`Хэмжээ`, two:`Өртөг, ам. доллар /АНУ/`, three:`Өртөг, ам. доллар /Монголд/`}} SelectedName={ `1 кг ${selectedData?.name} хийх орц` } setActivityData={setActivityData} setEditModal={setEditModal} />}
-            {deleteModal&&<DeleteModal  url={`exportones`} selected={selected} titles={{one:`Хэмжээ`, two:`Өртөг, ам. доллар /АНУ/`, three:`Өртөг, ам. доллар /Монголд/`}} SelectedName={ `1 кг ${selectedData?.name} хийх орц` } setActivityData={setActivityData} setDeleteModal={setDeleteModal} />}
+            {addModal&&<AddModal measure={true} SelectedName={ `Нэгжийн хийх орц - ${selectedData?.name}` } titles={{one:`Хэмжээ`, two:`Өртөг, ам. доллар /АНУ/`, three:`Өртөг, ам. доллар /Монголд/`}} setActivityData={setActivityData} setAddModal={setAddModal} />}
+            {editModal&&<EditModal selected={selected} titles={{one:`Хэмжээ`, two:`Өртөг, ам. доллар /АНУ/`, three:`Өртөг, ам. доллар /Монголд/`}} SelectedName={ `Нэгжийн хийх орц - ${selectedData?.name}` } setActivityData={setActivityData} setEditModal={setEditModal} />}
+            {deleteModal&&<DeleteModal  url={`exportones`} selected={selected} titles={{one:`Хэмжээ`, two:`Өртөг, ам. доллар /АНУ/`, three:`Өртөг, ам. доллар /Монголд/`}} SelectedName={ `Нэгжийн хийх орц - ${selectedData?.name}` } setActivityData={setActivityData} setDeleteModal={setDeleteModal} />}
             
         </Container>
     )

@@ -5,7 +5,7 @@ import axios from "global/axiosbase";
 import UserContext from "global/UserContext"
 import { default as NumberFormat } from 'react-number-format';
 
-export const AddModal = ({ setAddModal, setActivityData, SelectedName, titles }) => {
+export const AddModal = ({ setAddModal, setActivityData, SelectedName, titles, measure }) => {
     const param = useParams().id;
     const [ close,setClose ] = useState('');
     const closeHandle = () =>{
@@ -16,11 +16,12 @@ export const AddModal = ({ setAddModal, setActivityData, SelectedName, titles })
         e.preventDefault();
         let inp = document.querySelectorAll(".gettInpp"); let arr = Array.from(inp); let final = {};
         arr.forEach(el=>{
-            if(el.name !== "desc"){
-                final[el.name] = parseFloat(el.value.replaceAll(',',''));
-            }else{
+            if(el.name === "desc" || el.name === "measure"){
                 final[el.name] = el.value;
+            }else{
+                final[el.name] = parseFloat(el.value.replaceAll(',',''));
             }
+            
         }); final["idd"] = param
         setClose('contentParent2');
         setTimeout(() => {setActivityData(prev=> [ ...prev, final ]); setAddModal(false); setClose('') }, 300);
@@ -35,6 +36,11 @@ export const AddModal = ({ setAddModal, setActivityData, SelectedName, titles })
                 </div>
                 <form onSubmit={SubmitHandle}>
                     <div className="content">
+                        {measure?<InputStyle >
+                            <div className="label">Хэмжих нэгж</div>
+                            <input type="text" placeholder="кг" className="gettInpp" name="measure" required />
+                        </InputStyle>:null}
+                        
                         <InputStyle >
                             <div className="label">{SelectedName}</div>
                             <input type="text" className="gettInpp" name="desc" required />
@@ -108,6 +114,11 @@ export const EditModal = ({ setEditModal, setActivityData, selected, SelectedNam
 
                 <form onSubmit={SubmitHandle}>
                     <div className="content">
+                        <InputStyle >
+                            <div className="label">Хэмжих нэгж</div>
+                            <input defaultValue={selected?.measure} type="text" name="measure" className="gettInpp" required />
+                        </InputStyle>
+
                         <InputStyle >
                             <div className="label">{SelectedName}</div>
                             <input defaultValue={selected?.desc} type="text" name="desc" className="gettInpp" required />

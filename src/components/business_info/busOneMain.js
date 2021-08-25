@@ -29,11 +29,6 @@ const BusOneMain = ({ modal }) => {
         }
         fetchOne();
     },[cond]);
-
-    console.log(`countOne`, countOne);
-    console.log(`countTwo`, countTwo);
-    console.log(`countThree`, countThree);
-
     
     const clickHandle = () =>{
         if(countOne > 0 && countTwo > 1 && countThree > 1 ){
@@ -52,8 +47,8 @@ const BusOneMain = ({ modal }) => {
         <Container style={modal&&{padding:"0px 0px"}}>
             <BusinessInfoOne modal={modal} cond2={cond} setCond2={setCond}  />
             <BusinessInfoTwo
-                title={"Бүтээгдэхүүн болон борлуулалтын сувгийн харьцуулсан борлуулалтын мэдээ"}
-                subTitle={{ one: "Дотоодын борлуулалтын голлох бүтээгдэхүүн (ам.дол)", two: "Дотоодын борлуулалтын суваг (ам.дол)" }}
+                title={"Дотоод борлуулалт-ам.доллар"}
+                subTitle={{ one: "Дотоодын борлуулалт (голлох бүтээгдэхүүнээр)", two: "Экспорт (голлох бүтээгдэхүүнээр)" }}
                 url={"bustwos"}
                 urlDetail={"bustwodetails"}
                 helpField={"bustwo"}
@@ -65,7 +60,7 @@ const BusOneMain = ({ modal }) => {
 
             <BusinessInfoTwo
                 title={"Экспортын борлуулалтын задаргаа"}
-                subTitle={{ one: "Экспортын борлуулалтын голлох бүтээгдэхүүн (ам.дол)", two: "Экспорт хийгдсэн улсаар (ам.дол)" }}
+                subTitle={{ one: "Экспорт (голлох бүтээгдэхүүнээр)", two: "Экспорт (улсаар)" }}
                 url={"busthrees"}
                 urlDetail={"busthreedetails"}
                 helpField={"busthree"}

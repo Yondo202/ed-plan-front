@@ -107,7 +107,7 @@ const InfoThree = ({modal}) => {
             <form onSubmit={onSubmit}>
                 <div className={modal?`customTable pageRender`:`customTable`}>
                     <div className="headPar">
-                        <div className="title">{modal?`Өртгийн задаргаа`:`1 кг ${selectedData?.name} хийх өртөг`}</div>
+                        <div className="title">{modal?`Өртгийн задаргаа`:`Нэгжийн өртөг - ${selectedData?.name}`}</div>
                         <div onClick={()=>setAddModal(true)} className="addBtn"><RiAddLine /><span>Нэмэх</span></div>
                     </div>
                     <table >
