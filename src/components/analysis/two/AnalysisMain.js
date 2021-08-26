@@ -11,7 +11,7 @@ import { useParams } from "react-router-dom"
 import axios from "global/axiosbase";
 import styled, { keyframes } from 'styled-components';
 
-const AnalysisMain = ({modal}) => {
+const AnalysisMain = ({ modal }) => {
     const history = useHistory();
     const param = useParams().id;
     const slug = useParams().slug;

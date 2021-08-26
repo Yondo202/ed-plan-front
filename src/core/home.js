@@ -101,7 +101,7 @@ function Home() {
                             <div className="mains">
                                 <Link to={ctx.total?.m_five?`/${paramC}/report/1`:`#`} className={ctx.total?.financeplan?`itemsActive`:`items`}>Үйл ажиллагаа болон санхүүгийн төлөвлөгөө</Link>
                                 <div className="line " ></div>
-                                <Link to={ctx.total?.financeplan?`/${paramC}/report/2`:`#`} className={ctx.total?.totalreport?`itemsActive`:`items`}>Удирдлагын багийн уулзалт, тайлан</Link>
+                                <Link to={ctx.total?.financeplan?`/${paramC}/report/2`:`#`} className={ctx.total?.buy_plan?`itemsActive`:`items`}>Худалдан авах ажиллагааны төлөвлөгөө</Link>
                             </div>
                         </div>
                     </div>

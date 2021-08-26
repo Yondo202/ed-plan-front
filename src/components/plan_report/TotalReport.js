@@ -71,7 +71,7 @@ const TotalFinance = ({ modal }) => {
                 axios.put(`managementmains/${elem.id}`, { body: elem.body, code: elem.code, idd: param, }).then(res=>{
                     if(res.data.id){
                         // let myLeng = elem.managementdetails.length - 1
-                        elem.managementdetails.forEach((elems, ind)=>{
+                        elem.managementdetails.forEach(elems=>{
                             if(elems.id){
                                 axios.put(`managementdetails/${elems.id}`, { ...elems, idd: param, managementmain: res.data.id }).then(res=>{
                                     setCond(prev=>!prev);

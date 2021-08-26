@@ -21,7 +21,7 @@ function CkEditor(props) {
   return (
     <Container className="CkEditor">
       {props.title&&<p className="title">{props.title} <span className="additionTitle"> {props.targeted?`( ${props.targeted} )`:``}</span></p>} 
-      <div className={props.height?Nyll? `redCustom`:`activeCustom`:Nyll? `red`:`active`}>
+      <div className={props.height?Nyll||props.nulls? `redCustom`:`activeCustom`:Nyll||props.nulls? `red`:`active`}>
         <CKEditor
               height={100}
               editor={ ClassicEditor }

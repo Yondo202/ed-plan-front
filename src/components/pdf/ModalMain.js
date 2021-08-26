@@ -22,6 +22,7 @@ import AnalysisFive from "components/analysis/five/AnalysisFiveMain"
 import MarketingMain from "core/contents/marketing"
 import FinancePlan from "components/plan_report/FinancePlan"
 import FirstPage from "components/first_page/FirstPage"
+import BuyPlan from "components/plan_report/BuyPlan"
 // import TotalReport from "components/plan_report/TotalReport"
 
  const ModalMain = ({setShowModal}) => {
@@ -79,6 +80,9 @@ import FirstPage from "components/first_page/FirstPage"
                     {ttl?.analysisfive&&<AnalysisFive modal={true} />}
                     {ttl?.m_one&&<MarketingMain modal={true} />}
                     {ttl?.financeplan&&<FinancePlan modal={true} />}
+
+
+                    {ttl?.buy_plan&&<BuyPlan modal={true} />}
 
                     {/* <TotalReport modal={true} /> */}
                 </div>

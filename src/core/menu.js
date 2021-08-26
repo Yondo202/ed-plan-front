@@ -40,11 +40,14 @@ function Menu() {
         }
     }
 
+    console.log(`loc.pathname`, loc.pathname)
+
     return (
         <>
           {loc.pathname === `/${param}` && <Advice />}
            {context.approve?.approve&&<Containers >
                 <div className="container menuPar">
+                    {loc.pathname !== `/${param}` && <Link to={`/${paramC}`} className="ToHome"><IoHomeSharp /></Link>}
                     <div className="row">
                         {/* <Link to={`/${paramC}/intro/1`} className={loc.pathname.includes(`intro`)?`col-md-2 items active`:`col-md-2 items`} ><div ><span >Төслийн болон Аж ахуйн нэгжийн танилцуулга</span></div></Link>
                         <Link to={`/${paramC}/businessinfo/1`} className={loc.pathname.includes(`businessinfo`)?`col-md-2 items active`:`col-md-2 items`} ><div ><span>Дотоодын зах зээл дэх бизнесийн мэдээлэл</span> </div></Link>
@@ -80,6 +83,7 @@ function Menu() {
                     <IoEye />
                 </div>
             </PreviewTools>}
+            
 
             {context.approve?.approve&&<PreviewTools margin={`8.2rem`}>
                 <div onClick={()=>setShowExample(true)} className="Preview example">
@@ -139,6 +143,7 @@ const PreviewTools = styled.div`
     a{
         text-decoration:none;
     }
+
     
     .Preview{
         transition:all 0.3s ease;
@@ -221,6 +226,36 @@ const Containers = styled.div`
     font-weight:500;
     .menuPar{
         text-align:center;
+        position:relative;
+        width:100%;
+        .ToHome{
+            transition:all 0.2s ease;
+            cursor:pointer;
+            z-index:3;
+            position:absolute;
+            top:0;
+            left:50%;
+            transform: translate(-50%, 0%);
+            clip-path: polygon(50% 100%, 0 0, 100% 0);
+            background-color:#f2f2f2;
+            height:65px;
+            width:50px;
+            display:flex;
+            align-items:start;
+            justify-content:center;
+            svg{
+                margin-top:10px;
+                font-size:17px;
+                color:#666666;
+            }
+            &:hover{
+                // background-color:#000;
+                width:100px;
+                // svg{
+                //     color:#fff;
+                // }
+            }
+        }
         a{
             text-decoration:none;
             color:

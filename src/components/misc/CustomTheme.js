@@ -143,9 +143,10 @@ export const InputStyle = styled.div`
         display:flex;
         flex-direction:column;
         align-items:start;
+        justify-content:space-between;
         overflow:hidden;
         width:100%;
-        margin-bottom:15px;
+        margin-bottom:18px;
         .label{
             opacity:0.9;
             margin-bottom:8px;
@@ -156,7 +157,7 @@ export const InputStyle = styled.div`
             align-self:flex-end;
             width:100%;
             border:1px solid rgba(0,0,0,0.2);
-            padding:6px 0px;
+            padding:7px 0px;
             padding-left:5px;
             transition:all 0.3s ease;
             &:hover{
@@ -171,6 +172,7 @@ export const InputStyle = styled.div`
             border-bottom:1px solid red;
         }
         select{
+            font-weight:500;
             color:rgba(0,0,0,0.75);
             font-size:12px;
             transition:all 0.3s ease;
@@ -182,7 +184,7 @@ export const InputStyle = styled.div`
             border-radius: 4px;
             align-self:flex-end;
             border:1px solid rgba(0,0,0,0.2);
-            padding:6px 0px;
+            padding:7px 0px;
             padding-left:5px;
             transition:all 0.3s ease;
             option[value=""][disabled] {
@@ -199,9 +201,9 @@ export const InputStyle = styled.div`
                 outline-width: 0;
             }
             &:focus ~ .SelectArr{ 
-                background-color:rgba(0,0,0,0.1);
+                // background-color:rgba(0,0,0,0.1);
                 svg{
-                    transform: rotate(180deg);
+                    transform: rotate(90deg);
                 }
             }
             &::-ms-expand{
@@ -226,7 +228,7 @@ export const InputStyle = styled.div`
             z-index:1;
             svg{
                 transition:all 0.3s ease;
-                font-size:13px;
+                font-size:18px;
                 color:rgba(0,0,0,0.8);
             }
         }
@@ -375,7 +377,7 @@ export const Container = styled.div`
                 cursor:pointer;
                 padding:5px 10px;
                 background-color: #fff;
-                border-color: #ddd;
+                border-color: rgba(0,0,0,0.3);
                 color: #333;
                 border-radius: 4px;
                 border-width: 1px;
@@ -425,6 +427,35 @@ export const Container = styled.div`
                 border:1px solid rgba(0,0,0,0.056);
                 td{
                     border:1px solid rgba(0,0,0,0.16);
+                }
+            }
+            .cusorItems{
+                transition:all 0.2s ease;
+                cursor:pointer;
+                &:hover{
+                    background-color:#eaecf1;
+                }
+            }
+            .Selected{
+                position:relative;
+                transition:all 0.2s ease;
+                background-color:#d8dce6;
+                &:after{
+                    content:"✔";
+                    position:absolute;
+                    color:green;
+                    width:22px;
+                    height:22px;
+                    top:14px;
+                    left:-14px;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    font-size:14px;
+                    border-radius:50%;
+                    // border:1px solid red;
+                    background:#fff;
+                    box-shadow:0px 0px 10px -6px;
                 }
             }
             .editDeletePar{
@@ -498,6 +529,9 @@ export const Container = styled.div`
                 }
                 padding:10px;
             }
+            .showing{
+                display:table-cell !important;
+            }
         }
         @media print{
             table{
@@ -508,6 +542,12 @@ export const Container = styled.div`
             }
         }
     }
+    .LastRotate{
+        // margin-top:1200px;
+        page-break-inside: avoid;
+        // transform:rotate(-90deg);
+        // transform-origin: top left;
+    }
 `
 const ModalAnimate = keyframes`
     0%{ opacity:0; transform:scale(0); }
@@ -517,7 +557,6 @@ const ModalAnimate2 = keyframes`
     0%{ opacity:1; transform:scale(1); }
     100%{ opacity:0; transform:scale(0); }
 `
-
 export const CustomModal = styled.div`
     z-index:1000;
     position:fixed;
@@ -568,12 +607,13 @@ export const CustomModal = styled.div`
             .modalbtnPar{
                 display:flex;
                 justify-content:flex-end;
-                padding:10px 0px;
+                padding:11px 0px;
                 .modalbtn{
+                    font-weight:500;
                     cursor:pointer;
-                    padding:5px 10px;
+                    padding:5px 12px;
                     background-color: #fff;
-                    border-color: #ddd;
+                    border-color: rgba(0,0,0,0.3);
                     color: #333;
                     border-radius: 4px;
                     border-width: 1px;
@@ -581,10 +621,33 @@ export const CustomModal = styled.div`
                     display:flex;
                     align-items:center;
                     justify-content:center;
+                    gap:12px;
                     width:20%;
                     &:hover{
                         background-color:#ddd;
                     }
+                    svg{
+                        font-size:18px;
+                    }
+                }
+            }
+            .modalbtnParActive{
+                position:relative;
+                &::before{
+                    content:"✔";
+                    position:absolute;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    z-index:1;
+                    top:-2px;
+                    right:2%;
+                    border:1px solid green;
+                    background-color:white;
+                    color:green;
+                    width:19px;
+                    height:19px;
+                    border-radius:50%;
                 }
             }
             .TableHead{
