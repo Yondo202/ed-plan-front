@@ -4,6 +4,7 @@ import UserContext from "global/UserContext"
 import { GrDocumentPdf } from "react-icons/gr"
 import { useReactToPrint } from "react-to-print";
 import InfoProject from "components/intro/ProjectIntro"
+import Infohistory from "components/intro/Infohistory"
 import InfoOne from "components/intro/InfoOne";
 import InfoTwo from "components/intro/infoTwo";
 import InfoThree from "components/intro/InfoThree";
@@ -21,6 +22,7 @@ import AnalysisFive from "components/analysis/five/AnalysisFiveMain"
 import MarketingMain from "core/contents/marketing"
 import FinancePlan from "components/plan_report/FinancePlan"
 import FirstPage from "components/first_page/FirstPage"
+import BuyPlan from "components/plan_report/BuyPlan"
 // import TotalReport from "components/plan_report/TotalReport"
 
  const ModalMain = ({setShowModal}) => {
@@ -61,6 +63,7 @@ import FirstPage from "components/first_page/FirstPage"
                     {/* <FirstPage modal={true} /> */}
                     {ttl?.firstpage&&<FirstPage modal={true} />}
                     {ttl?.projectinfo&&<InfoProject modal={true} />}
+                    {ttl?.infohistory&&<Infohistory modal={true} />}
                     {ttl?.infoone&&<InfoOne modal={true} />}
                     {ttl?.infotwo&&<InfoTwo modal={true} />}
                     {ttl?.infothree&&<InfoThree modal={true} />}
@@ -77,6 +80,9 @@ import FirstPage from "components/first_page/FirstPage"
                     {ttl?.analysisfive&&<AnalysisFive modal={true} />}
                     {ttl?.m_one&&<MarketingMain modal={true} />}
                     {ttl?.financeplan&&<FinancePlan modal={true} />}
+
+
+                    {ttl?.buy_plan&&<BuyPlan modal={true} />}
 
                     {/* <TotalReport modal={true} /> */}
                 </div>

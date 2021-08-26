@@ -65,7 +65,7 @@ const InfoTwo = ({ modal }) => {
                         axios.put(`infotwos/${mainData.id}`, final).then(res=>{
                             ctx.alertFunc('green','Амжилттай',true );
                             ctx.loadFunc(false);
-                            history.push(`/${param}/intro/4`);
+                            history.push(`/${param}/intro/5`);
                             SelectedFile.forEach(el=>{
                                 if(el.idd){
                                     axios.put(`edpuploads/${el.id}`, { url: el.url, file_id: el.file_id, file_id: el.id, name:el.name, infotwo: res.data.id,  idd: param, })
@@ -86,7 +86,7 @@ const InfoTwo = ({ modal }) => {
                             axios.put(`totals/${ctx.total?.id}`, { infotwo: true, idd: param }).then(res=>{
                                 ctx.alertFunc('green','Амжилттай',true );
                                 ctx.loadFunc(false);
-                                history.push(`/${param}/intro/4`);
+                                history.push(`/${param}/intro/5`);
                             }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                             SelectedFile.forEach(el=>{
                                 if(el.idd){
@@ -157,7 +157,7 @@ const InfoTwo = ({ modal }) => {
                         <div className="col-md-1 col-sm-1 col-12"></div>
                         <div className="col-md-5 col-sm-5 col-12">
                             <InputStyle>
-                                <div className="label">Хэлбэр</div>
+                                <div className="label">Хариуцлагын хэлбэр</div>
                                 <input className="getInpp" defaultValue={mainData?.sort} name="sort" type="text" required />
                             </InputStyle>
                         </div>
@@ -166,9 +166,15 @@ const InfoTwo = ({ modal }) => {
                     <div className="row">
                         <div className="col-md-5 col-sm-5 col-12">
                             <InputStyle>
+                                <div className="label">Хуулийн этгээдийн хаяг</div>
+                                <input className="getInpp" defaultValue={mainData?.address} name="address" type="text" required />
+                            </InputStyle>
+
+                            {/* <InputStyle>
                                 <div className="label">Төрөл</div>
                                 <input className="getInpp" defaultValue={mainData?.type} name="type" type="text" required />
-                            </InputStyle>
+                            </InputStyle> */}
+
                         </div>
                         <div className="col-md-1 col-sm-1 col-12"></div>
                         <div className="col-md-5 col-sm-5 col-12">
@@ -180,10 +186,10 @@ const InfoTwo = ({ modal }) => {
                     </div>
 
                     <div className="row">
-                        <div className="col-md-6 col-sm-6 col-12">
+                        <div className="col-md-5 col-sm-5 col-12">
                             <InputStyle>
-                                <div className="label">Хуулийн этгээдийн хаяг</div>
-                                <input className="getInpp" defaultValue={mainData?.address} name="address" type="text" required />
+                                <div className="label">Байгуулагдсан огноо</div>
+                                <input className="getInpp" defaultValue={mainData?.established_date} name="established_date" max={MaxDate} type="text" onFocus={(e) => e.target.type = 'date'} required />
                             </InputStyle>
                         </div>
                         <div className="col-md-1 col-sm-1 col-12"></div>

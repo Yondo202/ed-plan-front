@@ -47,14 +47,14 @@ const InfoOne = ({ modal }) => {
                         });
                         ctx.alertFunc('green','Амжилттай',true );
                         ctx.loadFunc(false);
-                        history.push(`/${param}/intro/3`);
+                        history.push(`/${param}/intro/4`);
                     }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа put',true ));
                 }else{
                     axios.post(`infoones`, { body: data, idd: param }).then(res=>{
                         axios.put(`totals/${ctx.total?.id}`, { infoone: true, idd: param }).then(_=>{
                             ctx.alertFunc('green','Амжилттай',true );
                             ctx.loadFunc(false);
-                            history.push(`/${param}/intro/3`);
+                            history.push(`/${param}/intro/4`);
                         }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                         SelectedFile.forEach(el=>{
                             if(el.idd){
@@ -77,7 +77,7 @@ const InfoOne = ({ modal }) => {
 
     return (
         <>
-            {modal?<><ContentParser data={data} titleSm={`Бүтэц, зохион байгуулалт`} titleBig={`II. Аж ахуйн нэгжийн танилцуулга`} />
+            {modal?<><ContentParser data={data} titleSm={`Бүтэц, зохион байгуулалт`} titleBig={`III. Аж ахуйн нэгжийн танилцуулга`} />
             <FileUpload SelectedFile={SelectedFile} setSelectedFile={setSelectedFile} title={`Хавсралт. Бүтцийн зураг оруулах`} modal={modal} />
             </>
             :<Container>

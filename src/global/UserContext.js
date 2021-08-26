@@ -49,7 +49,6 @@ export const UserStore = (props) => {
     }
 
     const fetchProductId = (elem) =>{
-        console.log("------------------");
         axios.get(`export-products?idd=${elem}&selected=true`).then(res=>{
             if(res.data.length){
                 setProductId(res.data[0].id);

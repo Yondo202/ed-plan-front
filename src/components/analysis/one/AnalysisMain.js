@@ -122,11 +122,10 @@ const AnalysisMain = ({modal}) => {
 
     return (
         <Container style={modal&&{padding:"0px 0px"}} className="contianer-fluid">
-            <form onSubmit={onSubmit}>
                 <div style={{marginBottom:14}} className={modal?`customTable T3 pageRender`:`customTable T3`}>
                     {modal&&<div className="bigTitle">V. Экспортын зах зээлийн судалгаа</div>}
                     <div className="headPar">
-                        <div className="title">Ази болон ойрх дорнодын {ctx.targetProduct?.name} - импорт</div>
+                        <div className="title">Зорилтот зах зээлийн {ctx.targetProduct?.name} -импорт</div>
                         <div onClick={()=>AddHandle()} className="addBtn"><RiAddLine /><span>Нэмэх</span></div>
                     </div>
                     <table >
@@ -209,9 +208,8 @@ const AnalysisMain = ({modal}) => {
 
                 {!modal&&<ButtonStyle2>
                     <div className="errTxt">{errText&&`Мэдээлэлээ оруулна уу...`}</div>
-                    <button type="submit" className="myBtn">Хадгалах</button>
+                    <button onClick={onSubmit} type="submit" className="myBtn">Хадгалах</button>
                 </ButtonStyle2>}
-            </form>
             
             {addModal&&<AddModal Header={Header} setActivityData={setActivityData} setAddModal={setAddModal} />}
             {editModal&&<EditModal  Header={Header} selected={selected} setActivityData={setActivityData} setEditModal={setEditModal} />}

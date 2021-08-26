@@ -80,7 +80,7 @@ const BusinessInfoTwo = ( { title, subTitle, url, urlDetail, helpField, helpFiel
                                                     <td></td>
                                                 </tr>
                                             )
-                                        }):el.busthreedetails.map((elem, ind)=>{
+                                        }):el.busthreedetails.map(elem=>{
                                             return(
                                                 <tr key={elem.id} className="child">
                                                     <td></td>

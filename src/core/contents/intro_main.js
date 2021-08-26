@@ -4,8 +4,10 @@ import ProjectIntro from 'components/intro/ProjectIntro'
 import { HeaderTwo } from "components/misc/CustomTheme"
 import { BrowserRouter as Switch, Route, useLocation, useParams, useHistory } from "react-router-dom";
 import InfoOne from "components/intro/InfoOne"
+import Infohistory from "components/intro/Infohistory"
 import InfoTwo from "components/intro/infoTwo"
 import InfoThree from "components/intro/InfoThree"
+
 
 
 function Intro_main() {
@@ -29,15 +31,17 @@ function Intro_main() {
         <HeaderTwo className="container">
             <div className="smMenuPar">
                 <button onClick={()=>clickHanlde("show1")} disabled={ctx.total?.projectinfo?false:true} className={`itemsPar ${ctx.total?.projectinfo&&`Active`} ${loc.pathname===`/${params}/intro/1`&&`itemsPar2`}`}><span>Төслийн товч танилцуулга</span></button>
-                <button onClick={()=>clickHanlde("show2")} disabled={ctx.total?.infoone?false:true} className={`itemsPar ${ctx.total?.infoone&&`Active`} ${loc.pathname===`/${params}/intro/2`&&`itemsPar2`}`} ><span>Бүтэц, зохион байгуулалт</span></button>
-                <button onClick={()=>clickHanlde("show3")} disabled={ctx.total?.infotwo?false:true} className={`itemsPar ${ctx.total?.infotwo&&`Active`} ${loc.pathname===`/${params}/intro/3`&&`itemsPar2`}`}><span>Гэрчилгээ, үйл ажиллагааны мэдээлэл</span></button>
-                <button onClick={()=>clickHanlde("show4")} disabled={ctx.total?.infothree?false:true} className={`itemsPar ${ctx.total?.infothree&&`Active`} ${loc.pathname===`/${params}/intro/4`&&`itemsPar2`}`}><span>Эцсийн өмчлөгчдийн мэдээлэл</span></button>
+                <button onClick={()=>clickHanlde("show2")} disabled={ctx.total?.infohistory?false:true} className={`itemsPar ${ctx.total?.infohistory&&`Active`} ${loc.pathname===`/${params}/intro/2`&&`itemsPar2`}`}><span>Компанийн туршлага, түүхэн мэдээлэл</span></button>
+                <button onClick={()=>clickHanlde("show3")} disabled={ctx.total?.infoone?false:true} className={`itemsPar ${ctx.total?.infoone&&`Active`} ${loc.pathname===`/${params}/intro/3`&&`itemsPar2`}`} ><span>Бүтэц, зохион байгуулалт</span></button>
+                <button onClick={()=>clickHanlde("show4")} disabled={ctx.total?.infotwo?false:true} className={`itemsPar ${ctx.total?.infotwo&&`Active`} ${loc.pathname===`/${params}/intro/4`&&`itemsPar2`}`}><span>Гэрчилгээ, үйл ажиллагааны мэдээлэл</span></button>
+                <button onClick={()=>clickHanlde("show5")} disabled={ctx.total?.infothree?false:true} className={`itemsPar ${ctx.total?.infothree&&`Active`} ${loc.pathname===`/${params}/intro/5`&&`itemsPar2`}`}><span>Эцсийн өмчлөгчдийн мэдээлэл</span></button>
             </div>
 
             <Route exact path="/:id/intro/1"><ProjectIntro /></Route>
-            <Route exact path="/:id/intro/2"><InfoOne /></Route>
-            <Route exact path="/:id/intro/3"><InfoTwo /></Route>
-            <Route exact path="/:id/intro/4"><InfoThree /></Route>
+            <Route exact path="/:id/intro/2"><Infohistory /></Route>
+            <Route exact path="/:id/intro/3"><InfoOne /></Route>
+            <Route exact path="/:id/intro/4"><InfoTwo /></Route>
+            <Route exact path="/:id/intro/5"><InfoThree /></Route>
         </HeaderTwo>
     )
 }
