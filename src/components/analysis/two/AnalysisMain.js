@@ -57,9 +57,12 @@ const AnalysisMain = ({ modal }) => {
                 activityData.forEach(el=>{
                     if(el.id){
                         axios.put(`analysistwos/${el.id}`,{ ...el, parent: slug, ...Headers}).then(res=>{
+                            axios.put(`totals/${ctx.total?.id}`, { analysistwo: true, idd: param }).then(res=>{
                                 ctx.alertFunc('green','Амжилттай',true );
                                 ctx.loadFunc(false);
                                 history.push(`/${param}/analysis/3/${slug}`);
+                            }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+                            ctx.setCond(prev=>!prev);
                         }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                     }else{
                         axios.post(`analysistwos`, { ...el, parent: slug, ...Headers}).then(res=>{

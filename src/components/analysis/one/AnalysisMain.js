@@ -57,19 +57,21 @@ const AnalysisMain = ({modal}) => {
             setErrText(false);
                 activityData.forEach(el=>{
                     if(el.id){
-                        axios.put(`analysisonedetails/${el.id}`,{ ...el, analysisone: ParentId, parent: slug}).then(res=>{
-                                ctx.alertFunc('green','Амжилттай',true );
-                                ctx.loadFunc(false);
-                                history.push(`/${param}/analysis/2/${slug}`);
-                        }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
-                    }else{
-                        axios.post(`analysisonedetails`, { ...el, analysisone: ParentId, parent: slug}).then(res=>{
-                                axios.put(`totals/${ctx.total?.id}`, { analysisone: true, idd: param }).then(res=>{
+                        axios.put(`analysisonedetails/${el.id}`,{ ...el, analysisone: ParentId, parent: slug}).then(()=>{
+                                axios.put(`totals/${ctx.total?.id}`, { analysisone: true, idd: param }).then(()=>{
                                     ctx.alertFunc('green','Амжилттай',true );
                                     ctx.loadFunc(false);
                                     history.push(`/${param}/analysis/2/${slug}`);
-                                }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
-                        }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+                                }).catch(_=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+                        }).catch(_=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+                    }else{
+                        axios.post(`analysisonedetails`, { ...el, analysisone: ParentId, parent: slug}).then(()=>{
+                                axios.put(`totals/${ctx.total?.id}`, { analysisone: true, idd: param }).then(()=>{
+                                    ctx.alertFunc('green','Амжилттай',true );
+                                    ctx.loadFunc(false);
+                                    history.push(`/${param}/analysis/2/${slug}`);
+                                }).catch(_=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+                        }).catch(_=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                     }
                 });
                 if(fetchID){

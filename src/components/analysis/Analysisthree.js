@@ -35,9 +35,11 @@ const Analysisthree = ({modal}) => {
             ctx.loadFunc(true);
             if(fetchID){
                 axios.put(`analysisthrees/${fetchID}`, { body: data, idd: param, parent:slug }).then(res=>{
-                    ctx.alertFunc('green','Амжилттай',true );
-                    ctx.loadFunc(false);
-                    history.push(`/${param}/analysis/4/${slug}`);
+                    axios.put(`totals/${ctx.total?.id}`, { analysisthree: true, idd: param}).then(res=>{
+                        ctx.alertFunc('green','Амжилттай',true );
+                        ctx.loadFunc(false);
+                        history.push(`/${param}/analysis/4/${slug}`);
+                    }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                 }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
             }else{
                 axios.post(`analysisthrees`, { body: data, idd: param, parent:slug  }).then(res=>{

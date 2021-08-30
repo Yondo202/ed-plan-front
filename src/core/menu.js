@@ -40,8 +40,6 @@ function Menu() {
         }
     }
 
-    console.log(`loc.pathname`, loc.pathname)
-
     return (
         <>
           {loc.pathname === `/${param}` && <Advice />}
