@@ -14,8 +14,8 @@ export const UserStore = (props) => {
     const [ targetCountry, setTargetCountry ] = useState({});
 
     useEffect(()=>{
-        const FetchTotal = async () =>{
-            await axios.get(`totals?idd=${userId}`).then(res=>{
+        const FetchTotal = () =>{
+             axios.get(`totals?idd=${userId}`).then(res=>{
                  setTotal(res?.data[0]);
              });
          }
@@ -25,8 +25,8 @@ export const UserStore = (props) => {
     },[userId, alert]);
 
     useEffect(()=>{
-        const FetchApprove = async () =>{
-            await axios.get(`approves?idd=${userId}`).then(res=>{
+        const FetchApprove = () =>{
+             axios.get(`approves?idd=${userId}`).then(res=>{
                  setApprove(res?.data[0]);
              });
          }
@@ -40,13 +40,14 @@ export const UserStore = (props) => {
         fetchTargetCountry();
     },[cond, userId]);
 
-    const fetchTargetCountry = async () =>{
-        await axios.get(`analysistwos?idd=${userId}&target=true`).then(res=>{
+    const fetchTargetCountry = () =>{
+         axios.get(`analysistwos?idd=${userId}&target=true`).then(res=>{
            if(res.data.length){
               setTargetCountry(res.data[0]);
            }
         });
     }
+
 
     const fetchProductId = (elem) =>{
         axios.get(`export-products?idd=${elem}&selected=true`).then(res=>{

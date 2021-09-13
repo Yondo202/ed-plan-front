@@ -13,6 +13,7 @@ function Menu() {
     const loc = useLocation();
     const context = useContext(UserContext);
     const param = useParams().id;
+    const admin = useParams().admin;
     const [ paramC, setParamCond ] = useState(null);
     const [ showModal, setShowModal ] = useState(false);
 
@@ -25,6 +26,7 @@ function Menu() {
             context.UserIdProvider(param);
         }
     },[param]);
+
 
     // const ttl = context.total
 
@@ -109,7 +111,7 @@ function Menu() {
                 <div />
             </TableExample>:null}
 
-           {showModal&&<ModalMain setShowModal={setShowModal} />} 
+           {showModal&&<ModalMain setShowModal={setShowModal} admin={false} />} 
         </>
     )
 }

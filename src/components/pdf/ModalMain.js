@@ -2,6 +2,7 @@ import React, { useRef, useState, useContext } from 'react'
 import styled, { keyframes } from 'styled-components'
 import UserContext from "global/UserContext"
 import { GrDocumentPdf } from "react-icons/gr"
+import { AiOutlineArrowLeft } from "react-icons/ai"
 import { useReactToPrint } from "react-to-print";
 import InfoProject from "components/intro/ProjectIntro"
 import Infohistory from "components/intro/Infohistory"
@@ -25,20 +26,23 @@ import FirstPage from "components/first_page/FirstPage"
 import BuyPlan from "components/plan_report/BuyPlan"
 // import TotalReport from "components/plan_report/TotalReport"
 
- const ModalMain = ({setShowModal}) => {
+ const ModalMain = ({setShowModal, admin}) => {
     const ctx = useContext(UserContext)
     const [ cssName, setCssName ] = useState('');
     const modalRef = useRef(null);
     const componentRef = useRef();
 
     const CloseHandle = e =>{
-        if(modalRef.current === e.target){
-            setCssName('A1');
-            setTimeout(() => {
-                setShowModal(false);
-            }, 300);
+        if(admin===false){
+            if(modalRef.current === e.target){
+                setCssName('A1');
+                setTimeout(() => {
+                    setShowModal(false);
+                }, 300);
+            }
         }
     }
+
     const CloseHandle2 =_=>{
         setCssName('A1');
         setTimeout(() => {
@@ -53,11 +57,12 @@ import BuyPlan from "components/plan_report/BuyPlan"
     const ttl = ctx.total
 
     return (
-        <ModalStyle ref={modalRef} onClick={CloseHandle}>
+        <ModalStyle ref={modalRef} onClick={CloseHandle} admin={admin}>
             <div className={`Content ${cssName}`}>
                 <div className="header">
+                    {admin===true&&<div className="addBtn" onClick={()=>window.history.back()}><AiOutlineArrowLeft /> <span>Буцах</span></div>}
                     <div className="addBtn" onClick={handlePrint}><GrDocumentPdf /> <span> Хэвлэх болон pdf - татах</span></div>
-                    <div onClick={CloseHandle2} className="close">✖</div>
+                    {admin===false?<div onClick={CloseHandle2} className="close">✖</div>:<h6 style={{marginBottom:0}}>Экспорт хөгжлийн төлөвлөгөө</h6>}
                 </div>
                 <div ref={componentRef}>
                     {/* <FirstPage modal={true} /> */}
@@ -80,8 +85,6 @@ import BuyPlan from "components/plan_report/BuyPlan"
                     {ttl?.analysisfive&&<AnalysisFive modal={true} />}
                     {ttl?.m_one&&<MarketingMain modal={true} />}
                     {ttl?.financeplan&&<FinancePlan modal={true} />}
-
-
                     {ttl?.buy_plan&&<BuyPlan modal={true} />}
 
                     {/* <TotalReport modal={true} /> */}
@@ -105,6 +108,7 @@ const ModalStyle = styled.div`
     height:100%;
     z-index:1000;
     display:flex;
+    justify-content:${props=>props.admin?`center`:`start`} ;
     .A1{
         transition:all 0.3s ease;
         opacity:0;
@@ -112,14 +116,14 @@ const ModalStyle = styled.div`
     }
     .Content{
         box-shadow:none !important;
-        width:854px;
+        width:${props=>props.admin?`1000px`:`854px`};
         overflow-y:scroll;
         transition:all 0.4s ease;
         animation: ${animation} 0.4s ease;
         // width:40%;
         height:100vh;
         background-color:#fff;
-        padding:0px 20px;
+        padding: ${props=>props.admin?`0px 93px`:`0px 20px`};
         .header{
             position:sticky;
             top:0;

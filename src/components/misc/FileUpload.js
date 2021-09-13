@@ -43,6 +43,7 @@ const FileUpload = ({ SelectedFile, setSelectedFile, title, first, modal }) => {
         setSelectImg(url);
     }
 
+
     return (
         <>
             <CustomFileUpload>
