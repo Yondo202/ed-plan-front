@@ -27,19 +27,16 @@ const AnalysisFiveMain = ({modal}) => {
     
     useEffect(()=>{
         setStaticData(prev=>[...prev.filter(item=> {
-            if(item.code === 3){ item.desc = `${ctx.targetProduct?.name} - ${ctx.targetCountry?.country} ` }
-            if(item.code === 4){ item.desc = `${ctx.targetCountry?.country} - ЗЗЭХ`}
+            if(item.code === '3'){ item.desc = `${ctx.targetProduct?.name} - ${ctx.targetCountry?.country} ` }
+            // if(item.code === 4){ item.desc = `${ctx.targetCountry?.country} - ЗЗЭХ`}
         }), ...prev]);
         FetchData();
         FetchCount();
         FetchDate();
     },[cond]);
 
-
-
     const FetchData = async () =>{
        await axios.get(`analysisfives?idd=${param}`).then(res=>{
-           console.log(`res+++`, res)
            setStaticData(res.data);
             // setStaticData(prev=>[...prev.filter(item=>{
             //     res.data.forEach(el=>{
@@ -251,9 +248,12 @@ const AnalysisFiveMain = ({modal}) => {
                                                 </td>
                                             </>
                                             :<>
-                                                <td style={{textAlign:'right'}}>{el.code===4?`${el.year_three?el.year_three:``}%`:NumberComma(el.year_three)}</td>
+                                                <td style={{textAlign:'right'}}>{NumberComma(el.year_three)}</td>
+                                                <td style={{textAlign:'right'}}>{NumberComma(el.year_two)}</td>
+                                                <td style={{textAlign:'right'}}>{NumberComma(el.year_one)}</td>
+                                                {/* <td style={{textAlign:'right'}}>{el.code===4?`${el.year_three?el.year_three:``}%`:NumberComma(el.year_three)}</td>
                                                 <td style={{textAlign:'right'}}>{el.code===4?`${el.year_two?el.year_two:``}%`:NumberComma(el.year_two)}</td>
-                                                <td style={{textAlign:'right'}}>{el.code===4?`${el.year_one?el.year_one:``}%`:NumberComma(el.year_one)}</td>
+                                                <td style={{textAlign:'right'}}>{el.code===4?`${el.year_one?el.year_one:``}%`:NumberComma(el.year_one)}</td> */}
                                             </>}
 
                                             <td style={{width:"6rem"}} className="editDelete">
@@ -290,10 +290,10 @@ const AnalysisFiveMain = ({modal}) => {
 export default AnalysisFiveMain
 
 const Data = [
-    { code : 1, desc: "Нийт борлуулалт", year_one: null, year_two: null,  year_three: null, idd: null, inp:false, procent:false  },
-    { code : 2, desc: "Экспорт", year_one: null, year_two: null,  year_three: null, idd: null, inp:false, procent:false   },
-    { code : 3, desc: "Жерки-Хонг Конг", year_one: null, year_two: null,  year_three: null, idd: null, inp:false, procent:false   },
-    { code : 4, desc: "Хонг Конг ЗЗЭХ", year_one: null, year_two: null,  year_three: null, idd: null, inp:false, procent:true  },
+    { code : '1', desc: "Нийт борлуулалт", year_one: null, year_two: null,  year_three: null, idd: null, inp:false, procent:false  },
+    { code : '2', desc: "Экспорт", year_one: null, year_two: null,  year_three: null, idd: null, inp:false, procent:false   },
+    { code : '3', desc: "", year_one: null, year_two: null,  year_three: null, idd: null, inp:false, procent:false   },
+    // { code : 4, desc: "Хонг Конг ЗЗЭХ", year_one: null, year_two: null,  year_three: null, idd: null, inp:false, procent:true  },
 ]
 
 const AddBtn = styled.div`
@@ -320,7 +320,7 @@ const AddRowModal = ({  setEditModal, setStaticData, staticData }) =>{
 
     const SubmitHandle = (e) =>{
         e.preventDefault();
-        setStaticData(prev=>[ ...prev, { code:staticData.length+1, desc:desc, year_one: null, year_two: null,  year_three: null, idd: null, inp:false, procent:false } ]);
+        setStaticData(prev=>[ ...prev, { code:(staticData.length+1).toString(), desc:desc, year_one: null, year_two: null,  year_three: null, idd: null, inp:false, procent:false } ]);
         setClose('contentParent2');
         setTimeout(() => { setEditModal(false); setClose('') }, 300);
     }

@@ -28,7 +28,7 @@ const RouterMain = () => {
             <Route path="/:id/analysis" component={Analysis} />
             <Route path="/:id/marketing" component={Marketing} />
             <Route path="/:id/report" component={PlanReport} />
-            <Route path="/:id/firstpage" component={FirstPage} />
+            <Route path="/:id/firstpage/1" component={FirstPage} />
             </>: <LoginMsg text="Системд нэвтрээгүй байна" />:
             <div />}
         </>

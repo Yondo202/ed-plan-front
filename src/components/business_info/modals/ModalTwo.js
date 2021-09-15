@@ -7,7 +7,7 @@ import axios from "global/axiosbase";
 import UserContext from "global/UserContext"
 
 export const AddModal = ({ setAddModal, setCond, urlDetail, url, title, customTitle, helpField, length, dataOne, setCond2 }) => {
-    const history = useHistory();
+    // const history = useHistory();
     const param = useParams().id;
     const initial = { idd: param }
     const ctx = useContext(UserContext);
@@ -112,19 +112,19 @@ export const AddModal = ({ setAddModal, setCond, urlDetail, url, title, customTi
                             return(
                                 <div key={i} className="TableHead getTable">
                                     <InputStyle className="inputt">
-                                        <div className="label">Задаргааны тодорхойлолт</div>
+                                        <div className="label">Задаргааны тодорхойлолт {customTitle==="Экспорт (улсаар)"?"Улсын нэр":`Бүтээгдэхүүний нэр*`}</div>
                                         <input name="desc" className={`gettInppDetail${i + 1}`} type="text" required />
                                     </InputStyle>
                                     <InputStyle className="inputt">
-                                        <div className="label">{MaxDate.three} </div>
+                                        <div className="label">{MaxDate.three} - задаргаа</div>
                                         <NumberFormat className={`cash gettInppDetail${i + 1}`} name={`year_three`} isNumericString={true} thousandSeparator={true} placeholder="0" required />
                                     </InputStyle>
                                     <InputStyle className="inputt">
-                                        <div className="label">{MaxDate.two}</div>
+                                        <div className="label">{MaxDate.two} - задаргаа</div>
                                         <NumberFormat className={`cash gettInppDetail${i + 1}`} name={`year_two`} isNumericString={true} thousandSeparator={true} placeholder="0" required />
                                     </InputStyle>
                                     <InputStyle className="inputt">
-                                        <div className="label">{MaxDate.one}</div>
+                                        <div className="label">{MaxDate.one} - задаргаа</div>
                                         <NumberFormat className={`cash gettInppDetail${i + 1}`} name={`year_one`} isNumericString={true} thousandSeparator={true} placeholder="0" required />
                                     </InputStyle>
                                 </div>
@@ -205,6 +205,7 @@ export const EditModal = ({ setAddModal, setCond, setDataOne, helpField2, urlDet
             }
         }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
     }
+
     return (
         <CustomModal>
             <div className={`contentParent ${close}`} style={{width:"60rem"}}>
@@ -240,19 +241,19 @@ export const EditModal = ({ setAddModal, setCond, setDataOne, helpField2, urlDet
                                         return(
                                             <div key={elem.id} id={elem.id} className="TableHead getTable2">
                                                 <InputStyle className="inputt">
-                                                    <div className="label">Задаргааны тодорхойлолт</div>
+                                                    <div className="label">{el.desc==="Дотоодын борлуулалт (голлох бүтээгдэхүүнээр)"?`Бүтээгдэхүүний нэр`:`Задаргааны тодорхойлолт`}</div>
                                                     <input name="desc" value={elem.desc} className={`gettInppDetail2${ind + 1}`} type="text" required />
                                                 </InputStyle>
                                                 <InputStyle className="inputt">
-                                                    <div className="label">{MaxDate.three} </div>
+                                                    <div className="label">{MaxDate.three} - задаргаа </div>
                                                     <NumberFormat className={`cash gettInppDetail2${ind + 1}`} defaultValue={elem.year_three} name={`year_three`} isNumericString={true} thousandSeparator={true} placeholder="0" required />
                                                 </InputStyle>
                                                 <InputStyle className="inputt">
-                                                    <div className="label">{MaxDate.two}</div>
+                                                    <div className="label">{MaxDate.two} - задаргаа</div>
                                                     <NumberFormat className={`cash gettInppDetail2${ind + 1}`} defaultValue={elem.year_two} name={`year_two`} isNumericString={true} thousandSeparator={true} placeholder="0" required />
                                                 </InputStyle>
                                                 <InputStyle className="inputt">
-                                                    <div className="label">{MaxDate.one}</div>
+                                                    <div className="label">{MaxDate.one} - задаргаа</div>
                                                     <NumberFormat className={`cash gettInppDetail2${ind + 1}`} defaultValue={elem.year_one} name={`year_one`} isNumericString={true} thousandSeparator={true} placeholder="0" required />
                                                 </InputStyle>
                                             </div>
@@ -261,19 +262,19 @@ export const EditModal = ({ setAddModal, setCond, setDataOne, helpField2, urlDet
                                             return(
                                                 <div key={elem.id} id={elem.id} className="TableHead getTable2">
                                                     <InputStyle className="inputt">
-                                                        <div className="label">Задаргааны тодорхойлолт</div>
+                                                        <div className="label">{el.desc==="Экспорт (голлох бүтээгдэхүүнээр)"?`Бүтээгдэхүүний нэр*`:el.desc==="Экспорт (улсаар)"?"Улсын нэр":`Задаргааны тодорхойлолт`}</div>
                                                         <input name="desc" value={elem.desc} className={`gettInppDetail2${ind + 1}`} type="text" required />
                                                     </InputStyle>
                                                     <InputStyle className="inputt">
-                                                        <div className="label">{MaxDate.three} </div>
+                                                        <div className="label">{MaxDate.three} - задаргаа </div>
                                                         <NumberFormat className={`cash gettInppDetail2${ind + 1}`} defaultValue={elem.year_three} name={`year_three`} isNumericString={true} thousandSeparator={true} placeholder="0" required />
                                                     </InputStyle>
                                                     <InputStyle className="inputt">
-                                                        <div className="label">{MaxDate.two}</div>
+                                                        <div className="label">{MaxDate.two} - задаргаа</div>
                                                         <NumberFormat className={`cash gettInppDetail2${ind + 1}`} defaultValue={elem.year_two} name={`year_two`} isNumericString={true} thousandSeparator={true} placeholder="0" required />
                                                     </InputStyle>
                                                     <InputStyle className="inputt">
-                                                        <div className="label">{MaxDate.one}</div>
+                                                        <div className="label">{MaxDate.one} - задаргаа</div>
                                                         <NumberFormat className={`cash gettInppDetail2${ind + 1}`} defaultValue={elem.year_one} name={`year_one`} isNumericString={true} thousandSeparator={true} placeholder="0" required />
                                                     </InputStyle>
                                                 </div>

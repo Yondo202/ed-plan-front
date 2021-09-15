@@ -42,8 +42,6 @@ const BusinessInfoTwo = ( { title, subTitle, url, urlDetail, helpField, helpFiel
         setEditModal(true);
     }
 
-    console.log(`dataOne`, dataOne);
-
     return (
             <div className={modal?`customTable T2 pageRender`:`customTable T2`}>
                     <div className="headPar">

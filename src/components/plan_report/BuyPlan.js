@@ -42,7 +42,7 @@ const InfoThree = ({modal}) => {
             setErrText(true);
             setErrText2('Мэдээллийг гүйцэд оруулна уу...');
         }else{
-            history.push(`/${param}/firstpage`);
+            history.push(`/${param}/firstpage/1`);
         }
     }
 

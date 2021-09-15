@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react'
+import { useHistory } from 'react-router';
 import UserContext from "global/UserContext"
 import styled, { keyframes } from 'styled-components'
 import { Link, useParams  } from "react-router-dom";
 
 function Home() {
+    const { push } = useHistory();
     const ctx = useContext(UserContext);
     const param = useParams().id;
     const [ paramC, setParamCond ] = useState(null);
@@ -11,6 +13,15 @@ function Home() {
     useEffect(()=>{
         if(parseInt(param)){ setParamCond(param);  }
     },[param]);
+
+    console.log(`ctx.total?.firstpage`, ctx.total?.firstpage)
+    console.log(`ctx.total?.buy_plan`, ctx.total?.buy_plan)
+
+    useEffect(()=>{
+        if(ctx.total?.buy_plan===true&&ctx.total?.firstpage!==true){
+            push(`/${param}/firstpage/1`);
+        }
+    },[])
 
     return (
         <>

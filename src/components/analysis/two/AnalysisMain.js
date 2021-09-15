@@ -163,8 +163,6 @@ const AnalysisMain = ({ modal }) => {
 
     }
 
-    console.log(`activityData`, activityData)
-
     return (
         <Container style={modal&&{padding:"0px 0px"}}  className="contianer-fluid">
             <form onSubmit={onSubmit}>
