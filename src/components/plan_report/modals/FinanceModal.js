@@ -48,10 +48,10 @@ export const AddModal = ({ setAddModal, setActivityData }) => {
                             <input type="text" className="gettInp" name="time" required />
                         </InputStyle>
 
-                        <InputStyle >
+                        {/* <InputStyle >
                             <div className="label">Хариуцах хүн</div>
                             <input type="text" className="gettInp" name="response_person" required />
-                        </InputStyle>
+                        </InputStyle> */}
 
                         <div className="modalbtnPar">
                             <button type="submit" className="modalbtn">Хадгалах</button>
@@ -119,10 +119,10 @@ export const EditModal = ({ setEditModal, setActivityData, selected }) => {
                             <input defaultValue={selected?.time} type="text" className="gettInp" name="time" required />
                         </InputStyle>
 
-                        <InputStyle >
+                        {/* <InputStyle >
                             <div className="label">Хариуцах хүн</div>
                             <input defaultValue={selected?.response_person} type="text" className="gettInp" name="response_person" required />
-                        </InputStyle>
+                        </InputStyle> */}
 
                         <div className="modalbtnPar">
                             <button type="submit" className="modalbtn">Хадгалах</button>
@@ -178,10 +178,10 @@ export const DeleteModal = ({ setDeleteModal,setActivityData, selected }) => {
                             <input defaultValue={selected?.time} type="text" className="gettInp" name="time" required />
                         </InputStyle>
 
-                        <InputStyle style={{opacity:"0.5"}}>
+                        {/* <InputStyle style={{opacity:"0.5"}}>
                             <div className="label">Хариуцах хүн</div>
                             <input defaultValue={selected?.response_person} type="text" className="gettInp" name="response_person" required />
-                        </InputStyle>
+                        </InputStyle> */}
 
                         <div className="modalbtnPar">
                             <button type="submit" className="modalbtn">Устгах</button>

@@ -84,9 +84,9 @@ const FinancePlan = ({modal}) => {
                             <tr>
                                 <th>дд</th>
                                 <th>Үйл ажиллагаа</th>
-                                <th style={{textAlign:"center"}}>Төсөв ам.дол</th>
-                                <th>Хугацаа</th>
-                                <th>Хариуцах хүн</th>
+                                <th style={{textAlign:"center"}}>Төсөв (төгрөг)</th>
+                                <th>Хэрэгжүүлэх хугацаа (сар)</th>
+                                {/* <th>Хариуцах хүн</th> */}
                                 <th></th>
                             </tr>
                             {activityData.map((el,i)=>{
@@ -96,7 +96,7 @@ const FinancePlan = ({modal}) => {
                                         <td>{el.titile}</td>
                                         <td style={{textAlign:"right"}}>{NumberComma(el.budget)}</td>
                                         <td>{el.time}</td>
-                                        <td>{el.response_person}</td>
+                                        {/* <td>{el.response_person}</td> */}
                                         <td className="editDelete">
                                             <div className="editDeletePar">
                                                 <div onClick={()=> { setSelected(el); setEditModal(true); }} className="smBtn"><RiEdit2Line /></div>
@@ -113,7 +113,7 @@ const FinancePlan = ({modal}) => {
                                     <th style={{backgroundColor:"white", textAlign:"right"}}>{total}</th>
                                     <th style={{backgroundColor:"white"}}></th>
                                     <th style={{backgroundColor:"white"}}></th>
-                                    <th style={{backgroundColor:"white"}}></th>
+                                    {/* <th style={{backgroundColor:"white"}}></th> */}
                                 </tr>}
 
                             {activityData.length===0&&<tr className="ghost">
@@ -121,7 +121,7 @@ const FinancePlan = ({modal}) => {
                                     <td>Вэбсайт хөгжүүлэх</td>
                                     <td>10,000</td>
                                     <td>8-9 сар</td>
-                                    <td>Маркетингийн менежер</td>
+                                    {/* <td>Маркетингийн менежер</td> */}
                                     <td></td>
                                 </tr>}
                         </tbody>

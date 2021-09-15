@@ -22,7 +22,13 @@ const BusinessInfoTwo = ( { title, subTitle, url, urlDetail, helpField, helpFiel
 
     const fetchData = async () =>{
         await axios.get(`${url}?idd=${param}`).then(res=>{
-            setDataOne(res.data);
+            if(url==="bustwos"){
+                if(res.data.length!==0){
+                    setDataOne(res.data.filter(item=>item.desc!=="Экспорт (голлох бүтээгдэхүүнээр)"));
+                }
+            }else{
+                setDataOne(res.data);
+            }
         })
     }
 
@@ -35,6 +41,8 @@ const BusinessInfoTwo = ( { title, subTitle, url, urlDetail, helpField, helpFiel
         setSelectedData([el]);
         setEditModal(true);
     }
+
+    console.log(`dataOne`, dataOne);
 
     return (
             <div className={modal?`customTable T2 pageRender`:`customTable T2`}>
@@ -56,7 +64,7 @@ const BusinessInfoTwo = ( { title, subTitle, url, urlDetail, helpField, helpFiel
                             {dataOne.length?dataOne.map((el,i)=>{
                                 return(
                                     <React.Fragment key={i}>
-                                        <tr  className="parent">
+                                        <tr className="parent">
                                             <td>{i+1}</td>
                                             <td>{el.desc}</td>
                                             <td style={{textAlign:'right'}}>{dataOne.length?NumberComma(dataOne[0]?.year_three):null}</td>
@@ -69,7 +77,7 @@ const BusinessInfoTwo = ( { title, subTitle, url, urlDetail, helpField, helpFiel
                                                 </div>
                                             </td>
                                         </tr>
-                                        {helpField2==="bustwodetails"?el.bustwodetails.map((elem, ind)=>{
+                                        {helpField2==="bustwodetails"?el.bustwodetails.map(elem=>{
                                             return(
                                                 <tr key={elem.id} className="child">
                                                     <td></td>
@@ -94,6 +102,7 @@ const BusinessInfoTwo = ( { title, subTitle, url, urlDetail, helpField, helpFiel
                                         })}
                                     </React.Fragment>
                                 )
+
                             }):<></>}
                             
                             <>
@@ -120,7 +129,7 @@ const BusinessInfoTwo = ( { title, subTitle, url, urlDetail, helpField, helpFiel
                                         <td></td>
                                 </tr>}
 
-                                {dataOne.length===2? ``:<tr className="parent">
+                                {dataOne.length===2||!subTitle.two? ``:<tr className="parent">
                                     <td>1</td>
                                     <td className="title">{subTitle.two}</td>
                                     <td>0</td>
@@ -129,12 +138,11 @@ const BusinessInfoTwo = ( { title, subTitle, url, urlDetail, helpField, helpFiel
                                     <td className="editDelete">
                                         <div className="editDeletePar">
                                             {dataOne.length > 0 && <div onClick={()=>AddModalShow(subTitle.two)} className="smBtn"><RiAddLine /></div>} 
-                                            {/* <div className="smBtn"><RiEdit2Line /></div> */}
                                         </div>
                                     </td>
                                 </tr>}
 
-                                {dataOne.length===2? ``:<tr className="ghost child">
+                                {dataOne.length===2||!subTitle.two? ``:<tr className="ghost child">
                                         <td></td>
                                         <td className="title">+</td>
                                         <td>+</td>

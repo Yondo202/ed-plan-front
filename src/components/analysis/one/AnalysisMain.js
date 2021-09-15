@@ -97,6 +97,7 @@ const AnalysisMain = ({modal}) => {
         arr.forEach(el=>{
             if(el.value) {child[el.name] = el.value; el.classList =- " red"; el.classList += " inpHead"; }else{ el.classList += " red" }
         });
+
         if(Object.keys(child).length > 1){
             child["idd"] = param;
             child["parent"] = slug;
@@ -136,7 +137,7 @@ const AnalysisMain = ({modal}) => {
                             <th>дд</th>
                             {HeadEdit?<th style={{textAlign:'center'}} >
                                 <InputStyle  style={{marginBottom:0}} className="inputt">
-                                    <input type="text" className="inpHead" autoFocus name={`head_title`} placeholder="Үхрийн мах /160250/" required />
+                                    <input type="text" className="inpHead" autoFocus name={`head_title`} placeholder="Зорилтот улс" required />
                                 </InputStyle>
                             </th>:<th>{Header.title?Header.title:`........... . . . .`}  </th>}
                             <th>Мян Ам.дол</th>
@@ -147,7 +148,7 @@ const AnalysisMain = ({modal}) => {
                             </th>:<th>{Header.measure?Header.measure:`........... . . . .`}</th>}
                             <th>{Header.measure?Header.measure:`...`} үнэ ам.дол</th>
                             <th>Нийлүүлэгч улс</th>
-                            <th>Стандарт</th>
+                            <th>Стандартын баримт бичгийн тоо</th>
                             <th>Тариф</th>
                             <th style={{width:"5rem"}} className="editDelete">
                                 <div className="editDeletePar">
@@ -198,7 +199,7 @@ const AnalysisMain = ({modal}) => {
                 {modal? <div className="source">Эх үүсвэр: {source}</div>
                 :<InputStyle  style={{marginBottom:25}} className="inputt">
                     <div className="label">Эх үүсвэр</div >
-                    <input value={source} type="text" className="inpHead" onChange={(e)=> { setSource(e.target.value) }} placeholder="https://example.com" />
+                    <input value={source} type="text" className="inpHead2" onChange={(e)=> { setSource(e.target.value) }} placeholder="https://example.com" />
                  </InputStyle>}
                 
 

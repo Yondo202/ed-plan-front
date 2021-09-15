@@ -65,9 +65,9 @@ const MarketingMain = ({field, title, code, targeted, modal, modalPar}) => {
 
     return (
         <>
-            {modal? <ContentParser data={data} titleSm={`${title} ${targeted}`} titleBig={modalPar?`VI. Маркетингийн стратеги`:``} />
+            {modal? <ContentParser data={data} titleSm={`${title}`} titleBig={modalPar?`VI. Маркетингийн стратеги`:``} />
             :<Container>
-                <CkEditor data={data} title={title} targeted={targeted} setData={setData} />
+                <CkEditor data={data} title={title} setData={setData} />
 
                 <ButtonStyle2 >
                     <div className="errTxt">{errTxt&&`Утга оруулна уу`}</div>

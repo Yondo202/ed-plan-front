@@ -48,7 +48,10 @@ const BusOneMain = ({ modal }) => {
             <BusinessInfoOne modal={modal} cond2={cond} setCond2={setCond}  />
             <BusinessInfoTwo
                 title={"Дотоод борлуулалт-ам.доллар"}
-                subTitle={{ one: "Дотоодын борлуулалт (голлох бүтээгдэхүүнээр)", two: "Экспорт (голлох бүтээгдэхүүнээр)" }}
+                subTitle={{ 
+                    one: "Дотоодын борлуулалт (голлох бүтээгдэхүүнээр)", 
+                    // two: "Экспорт (голлох бүтээгдэхүүнээр)"
+                }}
                 url={"bustwos"}
                 urlDetail={"bustwodetails"}
                 helpField={"bustwo"}
@@ -59,7 +62,7 @@ const BusOneMain = ({ modal }) => {
             />
 
             <BusinessInfoTwo
-                title={"Экспортын борлуулалтын задаргаа"}
+                title={"Экспортын борлуулалт-ам.доллар"}
                 subTitle={{ one: "Экспорт (голлох бүтээгдэхүүнээр)", two: "Экспорт (улсаар)" }}
                 url={"busthrees"}
                 urlDetail={"busthreedetails"}

@@ -813,10 +813,18 @@ export const CustomFileUpload = styled.div`
         margin-bottom:30px;
         .contentPar{
             .imgPar{
-                width:220px;
-                height:220px;
-                .img{
-                    object-fit:cover;
+                overflow:visible;
+                position:relative;
+                width:unset;
+                height:unset;
+                .Addition{
+                    display:none;
+                }
+                img{
+                    position:unset;
+                    width:185px;
+                    height:auto;
+                    object-fit:contain;
                 }
             }
             .imgPar2{
