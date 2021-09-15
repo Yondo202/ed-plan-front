@@ -32,11 +32,10 @@ export const AddModal = ({ setAddModal, setActivityData, addTable, getHeader,Hea
         setTimeout(() => {setActivityData(prev=> [ ...prev, final ]); setAddModal(false); setClose('') }, 300);
     }
 
-    console.log(`activityData`, activityData.length);
 
     return (
         <CustomModal>
-            <div className={`contentParent ${close}`} style={{width:"30rem", padding:"1rem 1.5rem"}}>
+            <div className={`contentParent ${close}`} style={{width:"30rem", padding:"1rem 1rem"}}>
                 <div className="head">
                     <div className="title">Зорилтот зах зээл</div>
                     <div onClick={closeHandle} className="close">✖</div>
@@ -66,8 +65,6 @@ export const AddModal = ({ setAddModal, setActivityData, addTable, getHeader,Hea
                             <div className="label">Тээвэрлэлтийн хувьд ойр байдал</div>
                             <NumberFormat className="cash gettInp" name={`traffic_range`} isNumericString={true} placeholder="0" required />
                         </InputStyle>
-
-                        
 
                         {getHeader?
                             <>

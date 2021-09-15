@@ -35,7 +35,7 @@ const AnalysisMain = ({ modal }) => {
           if(res.data.length){
             setActivityData(res.data);
             let re = res.data[0];
-            setHeaders({ head1: re.head2, head2: re.head2, head3: re.head3, head4: re.head4 });
+            setHeaders({ head1: re.head1, head2: re.head2, head3: re.head3, head4: re.head4 });
             setGetHeader(true);
           }
       });
@@ -162,6 +162,8 @@ const AnalysisMain = ({ modal }) => {
         }),...prev])
 
     }
+
+    console.log(`activityData`, activityData)
 
     return (
         <Container style={modal&&{padding:"0px 0px"}}  className="contianer-fluid">

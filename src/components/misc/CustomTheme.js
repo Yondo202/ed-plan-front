@@ -404,7 +404,7 @@ export const Container = styled.div`
                 &:first-child{
                     text-align:center;
                 }
-                padding:8px;
+                padding:5px 7px;
                 border:1px solid rgba(0,0,0,.3);
             }
             td{
@@ -459,7 +459,7 @@ export const Container = styled.div`
                 }
             }
             .editDeletePar{
-                padding:5px 10px;
+                padding:0px 8px;
                 display: flex;
                 justify-content:space-evenly;
                 align-items:center;
@@ -565,7 +565,8 @@ export const CustomModal = styled.div`
     left:0;
     top:0;
     transform: translate(0px, 0px);
-    background-color: rgba(255,255,255,.8);
+    // background-color: rgba(255,255,255,.8);
+    background-color: rgba(0,0,0,.6);
     display:flex;
     align-items:start;
     justify-content:center;

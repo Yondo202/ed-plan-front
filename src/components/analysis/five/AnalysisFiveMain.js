@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {Container, ButtonStyle2, InputStyle} from "components/misc/CustomTheme";
+import {Container, ButtonStyle2, InputStyle, CustomModal} from "components/misc/CustomTheme";
 import { RiEdit2Line } from "react-icons/ri"
 import { IoMdCheckmark } from "react-icons/io"
 import { VscError } from "react-icons/vsc";
@@ -8,6 +8,7 @@ import axios from "global/axiosbase"
 import { useParams, useHistory } from 'react-router-dom';
 import UserContext from "global/UserContext"
 import { NumberComma } from "components/misc/NumberComma"
+import styled from 'styled-components';
 
 // code gesen talbar oorchlogdoj bolohgui
 
@@ -21,6 +22,8 @@ const AnalysisFiveMain = ({modal}) => {
     const [ dataLength, setDatalength ] = useState(null);
     const [ customDate, setCustomDate ] = useState({});
     const [ HeadEdit, setHeadEdit ] = useState(false);
+
+    const [ addModal, setAddModal ] = useState(false);
     
     useEffect(()=>{
         setStaticData(prev=>[...prev.filter(item=> {
@@ -36,17 +39,19 @@ const AnalysisFiveMain = ({modal}) => {
 
     const FetchData = async () =>{
        await axios.get(`analysisfives?idd=${param}`).then(res=>{
-            setStaticData(prev=>[...prev.filter(item=>{
-                res.data.forEach(el=>{
-                    if(item.code === parseInt(el.code) ){
-                       item.desc = el.desc
-                       item.year_one = el.year_one
-                       item.year_two = el.year_two
-                       item.year_three = el.year_three
-                       item.id = el.id
-                    }
-                })
-            }), ...prev]);
+           console.log(`res+++`, res)
+           setStaticData(res.data);
+            // setStaticData(prev=>[...prev.filter(item=>{
+            //     res.data.forEach(el=>{
+            //         if(item.code === parseInt(el.code) ){
+            //            item.desc = el.desc
+            //            item.year_one = el.year_one
+            //            item.year_two = el.year_two
+            //            item.year_three = el.year_three
+            //            item.id = el.id
+            //         }
+            //     })
+            // }), ...prev]);
         })
     }
 
@@ -87,6 +92,7 @@ const AnalysisFiveMain = ({modal}) => {
     }
 
     const SelectItem = ( el ) =>{
+        
             let inp = document.querySelectorAll(".inpGet"); let arr = Array.from(inp); let child = {}; let final = el
             arr.forEach(el=>{
                 if(el.value){ child[el.name] = parseFloat(el.value.replaceAll(',','')); }
@@ -127,11 +133,12 @@ const AnalysisFiveMain = ({modal}) => {
         }
     }
 
-    const HeadHandle = (e) =>{
+    const HeadHandle = () =>{
         let inp = document.querySelectorAll(".inpGettt"); let arr = Array.from(inp); let child = {};
         arr.forEach(el=>{
             if(el.value) {child[el.name] = el.value; }
         });
+
         setCustomDate({
             // id: customDate.id,
             year_one: child.year_one,
@@ -158,7 +165,7 @@ const AnalysisFiveMain = ({modal}) => {
         <Container style={modal&&{padding:"0px 0px"}}>
             <div className={modal?`customTable T3 pageRender`:`customTable T3`}>
                     <div className="headPar">
-                        <div className="title">Экспортын борлуулалтын төлөвлөгөө</div>
+                        <div className="title">Экспортын борлуулалтын төлөвлөгөө ( ам.доллар )</div>
                         {/* <div onClick={()=>setAddModal(true)} className="addBtn"><RiAddLine /><span>Нэмэх</span></div> */}
                     </div>
                     <form onSubmit={submitHandle}>
@@ -171,17 +178,17 @@ const AnalysisFiveMain = ({modal}) => {
                                     <>
                                         <th style={{textAlign:'center'}} >
                                             <InputStyle  style={{marginBottom:0}} className="inputt">
-                                                <input type="text" defaultValue={customDate?.year_three} className="cash inpGettt" autoFocus name={`year_three`} placeholder="0" required />
+                                                <input type="text" defaultValue={customDate?.year_three} className="cash inpGettt" autoFocus name={`year_three`} placeholder="Жил" required />
                                             </InputStyle>
                                         </th>
                                         <th style={{textAlign:'center'}} >
                                             <InputStyle  style={{marginBottom:0}} className="inputt">
-                                                <input type="text" defaultValue={customDate?.year_two} className="cash inpGettt" name={`year_two`} placeholder="0" required />
+                                                <input type="text" defaultValue={customDate?.year_two} className="cash inpGettt" name={`year_two`} placeholder="Жил" required />
                                             </InputStyle>
                                         </th>
                                         <th style={{textAlign:'center'}} >
                                             <InputStyle  style={{marginBottom:0}} className="inputt">
-                                                <input type="text" defaultValue={customDate?.year_one} className="cash inpGettt" name={`year_one`} placeholder="0" required />
+                                                <input type="text" defaultValue={customDate?.year_one} className="cash inpGettt" name={`year_one`} placeholder="Жил" required />
                                             </InputStyle>
                                         </th>
                                     </>
@@ -207,6 +214,7 @@ const AnalysisFiveMain = ({modal}) => {
                                         <tr key={ind} className="parent">
                                             <td style={{width:"2rem"}}>{el.code}</td>
                                             <td style={{width:"22rem"}}>{el.desc}</td>
+                                            
                                             {el.inp?el.procent?
                                             <>
                                             <td style={{textAlign:'right', width:"13rem"}}>
@@ -260,9 +268,14 @@ const AnalysisFiveMain = ({modal}) => {
                                         </tr>
                                     )
                                 })}
+
                             </tbody>
                         </table>
+
+                        <AddBtn onClick={()=>setAddModal(true)} >+</AddBtn>
+
                     </form>
+                {customDate.id?addModal?<AddRowModal setEditModal={setAddModal} setStaticData={setStaticData} staticData={staticData} />:null:null}
             </div>
 
             {!modal&&<ButtonStyle2 >
@@ -282,3 +295,55 @@ const Data = [
     { code : 3, desc: "Жерки-Хонг Конг", year_one: null, year_two: null,  year_three: null, idd: null, inp:false, procent:false   },
     { code : 4, desc: "Хонг Конг ЗЗЭХ", year_one: null, year_two: null,  year_three: null, idd: null, inp:false, procent:true  },
 ]
+
+const AddBtn = styled.div`
+    background-color:#E7E9EB;
+    border:1px solid rgba(0,0,0,0.3);
+    border-top:none;
+    text-align:center;
+    font-size:24px;
+    cursor:pointer;
+    &:hover{
+        background-color:#ccd7e3;
+    }
+`
+
+const AddRowModal = ({  setEditModal, setStaticData, staticData }) =>{
+    const [ close,setClose ] = useState('');
+
+    const [ desc, setDesc ] = useState('');
+    
+    const closeHandle = () =>{
+        setClose('contentParent2');
+        setTimeout(() => { setEditModal(false); setClose('') }, 300);
+    }
+
+    const SubmitHandle = (e) =>{
+        e.preventDefault();
+        setStaticData(prev=>[ ...prev, { code:staticData.length+1, desc:desc, year_one: null, year_two: null,  year_three: null, idd: null, inp:false, procent:false } ]);
+        setClose('contentParent2');
+        setTimeout(() => { setEditModal(false); setClose('') }, 300);
+    }
+
+    return(
+        <CustomModal>
+            <div className={`contentParent ${close}`} style={{width:"34rem", padding:"1rem 1rem"}}>
+                <div className="head">
+                    <div className="title">Борлуулалтын төлөвлөгөө ( ам.доллар )</div>
+                    <div onClick={closeHandle} className="close">✖</div>
+                </div>
+                <form onSubmit={SubmitHandle}>
+                    <div className="content">
+                        <InputStyle >
+                            <div className="label">Ямар нэртэй төлөвлөгөө нэмэхээ оруулна уу</div>
+                            <input type="text" name="country" onChange={e=>setDesc(e.target.value)} value={desc} required />
+                        </InputStyle>
+                        <div className="modalbtnPar">
+                            <button type="submit" className="modalbtn">Нэмэх</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </CustomModal>
+    )
+}

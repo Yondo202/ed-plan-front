@@ -99,7 +99,6 @@ const InfoThree = ({modal}) => {
                                     </tr>
                                 )
                             })}
-
                             {activityData.length===0&&<tr className="ghost">
                                     <td>1</td>
                                     <td></td>
@@ -109,6 +108,7 @@ const InfoThree = ({modal}) => {
                                     <td className="center">2021-02-05</td>
                                     <td className="center">2021-01-02</td>
                                     <td className="center">2021-11-11</td>
+                                    <td className="center">.....</td>
                             </tr>}
 
                         </tbody>
