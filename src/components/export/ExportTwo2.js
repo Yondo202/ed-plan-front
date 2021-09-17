@@ -6,6 +6,9 @@ import UserContext from "global/UserContext"
 import { useParams } from "react-router-dom"
 import axios from "global/axiosbase"
 import ContentParser from "components/misc/ContentParser"
+import styled from 'styled-components';
+import { FaYoutube } from "react-icons/fa"
+import { TableExample } from "components/misc/Videos"
 
 const ExportTwo2 = ({setProductName, modal}) => {
     const history = useHistory();
@@ -15,7 +18,10 @@ const ExportTwo2 = ({setProductName, modal}) => {
     const [ errTxt, setErrTxt ] = useState(false);
     const [ fetchID, setFetchID ] = useState(null);
     const [ data, setData ] = useState('');
-    const [ selectedData, setSelectedData ] = useState({});
+    // const [ selectedData, setSelectedData ] = useState({});
+
+    const [ showVideo, setShowVideo ] = useState(false);
+    
 
     useEffect(()=>{
         fetchData();
@@ -31,12 +37,10 @@ const ExportTwo2 = ({setProductName, modal}) => {
         })
     }
 
-    console.log(`data`, data)
-
     const FetchProductsOne = async () =>{
         axios.get(`export-products?idd=${param}&selected=true&id=${modal?ctx.targetProduct?.id:slug}`).then(res=>{
             if(res.data.length){
-                setSelectedData(res.data[0]);
+                // setSelectedData(res.data[0]);
                 if(!modal){
                     setProductName(res.data[0].name);
                 }
@@ -75,8 +79,10 @@ const ExportTwo2 = ({setProductName, modal}) => {
         <>
         {modal? <ContentParser data={data} titleSm={`Өртгийн тооцоолол`} />
         :<Container>
-            <CkEditor data={data} setData={setData} title={`Өртгийн тооцоолол`} />
+            <ExampleVideo onClick={()=>setShowVideo(true)} style={{textAlign:"right"}}><div className="item">Хүснэгт үүсгэх заавар <FaYoutube /></div></ExampleVideo>
+            {showVideo?<TableExample setShowVideo={setShowVideo} />:null}
 
+            <CkEditor data={data} setData={setData} title={`Өртгийн тооцоолол`} />
             <ButtonStyle2 >
                 <div className="errTxt">{errTxt&&`Утга оруулна уу`}</div>
                 <button onClick={clickHandle}  className="myBtn">Хадгалах</button>
@@ -88,4 +94,29 @@ const ExportTwo2 = ({setProductName, modal}) => {
 }
 
 export default ExportTwo2
+
+const ExampleVideo = styled.div`
+    display:flex;
+    justify-content:flex-end;
+    .item{
+        color:rgba(0,0,0,0.8);
+        transition:all 0.3s ease;
+        font-size:12px;
+        cursor:pointer;
+        font-weight:500;
+        display:flex;
+        align-items:center;
+        border:1px solid rgba(0,0,0,0.1);
+        padding:6px 18px;
+        gap:8px;
+        box-shadow:1px 1px 8px -7px;
+        border-radius:6px;
+        &:hover{
+            box-shadow:1px 1px 13px -7px;
+        }
+        svg{
+            font-size:18px;
+        }
+    }
+`
 

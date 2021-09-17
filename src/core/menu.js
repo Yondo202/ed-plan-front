@@ -6,14 +6,15 @@ import { IoEye, IoHomeSharp } from "react-icons/io5";
 import { RiBookReadFill } from "react-icons/ri"
 import { FaYoutube } from "react-icons/fa"
 import Advice from "components/misc/Advice"
+import { TableExample } from "components/misc/Videos"
 import ModalMain from "components/pdf/ModalMain"
+
 
 function Menu() {
     const reff = useRef()
     const loc = useLocation();
     const context = useContext(UserContext);
     const param = useParams().id;
-    const admin = useParams().admin;
     const [ paramC, setParamCond ] = useState(null);
     const [ showModal, setShowModal ] = useState(false);
 
@@ -26,15 +27,6 @@ function Menu() {
             context.UserIdProvider(param);
         }
     },[param]);
-
-
-    // const ttl = context.total
-
-    const CloseHandle = (e) =>{
-        if(reff.current === e.target){
-            setShowVideo(false);
-        }
-    }
 
     const CloseHandleExample = (e) =>{
         if(reff.current === e.target){
@@ -49,13 +41,6 @@ function Menu() {
                 <div className="container menuPar">
                     {loc.pathname !== `/${param}` && <Link to={`/${paramC}`} className="ToHome"><IoHomeSharp /></Link>}
                     <div className="row">
-                        {/* <Link to={`/${paramC}/intro/1`} className={loc.pathname.includes(`intro`)?`col-md-2 items active`:`col-md-2 items`} ><div ><span >Төслийн болон Аж ахуйн нэгжийн танилцуулга</span></div></Link>
-                        <Link to={`/${paramC}/businessinfo/1`} className={loc.pathname.includes(`businessinfo`)?`col-md-2 items active`:`col-md-2 items`} ><div ><span>Дотоодын зах зээл дэх бизнесийн мэдээлэл</span> </div></Link>
-                        <Link to={`/${paramC}/export`} className={loc.pathname.includes(`export`)?`col-md-2 items active`:`col-md-2 items`}><div ><span>Экспортын бүтээгдэхүүн, үйлчилгээ</span> </div></Link>
-                        <Link to={`/${paramC}/analysis`} className={loc.pathname.includes(`analysis`)?`col-md-2 items active`:`col-md-2 items`}><div ><span>Экспортын зах зээлийн судалгаа</span> </div></Link>
-                        <Link to={`/${paramC}/marketing/1`} className={loc.pathname.includes(`marketing`)?`col-md-2 items active`:`col-md-2 items`}><div ><span>Маркетингийн стратеги</span></div></Link>
-                        <Link to={`/${paramC}/report/1`} className={loc.pathname.includes(`report`)?`col-md-2 items active`:`col-md-2 items`}><div ><span>Төлөвлөгөө болон уулзалт, тайлан</span></div></Link> */}
-
                         <Link to={`#`} className={loc.pathname.includes(`intro`)?`col-md-2 items active`:`col-md-2 items`} ><div ><span >Төслийн болон Аж ахуйн нэгжийн танилцуулга</span></div></Link>
                         <Link to={`#`} className={loc.pathname.includes(`businessinfo`)?`col-md-2 items active`:`col-md-2 items`} ><div ><span>Дотоодын зах зээл дэх бизнесийн мэдээлэл</span> </div></Link>
                         <Link to={`#`} className={loc.pathname.includes(`export`)?`col-md-2 items active`:`col-md-2 items`}><div ><span>Экспортын бүтээгдэхүүн, үйлчилгээ</span> </div></Link>
@@ -101,10 +86,7 @@ function Menu() {
                 {/* </a> */}
             </PreviewTools>}
 
-            {showVideo?<TableExample onClick={CloseHandle} ref={reff} >
-                <iframe width="1000" height="562.5" src="https://www.youtube.com/embed/cp4L0w6hh0s?autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; fullscreen; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                <div />
-            </TableExample>:null}
+            {showVideo?<TableExample setShowVideo={setShowVideo} />:null}
 
             {showExample?<TableExample onClick={CloseHandleExample} ref={reff} >
                 <iframe src="https://drive.google.com/file/d/1H7tb0eDklwtzfte9hSSEfSrYPvZBisPY/preview" width="1000" height="800" allow="autoplay"></iframe>
@@ -117,20 +99,6 @@ function Menu() {
 }
 
 export default Menu
-
-const TableExample = styled.div`
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background-color:rgba(0,0,0,0.5);
-    display:flex;
-    align-items:flex-start;
-    justify-content:center;
-    z-index:1000;
-    padding-top:4rem;
-`
 
 const PreviewTools = styled.div`
     display:flex;
