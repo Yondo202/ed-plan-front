@@ -112,4 +112,11 @@ const Container = styled.div`
       }
     }
   }
+  .ck.ck-reset_all, .ck.ck-reset_all * {
+    text-align: right;
+  }
+  .ck-icon{
+      opacity: 0.85;
+      font-size: .72em !important;
+  }
 `

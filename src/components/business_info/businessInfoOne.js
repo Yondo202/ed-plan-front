@@ -6,7 +6,7 @@ import { NumberComma } from "components/misc/NumberComma"
 import axios from "global/axiosbase"
 
 
-const BusinessInfoOne = ({ modal, setCond2 }) => {
+const BusinessInfoOne = ({ modal, setCond2, value }) => {
     const param = useParams().id;
     const [ cond, setCond ] = useState(false);
     const [ dataOne, setDataOne ] = useState([]);
@@ -26,7 +26,7 @@ const BusinessInfoOne = ({ modal, setCond2 }) => {
     return (
             <div className={modal?`customTable T2 pageRender`:`customTable T2`}>
                     <div className="headPar">
-                        <div className="title">Нийт борлуулалт (Экспорт ба дотоод)-ам.доллар</div>
+                        <div className="title">Нийт борлуулалт (Экспорт ба дотоод) - {value}</div>
                         {/* <div onClick={()=>setAddModal(true)} className="addBtn"><RiAddLine /><span>Нэмэх</span></div> */}
                     </div>
                     <table >

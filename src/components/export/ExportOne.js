@@ -41,18 +41,6 @@ const ExportOne = ({setProductName, modal}) => {
                 }
             }
         })
-        // axiosGraphql.post(`graphql`, { query: `query{
-        //     exportProducts(where: { id : "${modal?ctx.targetProduct?.id:slug}", idd:"${param}" }){
-        //       name id
-        //     }
-        //   }` }).then(res=>{
-        //       if(res.data.data.exportProducts?.length){
-        //         setSelectedData(res.data.data.exportProducts[0]);
-        //         if(!modal){
-        //             setProductName(res.data.data.exportProducts[0].name);
-        //         }
-        //       }
-        // });
     }
 
     const clickHandle = () =>{

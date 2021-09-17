@@ -34,7 +34,7 @@ const InfoTwo = ({ modal }) => {
       await axios.get(`infotwos?idd=${param}`).then(res=>{
           console.log(`res`, res);
           if(res.data.length){
-            setSelectedFile(res.data[0]?.edpuploads);
+            // setSelectedFile(res.data[0]?.edpuploads);
             setMainData(res.data[0]);
             setReg(res.data[0]?.register);
           }
@@ -58,7 +58,7 @@ const InfoTwo = ({ modal }) => {
 
         if(activityData.length !== 0){
             
-            if(SelectedFile.length){
+            // if(SelectedFile.length){
                 if(reg.length === 7){
                     ctx.loadFunc(true);
                     if(mainData?.id){
@@ -104,11 +104,10 @@ const InfoTwo = ({ modal }) => {
                     setErrTxt({cond:true, text: "Регистерийн дугаараа шалгана уу.." });
                     setTimeout(() => { setErrTxt({cond:false, text: "" }); }, 4000);
                 }
-                
-            }else{
-                setErrTxt({cond:true, text: "Улсын бүртгэлийн гэрчилгээгээ хавсрагана уу.." });
-                setTimeout(() => { setErrTxt({cond:false, text: "" }); }, 4000);
-            }
+            // }else{
+            //     setErrTxt({cond:true, text: "Улсын бүртгэлийн гэрчилгээгээ хавсрагана уу.." });
+            //     setTimeout(() => { setErrTxt({cond:false, text: "" }); }, 4000);
+            // }
             
         }else{
             setErrTxt({cond:true, text: "Мэдээллээ гүйцэд оруулна уу.." });
@@ -260,7 +259,7 @@ const InfoTwo = ({ modal }) => {
                     </table>
                 </div>
 
-                <FileUpload SelectedFile={SelectedFile} setSelectedFile={setSelectedFile} title={`Хавсралт. Улсын бүртгэлийн гэрчилгээ`} modal={modal} />
+                {/* <FileUpload SelectedFile={SelectedFile} setSelectedFile={setSelectedFile} title={`Хавсралт. Улсын бүртгэлийн гэрчилгээ`} modal={modal} /> */}
 
                 {!modal&&<ButtonStyle2>
                     <div className="errTxt">{errTxt.cond&&`${errTxt.text}`}</div>

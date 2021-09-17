@@ -30,7 +30,6 @@ const LoadingStyle = styled.div`
         height:auto;
     }
 `
-
 export const Alert = ({alert}) => {
     return (
       <AlertStyle style={alert.cond === true ? { bottom: `100px`, opacity: `1`, borderLeft: `4px solid ${alert.color}` } : { bottom: `50px`, opacity: `0` }} >
@@ -39,7 +38,6 @@ export const Alert = ({alert}) => {
       </AlertStyle>
     )
 }
-
 
 const AlertStyle = styled.div`
     z-index:10002;

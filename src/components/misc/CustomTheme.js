@@ -285,9 +285,6 @@ export const HeaderTwo = styled.div`
             border-style:none;
             font-weight:500;
             cursor:pointer;
-            // background-color:#77B5C6;
-            // background-color:rgba(0,0,0,0.05);
-            // background-color:#f0f2f5;
             background-color:#e4e6eb;
             margin-right:5px;
             padding:10px 24px;
@@ -308,22 +305,6 @@ export const HeaderTwo = styled.div`
         .Active{
             border-top:2px solid green;
             position:relative;
-                // &::before{
-                //     content:"✔";
-                //     position:absolute;
-                //     display:flex;
-                //     align-items:center;
-                //     justify-content:center;
-                //     z-index:1;
-                //     top:-10px;
-                //     left:5%;
-                //     border:1px solid green;
-                //     background-color:white;
-                //     color:green;
-                //     width:17px;
-                //     height:17px;
-                //     border-radius:50%;
-                // }
         }
         .dd{
             margin-left:0px;

@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom"
 import axios from "global/axiosbase"
 import { edpurl } from "global/edpAxios"
 import ContentParser from "components/misc/ContentParser"
-import FileUpload from "components/misc/FileUpload"
+// import FileUpload from "components/misc/FileUpload"
 
 const InfoOne = ({ modal }) => {
     const history = useHistory();
@@ -25,7 +25,7 @@ const InfoOne = ({ modal }) => {
     const fetchData = () =>{
         axios.get(`infoones?idd=${param}`, ).then(res=>{
             if(res.data.length){
-                setSelectedFile(res.data[0]?.edpuploads);
+                // setSelectedFile(res.data[0]?.edpuploads);
                 setData(res.data[0]?.body);
                 setFetchID(res.data[0]?.id);
             }
@@ -34,7 +34,7 @@ const InfoOne = ({ modal }) => {
 
     const clickHandle = () =>{
         if(data.length){
-            if(SelectedFile.length){
+            // if(SelectedFile.length){
                 ctx.loadFunc(true);
                 if(fetchID){
                     axios.put(`infoones/${fetchID}`, { body: data, idd: param }).then(res=>{
@@ -65,10 +65,10 @@ const InfoOne = ({ modal }) => {
                         });
                     }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа post',true ));
                 }
-            }else{
-                setErrTxt({cond:true, text: "Бүтцийн зураг оруулна уу.." });
-                setTimeout(() => { setErrTxt({cond:false, text: "" }); }, 4000);
-            }
+            // }else{
+            //     setErrTxt({cond:true, text: "Бүтцийн зураг оруулна уу.." });
+            //     setTimeout(() => { setErrTxt({cond:false, text: "" }); }, 4000);
+            // }
         }else{
             setErrTxt({cond:true, text: "Мэдээллээ гүйцэд оруулна уу.." });
             setTimeout(() => { setErrTxt({cond:false, text: "" }); }, 4000);
@@ -78,12 +78,12 @@ const InfoOne = ({ modal }) => {
     return (
         <>
             {modal?<><ContentParser data={data} titleSm={`Бүтэц, зохион байгуулалт`} titleBig={`III. Аж ахуйн нэгжийн танилцуулга`} />
-            <FileUpload SelectedFile={SelectedFile} setSelectedFile={setSelectedFile} title={`Хавсралт. Бүтцийн зураг оруулах`} modal={modal} />
+            {/* <FileUpload SelectedFile={SelectedFile} setSelectedFile={setSelectedFile} title={`Хавсралт. Бүтцийн зураг оруулах`} modal={modal} /> */}
             </>
             :<Container>
                 <CkEditor title={`Бүтэц, зохион байгуулалт`} height={"35rem"} data={data} setData={setData} />
 
-                <FileUpload SelectedFile={SelectedFile} setSelectedFile={setSelectedFile} title={`Хавсралт. Бүтцийн зураг оруулах`} modal={modal} />
+                {/* <FileUpload SelectedFile={SelectedFile} setSelectedFile={setSelectedFile} title={`Хавсралт. Бүтцийн зураг оруулах`} modal={modal} /> */}
 
                 <ButtonStyle2 >
                     <div className="errTxt">{errTxt.cond&&`${errTxt.text}`}</div>

@@ -71,8 +71,8 @@ export const AddModal = ({ setAddModal, setCond, urlDetail, url, title, customTi
         }else{
             setDetails(prev=> [...prev, initial ])
         }
-        
     }
+
 
     return (
         <CustomModal>
@@ -145,14 +145,15 @@ export const AddModal = ({ setAddModal, setCond, urlDetail, url, title, customTi
 export const EditModal = ({ setAddModal, setCond, setDataOne, helpField2, urlDetail, url, title, helpField, length, setCond2 }) => {
     const history = useHistory();
     const param = useParams().id;
-    // const initial = { idd: param }
+    const initial = { idd: param }
     const ctx = useContext(UserContext);
     const [ close,setClose ] = useState('');
-    // const [ details, setDetails ] = useState([]);
+    const [ details, setDetails ] = useState(setDataOne??[]);
     const closeHandle = () =>{
         setClose('contentParent2');
         setTimeout(() => { setAddModal(false); setClose('') }, 300);
     }
+    
 
     const SubmitHandle = (e) =>{
         e.preventDefault();
@@ -164,7 +165,6 @@ export const EditModal = ({ setAddModal, setCond, setDataOne, helpField2, urlDet
         arr2.forEach((el, i)=>{
             let obj = {};
             let detailInp = document.querySelectorAll(`.gettInppDetail2${i + 1}`); let arr2 = Array.from(detailInp);
-
             arr2.forEach(elem=>{
                 if(elem.name !== "desc"){
                     obj[elem.name] = parseInt(elem.value.replaceAll(',',''));; 
@@ -178,32 +178,70 @@ export const EditModal = ({ setAddModal, setCond, setDataOne, helpField2, urlDet
         });
 
         ctx.loadFunc(true);
-        axios.put(`${url}/${setDataOne[0]?.id}`, final).then(res=>{
+        axios.put(`${url}/${details[0]?.id}`, final).then(res=>{
             if(res.data.id){
                 const datalength = finalDetail.length
                 finalDetail.forEach((el, ind)=>{
                     el[helpField] = res.data.id;
-                    axios.put(`${urlDetail}/${el.id}`, el).then(res=>{
-                        if(datalength - 1 === ind){
-                            ctx.alertFunc('green','Амжилттай',true );
-                            ctx.loadFunc(false);
-                            setClose('contentParent2');
-                            setTimeout(() => { setAddModal(false); setClose(''); setCond(prev=>!prev); }, 300);
-
-                            if(helpField === "busthree" && length > 0){
-                                axios.put(`totals/${ctx.total?.id}`, { busone: true, idd: param }).then(res=>{
-                                    ctx.alertFunc('green','Амжилттай',true );
-                                    ctx.loadFunc(false);
-                                    setCond2(prev=>!prev);
-                                    // history.push(`/${param}/businessinfo/3`);
-                                })
+                    if(el.id){
+                        axios.put(`${urlDetail}/${el.id}`, el).then(res=>{
+                            if(datalength - 1 === ind){
+                                ctx.alertFunc('green','Амжилттай',true );
+                                ctx.loadFunc(false);
+                                setClose('contentParent2');
+                                setTimeout(() => { setAddModal(false); setClose(''); setCond(prev=>!prev); }, 300);
+    
+                                if(helpField === "busthree" && length > 0){
+                                    axios.put(`totals/${ctx.total?.id}`, { busone: true, idd: param }).then(res=>{
+                                        ctx.alertFunc('green','Амжилттай',true );
+                                        ctx.loadFunc(false);
+                                        setCond2(prev=>!prev);
+                                        // history.push(`/${param}/businessinfo/3`);
+                                    })
+                                }
+    
                             }
-
-                        }
-                    }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+                        }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+                    }else{
+                        axios.post(`${urlDetail}`, el).then(res=>{
+                            if(datalength - 1 === ind){
+                                ctx.alertFunc('green','Амжилттай',true );
+                                ctx.loadFunc(false);
+                                setClose('contentParent2');
+                                setTimeout(() => { setAddModal(false); setClose(''); setCond(prev=>!prev); }, 300);
+                                if(helpField === "busthree" && length > 0){
+                                    axios.put(`totals/${ctx.total?.id}`, { busone: true, idd: param }).then(res=>{
+                                        ctx.alertFunc('green','Амжилттай',true );
+                                        ctx.loadFunc(false);
+                                        setCond2(prev=>!prev);
+                                        // history.push(`/${param}/businessinfo/3`);
+                                    })
+                                }
+    
+                            }
+                        }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+                    }
+                    
                 });
             }
         }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
+    }
+
+    console.log(`details++`, details)
+
+    const AddHandle = () =>{
+        // const detail = details[0][helpField2].push(initial)
+        // console.log(`detail`, detail);
+        // console.log(`object++++`, details[0][helpField2].length)
+        // let final = details[0][helpField2].push(initial);
+
+        // console.log(`final`, final)
+        // setDetails(prev=> [ ...prev[0][helpField2].push(initial) ]);
+        setDetails(prev=> [ ...prev.filter(item=>{
+            item[helpField2].push(initial);
+            return item
+        })]);
+
     }
 
     return (
@@ -215,7 +253,7 @@ export const EditModal = ({ setAddModal, setCond, setDataOne, helpField2, urlDet
                 </div>
                 <form onSubmit={SubmitHandle}>
                     <div className="content contentFlex">
-                        {setDataOne.map((el,i)=>{
+                        {details.map((el,i)=>{
                             return(
                                 <>
                                     <div key={el.id} className="TableHead">
@@ -234,9 +272,11 @@ export const EditModal = ({ setAddModal, setCond, setDataOne, helpField2, urlDet
                                             <NumberFormat className="cash gettInppe" disabled={true} defaultValue={el.year_one} name={`year_one`} isNumericString={true} thousandSeparator={true} placeholder="0" required />
                                         </InputStyle>
                                     </div>
-                                    {/* <div className="modalbtnPar">
-                                        <button type="button" onClick={()=>setDetails(prev=> [...prev, initial ])} className="modalbtn">+ задаргаа нэмэх</button>
-                                    </div> */}
+
+                                    <div className="modalbtnPar">
+                                        <button type="button" onClick={AddHandle} className="modalbtn">+ задаргаа нэмэх</button>
+                                    </div>
+
                                     {helpField2==="bustwodetails"?el.bustwodetails.map((elem, ind)=>{
                                         return(
                                             <div key={elem.id} id={elem.id} className="TableHead getTable2">

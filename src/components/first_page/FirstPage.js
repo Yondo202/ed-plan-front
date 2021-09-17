@@ -5,7 +5,7 @@ import axios from "global/axiosbase"
 import { edpurl } from "global/edpAxios"
 import{  ButtonStyle2, InputStyle, MaxDate, Skeleton } from "components/misc/CustomTheme";
 import UserContext from "global/UserContext"
-import FileUploads from "components/misc/FileUpload"
+// import FileUploads from "components/misc/FileUpload"
 import FileUploadFirst from "components/misc/FileUploadFirst"
 
 
@@ -117,9 +117,9 @@ const FirstPage = ({modal}) => {
                         </InputStyle>}
                     </div>
 
-                    <div className="itemTitle" style={!selectLogo.id?{marginBottom:45}:{marginBottom:0}} >Экспортын бүтээгдэхүүний зураг</div>
+                    {/* <div className="itemTitle" style={!selectLogo.id?{marginBottom:45}:{marginBottom:0}} >Экспортын бүтээгдэхүүний зураг</div>
                     { selectLogo.id?<FileUploads SelectedFile={SelectedFile} setSelectedFile={setSelectedFile} title={``} first={true} modal={modal} />
-                    :getData.id? <FileUploads SelectedFile={SelectedFile} setSelectedFile={setSelectedFile} title={``} modal={modal} first={true} /> : null } 
+                    :getData.id? <FileUploads SelectedFile={SelectedFile} setSelectedFile={setSelectedFile} title={``} modal={modal} first={true} /> : null } */}
                     
                     
                     <div className="item">Экспортын зорилтот орны нэр: {ctx.targetCountry?.country}</div>

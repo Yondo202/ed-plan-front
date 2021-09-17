@@ -4,8 +4,8 @@ import { HeaderTwo } from "components/misc/CustomTheme"
 import { BrowserRouter as Switch, Link, Route, useLocation, useParams, useHistory } from "react-router-dom";
 import ExportOne from "components/export/ExportOne"
 import{ Container } from "components/misc/CustomTheme";
-import ExportTwo from "components/export/ExportTwo"
-import ExportThree from "components/export/ExportThree"
+import ExportTwo from "components/export/ExportTwo2"
+import ExportThree from "components/export/ExportThree2"
 import styled from 'styled-components';
 import { MdKeyboardArrowRight } from "react-icons/md"
 import axios from 'global/axiosbase';

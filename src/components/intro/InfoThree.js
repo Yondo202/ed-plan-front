@@ -35,7 +35,7 @@ const InfoThree = ({ modal }) => {
 
       await axios.get(`infothreefiles?idd=${param}`).then(res=>{
           if(res.data.length){
-            setSelectedFile(res.data[0]?.edpuploads);
+            // setSelectedFile(res.data[0]?.edpuploads);
             setParentId(res.data[0].id);
           }
       });
@@ -44,7 +44,7 @@ const InfoThree = ({ modal }) => {
     const onSubmit = (e) =>{
         e.preventDefault();
         if(activityData.length !== 0){
-            if(SelectedFile.length){
+            // if(SelectedFile.length){
             ctx.loadFunc(true);
             setErrText(false);
             if(parentId){
@@ -88,10 +88,11 @@ const InfoThree = ({ modal }) => {
                     }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                 }
             })
-            }else{
-                setErrTxt({cond:true, text: "Иргэний үнэмлэхний зурагийг хавсаргана уу .." });
-                setTimeout(() => { setErrTxt({cond:false, text: "" }); }, 4000);
-            }
+            // }
+            // else{
+            //     setErrTxt({cond:true, text: "Иргэний үнэмлэхний зурагийг хавсаргана уу .." });
+            //     setTimeout(() => { setErrTxt({cond:false, text: "" }); }, 4000);
+            // }
         }else{
             setErrTxt({cond:true, text: "Мэдээллээ гүйцэд оруулна уу.." });
             setTimeout(() => { setErrTxt({cond:false, text: "" }); }, 4000);
@@ -151,7 +152,7 @@ const InfoThree = ({ modal }) => {
                     </table>
                 </div>
 
-                <FileUpload SelectedFile={SelectedFile} setSelectedFile={setSelectedFile} title={`Хавсралт. Иргэний үнэмлэх.`} modal={modal} />
+                {/* <FileUpload SelectedFile={SelectedFile} setSelectedFile={setSelectedFile} title={`Хавсралт. Иргэний үнэмлэх.`} modal={modal} /> */}
 
                 {!modal&&<ButtonStyle2>
                     <div className="errTxt">{errTxt.cond&&`${errTxt.text}`}</div>
