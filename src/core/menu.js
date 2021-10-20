@@ -71,6 +71,9 @@ function Menu() {
             
 
             {context.approve?.approve&&<PreviewTools margin={`8.2rem`}>
+            {/* <a href="https://drive.google.com/file/d/1H7tb0eDklwtzfte9hSSEfSrYPvZBisPY/view" rel="noreferrer" target="_blank">
+                
+            </a> */}
                 <div onClick={()=>setShowExample(true)} className="Preview example">
                     <div className="title">Жишээ загвар харах</div>
                     <RiBookReadFill />
@@ -88,10 +91,10 @@ function Menu() {
 
             {showVideo?<TableExample setShowVideo={setShowVideo} />:null}
 
-            {showExample?<TableExample onClick={CloseHandleExample} ref={reff} >
+            {showExample?<GoogleDrive onClick={CloseHandleExample} ref={reff} >
                 <iframe src="https://drive.google.com/file/d/1H7tb0eDklwtzfte9hSSEfSrYPvZBisPY/preview" width="1000" height="800" allow="autoplay"></iframe>
                 <div />
-            </TableExample>:null}
+            </GoogleDrive>:null}
 
            {showModal&&<ModalMain setShowModal={setShowModal} admin={false} />} 
         </>
@@ -99,6 +102,20 @@ function Menu() {
 }
 
 export default Menu
+
+const GoogleDrive = styled.div`
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-color:rgba(0,0,0,0.5);
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    z-index:1000;
+    padding-top:4rem;
+`
 
 const PreviewTools = styled.div`
     display:flex;

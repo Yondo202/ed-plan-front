@@ -38,14 +38,14 @@ export const AddModal = ({ setAddModal, setCond, urlDetail, url, title, customTi
             obj["idd"] = param
             finalDetail.push(obj);
         });
-        if(finalDetail.length > 1){
+
+        if(finalDetail.length > 1 || helpField==="bustwo"){
             ctx.loadFunc(true);
             axios.post(url, final).then(res=>{
                 if(res.data.id){
                     const datalength = finalDetail.length
                     finalDetail.forEach((el, ind)=>{
                         el[helpField] = res.data.id;
-                        console.log(`helpField`, helpField);
                         if(url === "busthrees" && length === 0){
                             axios.post(`export-products`, { idd: param, name: el.desc })
                         }
@@ -66,12 +66,21 @@ export const AddModal = ({ setAddModal, setCond, urlDetail, url, title, customTi
                             }
                         }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                     });
+                    ctx.alertFunc('green','Амжилттай',true );
+                    ctx.loadFunc(false);
+                    setCond2(prev=>!prev);
+                    setClose('contentParent2');
+                    setTimeout(() => { setAddModal(false); setClose(''); setCond(prev=>!prev) }, 300);
                 }
             }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
         }else{
             setDetails(prev=> [...prev, initial ])
         }
     }
+
+    // busthree
+    console.log(`helpField`, helpField)
+
 
 
     return (
@@ -227,8 +236,6 @@ export const EditModal = ({ setAddModal, setCond, setDataOne, helpField2, urlDet
         }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
     }
 
-    console.log(`details++`, details)
-
     const AddHandle = () =>{
         // const detail = details[0][helpField2].push(initial)
         // console.log(`detail`, detail);
@@ -243,6 +250,8 @@ export const EditModal = ({ setAddModal, setCond, setDataOne, helpField2, urlDet
         })]);
 
     }
+
+
 
     return (
         <CustomModal>

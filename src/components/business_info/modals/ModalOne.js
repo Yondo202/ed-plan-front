@@ -11,7 +11,7 @@ export const AddModal = ({ setAddModal, setCond, setCond2 }) => {
     const initial = { idd: param }
     const ctx = useContext(UserContext);
     const [ close,setClose ] = useState('');
-    const [ details, setDetails ] = useState([]);
+    const [ details, setDetails ] = useState([{ idd: param }, { idd: param }]);
     const closeHandle = () =>{
         setClose('contentParent2');
         setTimeout(() => { setAddModal(false); setClose('') }, 300);
@@ -35,7 +35,9 @@ export const AddModal = ({ setAddModal, setCond, setCond2 }) => {
             obj["idd"] = param
             finalDetail.push(obj);
         });
-        if(finalDetail.length > 1){
+
+
+        // if(finalDetail.length > 1){
             ctx.loadFunc(true);
             axios.post(`busones`, final).then(res=>{
                 if(res.data.id){
@@ -55,9 +57,9 @@ export const AddModal = ({ setAddModal, setCond, setCond2 }) => {
                     // setCond(prev=>!prev);
                 }
             }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
-        }else{
-            setDetails(prev=> [...prev, initial ])
-        }
+        // }else{
+        //     setDetails(prev=> [...prev, initial ])
+        // }
         
 
     }
@@ -87,16 +89,16 @@ export const AddModal = ({ setAddModal, setCond, setCond2 }) => {
                             </InputStyle>
                         </div>
 
-                        <div className="modalbtnPar">
+                        {/* <div className="modalbtnPar">
                             <button onClick={()=>setDetails(prev=> [...prev, initial ])} type="button" className="modalbtn">+ задаргаа нэмэх</button>
-                        </div>
+                        </div> */}
 
                         {details.map((el,i)=>{
                             return(
                                 <div key={i} className="TableHead getTable">
                                     <InputStyle className="inputt">
-                                        <div className="label">Задаргааны тодорхойлолт</div>
-                                        <input name="desc" className={`gettInppDetail${i + 1}`} type="text" required />
+                                        <div className="label">{i===0?`Үүнээс дотоодын борлуулалт`:`Үүнээс экспортын борлуулалт`}</div>
+                                        <input name="desc" value={i===0?`Үүнээс дотоодын борлуулалт`:`Үүнээс экспортын борлуулалт`} className={`gettInppDetail${i + 1}`} type="text" style={{opacity:`0`}} />
                                     </InputStyle>
                                     <InputStyle className="inputt">
                                         <div className="label">{MaxDate.three} </div>
@@ -165,7 +167,6 @@ export const EditModal = ({ setAddModal, setCond, setDataOne, setCond2 }) => {
                 finalDetail.forEach((el, ind)=>{
                     el["busone"] = res.data.id;
                     axios.put(`busonedetails/${el.id}`, el).then(res=>{
-
                         if(myLeng - 1 === ind){
                             ctx.alertFunc('green','Амжилттай',true );
                             ctx.loadFunc(false);
@@ -173,13 +174,14 @@ export const EditModal = ({ setAddModal, setCond, setDataOne, setCond2 }) => {
                             setCond2(prev=>!prev);
                             setTimeout(() => { setAddModal(false); setClose(''); setCond(prev=>!prev); }, 300);
                         }
-                        
                     }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                 });
                 // setCond(prev=>!prev);
             }
         }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
     }
+
+    console.log(`setDataOne`, setDataOne)
     return (
         <CustomModal>
             <div className={`contentParent ${close}`} style={{width:"60rem"}}>
@@ -215,8 +217,8 @@ export const EditModal = ({ setAddModal, setCond, setDataOne, setCond2 }) => {
                                         return(
                                             <div key={elem.id} id={elem.id} className="TableHead getTable2">
                                                 <InputStyle className="inputt">
-                                                    <div className="label">Задаргааны тодорхойлолт</div>
-                                                    <input name="desc" defaultValue={elem.desc} className={`gettInppDetail2${ind + 1}`} type="text" required />
+                                                    <div className="label"> { ind===0?`Үүнээс дотоодын борлуулалт`:`Үүнээс экспортын борлуулалт` }</div>
+                                                    <input name="desc" value={i===0?`Үүнээс дотоодын борлуулалт`:`Үүнээс экспортын борлуулалт`} className={`gettInppDetail${i + 1}`} type="text" style={{opacity:`0`}} />
                                                 </InputStyle>
                                                 <InputStyle className="inputt">
                                                     <div className="label">{MaxDate.three} </div>

@@ -37,9 +37,10 @@ const BusOneMain = ({ modal }) => {
         }
         fetchOne();
     },[cond]);
-    
+
     const clickHandle = () =>{
-        if(countOne > 0 && countTwo > 1 && countThree > 1 ){
+        // if(countOne > 0 && countTwo > 0 && countThree > 1 ){
+        if(countOne > 0 && countThree > 1 ){
             ctx.loadFunc(true);
             axios.put(`totals/${ctx.total?.id}`, { busone: true, idd: param }).then(res=>{
                 ctx.alertFunc('green','Амжилттай',true );
@@ -99,7 +100,7 @@ const BusOneMain = ({ modal }) => {
                 <BusinessInfoOne modal={modal} cond2={cond} setCond2={setCond} value={getValue}  />
                 <BusinessInfoTwo
                     title={`Дотоод борлуулалт -  ${getValue}`}
-                    subTitle={{ 
+                    subTitle={{
                         one: "Дотоодын борлуулалт (голлох бүтээгдэхүүнээр)", 
                         // two: "Экспорт (голлох бүтээгдэхүүнээр)"
                     }}

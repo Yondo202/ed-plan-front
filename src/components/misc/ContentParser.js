@@ -20,12 +20,17 @@ const PrintStyle = styled.div`
     page-break-inside: avoid;
     margin-bottom:35px;
     .ContentSector{
+        table{
+            td, th{
+                border:1px solid rgba(0,0,0,.2);
+            }
+        }
         text-align: justify;
         font-size:13px;
     }
     .BigTitle{
         text-align:center;
-        font-size:20px;
+        font-size:18px;
         margin-bottom:10px;
     }
     .titleSm{
@@ -36,10 +41,10 @@ const PrintStyle = styled.div`
     }
     @media print{
         .BigTitle{
-            font-size:26px;
+            font-size:24px;
         }
         .ContentSector{
-            font-size:18px;
+            font-size:17px;
         }
         .titleSm{
             font-size:21px;
