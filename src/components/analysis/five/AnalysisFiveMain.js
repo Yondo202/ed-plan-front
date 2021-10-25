@@ -118,7 +118,7 @@ const AnalysisFiveMain = ({modal}) => {
     }
     
     const clickHandle = () =>{
-        if(dataLength > 3){
+        if(dataLength > 0){
             ctx.loadFunc(true);
             axios.put(`totals/${ctx.total?.id}`, { analysisfive: true, idd: param }).then(res=>{
                 ctx.alertFunc('green','Амжилттай',true );
@@ -162,7 +162,7 @@ const AnalysisFiveMain = ({modal}) => {
         <Container style={modal&&{padding:"0px 0px"}}>
             <div className={modal?`customTable T3 pageRender`:`customTable T3`}>
                     <div className="headPar">
-                        <div className="title">Экспортын борлуулалтын төлөвлөгөө ( ам.доллар )</div>
+                        <div className="title">Экспортын борлуулалтын төлөвлөгөө ( Төгрөгөөр)</div>
                         {/* <div onClick={()=>setAddModal(true)} className="addBtn"><RiAddLine /><span>Нэмэх</span></div> */}
                     </div>
                     <form onSubmit={submitHandle}>

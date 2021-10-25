@@ -24,6 +24,8 @@ const FirstPage = ({modal}) => {
 
     const FetchData = async () =>{
         const data = await axios.get(`firstpages?idd=${param}`);
+        console.log(`-->data`, data)
+
         if(data.data.length){
             setGetData(data.data[0]);
             setSelectLogo({id: data.data[0].logo_id, fileUrl: data.data[0].logo_url, idd:data.data[0].idd, ids:data.data[0].id });
@@ -38,7 +40,7 @@ const FirstPage = ({modal}) => {
             final[el.name] = el.value;
         });
 
-        if(SelectedFile.length && selectLogo.id){
+        if(selectLogo.id){
             ctx.loadFunc(true);
 
             if(getData.id){

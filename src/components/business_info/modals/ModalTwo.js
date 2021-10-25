@@ -79,7 +79,6 @@ export const AddModal = ({ setAddModal, setCond, urlDetail, url, title, customTi
     }
 
     // busthree
-    console.log(`helpField`, helpField)
 
 
 
