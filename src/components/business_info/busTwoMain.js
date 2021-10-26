@@ -25,7 +25,7 @@ const BusTwoMain = ({ modal }) => {
         fetchResult();
         setTimeout(() => {
             FetchData();
-        }, 100)
+        }, 200)
     },[]);
     
 
@@ -158,7 +158,14 @@ const BusTwoMain = ({ modal }) => {
     }
     
     const clickHandle = () =>{
+        // let cond = false
+        // staticData.forEach(el=>{
+        //     if(el.inp===true){
+        //         cond=true
+        //     }
+        // })
         // if(dataLength === 9){
+        if(!staticData.some(item=>item.inp === true)){
             ctx.loadFunc(true);
             axios.put(`totals/${ctx.total?.id}`, { bustwo: true, idd: param }).then(res=>{
                 ctx.alertFunc('green','Амжилттай',true );
@@ -177,9 +184,9 @@ const BusTwoMain = ({ modal }) => {
                     axios.post(`businessresults`, el )
                 }
             });
-        // }else{
-        //     ctx.alertFunc('orange','Мэдээллийг гүйцэд оруулна уу', true );
-        // }
+        }else{
+            ctx.alertFunc('orange','Мэдээлэл оруулсан мөрийг баталгаажуулна уу', true );
+        }
     }
 
     const HeadHandle = (e) =>{
@@ -197,6 +204,10 @@ const BusTwoMain = ({ modal }) => {
             setHeadEdit(false);
         });
     }
+
+    console.log(`resultData`, resultData)
+
+    console.log(`staticData -->`, )
 
     return (
         <Container style={modal&&{padding:"0px 0px"}}>
