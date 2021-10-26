@@ -16,7 +16,7 @@ const FirstPage = ({modal}) => {
     const [ errTxt, setErrTxt ] = useState({cond: false, text:''});
     const [ getData, setGetData ] = useState({});
     const [ selectLogo, setSelectLogo ] = useState({});
-    const [ SelectedFile, setSelectedFile ] = useState([]);
+    // const [ SelectedFile, setSelectedFile ] = useState([]);
 
     useEffect(()=>{
         FetchData();
@@ -24,12 +24,10 @@ const FirstPage = ({modal}) => {
 
     const FetchData = async () =>{
         const data = await axios.get(`firstpages?idd=${param}`);
-        console.log(`-->data`, data)
-
         if(data.data.length){
             setGetData(data.data[0]);
             setSelectLogo({id: data.data[0].logo_id, fileUrl: data.data[0].logo_url, idd:data.data[0].idd, ids:data.data[0].id });
-            setSelectedFile(data.data[0].firstpageimages);
+            // setSelectedFile(data.data[0].firstpageimages);
         }
     }
 
@@ -51,13 +49,16 @@ const FirstPage = ({modal}) => {
                     // target_country:ctx.targetCountry?.country,
                     ...final
                   }).then(res=>{
-                    SelectedFile.forEach(el=>{
-                        if(el.idd){
-                            axios.put(`firstpageimages/${el.id}`, { firstpage:res.data.id, image_url: el.image_url, image_id: parseInt(el.id), idd: param });
-                        }else{
-                            axios.post(`firstpageimages`, { firstpage:res.data.id, image_url: edpurl + el.fileUrl.replace("public", ""), image_id: el.id, idd: param });
-                        }
-                    });
+
+                    // SelectedFile.forEach(el=>{
+                    //     if(el.idd){
+                    //         axios.put(`firstpageimages/${el.id}`, { firstpage:res.data.id, image_url: el.image_url, image_id: parseInt(el.id), idd: param });
+                    //     }else{
+                    //         axios.post(`firstpageimages`, { firstpage:res.data.id, image_url: edpurl + el.fileUrl.replace("public", ""), image_id: el.id, idd: param });
+                    //     }
+                    // });
+
+                    axios.put(`totals/${ctx.total?.id}`, { firstpage: true, idd: param });
                     ctx.alertFunc('green','Амжилттай',true );
                     ctx.loadFunc(false);
                 }).catch(_=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
@@ -69,16 +70,15 @@ const FirstPage = ({modal}) => {
                     target_country:ctx.targetCountry?.country,
                     ...final
                   }).then(res=>{
-                    SelectedFile.forEach(el=>{
-                        axios.post(`firstpageimages`, { firstpage:res.data.id, image_url: edpurl + el.fileUrl.replace("public", ""), image_id: el.id, idd: param });
-                    })
+                    // SelectedFile.forEach(el=>{
+                    //     axios.post(`firstpageimages`, { firstpage:res.data.id, image_url: edpurl + el.fileUrl.replace("public", ""), image_id: el.id, idd: param });
+                    // })
                     axios.put(`totals/${ctx.total?.id}`, { firstpage: true, idd: param });
                     ctx.alertFunc('green','Амжилттай',true );
                     ctx.loadFunc(false);
                     setTimeout(() => {
                         history.push(`/${param}`)
                     }, 3000)
-                    
                 }).catch(_=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
             }
         }else{

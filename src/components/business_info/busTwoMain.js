@@ -22,8 +22,10 @@ const BusTwoMain = ({ modal }) => {
     const [ HeadEdit, setHeadEdit ] = useState(false);
     
     useEffect(()=>{
-        FetchData();
         fetchResult();
+        setTimeout(() => {
+            FetchData();
+        }, 100)
     },[]);
     
 
@@ -156,7 +158,7 @@ const BusTwoMain = ({ modal }) => {
     }
     
     const clickHandle = () =>{
-        if(dataLength === 9){
+        // if(dataLength === 9){
             ctx.loadFunc(true);
             axios.put(`totals/${ctx.total?.id}`, { bustwo: true, idd: param }).then(res=>{
                 ctx.alertFunc('green','Амжилттай',true );
@@ -175,9 +177,9 @@ const BusTwoMain = ({ modal }) => {
                     axios.post(`businessresults`, el )
                 }
             });
-        }else{
-            ctx.alertFunc('orange','Мэдээллийг гүйцэд оруулна уу', true );
-        }
+        // }else{
+        //     ctx.alertFunc('orange','Мэдээллийг гүйцэд оруулна уу', true );
+        // }
     }
 
     const HeadHandle = (e) =>{
@@ -340,23 +342,23 @@ const BusTwoMain = ({ modal }) => {
 export default BusTwoMain
 
 const Data = [
-    { code : 1, desc: "Нийт хөрөнгө C1", year_one: null, year_two: null,  year_three: null, finance: true, idd: null, inp:false },
-    { code : 2, desc: "Нийт хөрөнгө С2", year_one: null, year_two: null,  year_three: null, finance: true, idd: null, inp:false  },
-    { code : 3, desc: "Эргэлтийн хөрөнгө", year_one: null, year_two: null,  year_three: null, finance: true, idd: null, inp:false  },
-    { code : 4, desc: "Нийт өр төлбөр", year_one: null, year_two: null,  year_three: null, finance: true, idd: null, inp:false  },
-    { code : 5, desc: "Богино хугацаат өр төлбөр", year_one: null, year_two: null,  year_three: null, finance: true, idd: null, inp:false  },
-    { code : 6, desc: "Нийт эзэмшигчдийн өмч", year_one: null, year_two: null,  year_three: null, finance: true, idd: null, inp:false  },
-    { code : 7, desc: "Нийт борлуулалт", year_one: null, year_two: null,  year_three: null, finance: true, idd: null, inp:false  },
-    { code : 8, desc: "Нийт ашиг", year_one: null, year_two: null,  year_three: null, finance: true, idd: null, inp:false  },
-    { code : 9, desc: "Цэвэр ашиг", year_one: null, year_two: null,  year_three: null, finance: true, idd: null, inp:false  },
+    { code : 1, desc: "Нийт хөрөнгө C1", year_one: 0, year_two: 0,  year_three: 0, finance: true, idd: null, inp:false },
+    { code : 2, desc: "Нийт хөрөнгө С2", year_one: 0, year_two: 0,  year_three: 0, finance: true, idd: null, inp:false  },
+    { code : 3, desc: "Эргэлтийн хөрөнгө", year_one: 0, year_two: 0,  year_three: 0, finance: true, idd: null, inp:false  },
+    { code : 4, desc: "Нийт өр төлбөр", year_one: 0, year_two: 0,  year_three: 0, finance: true, idd: null, inp:false  },
+    { code : 5, desc: "Богино хугацаат өр төлбөр", year_one: 0, year_two: 0,  year_three: 0, finance: true, idd: null, inp:false  },
+    { code : 6, desc: "Нийт эзэмшигчдийн өмч", year_one: 0, year_two: 0,  year_three: 0, finance: true, idd: null, inp:false  },
+    { code : 7, desc: "Нийт борлуулалт", year_one: 0, year_two: 0,  year_three: 0, finance: true, idd: null, inp:false  },
+    { code : 8, desc: "Нийт ашиг", year_one: 0, year_two: 0,  year_three: 0, finance: true, idd: null, inp:false  },
+    { code : 9, desc: "Цэвэр ашиг", year_one: 0, year_two: 0,  year_three: 0, finance: true, idd: null, inp:false  },
 ]
 
 const ResultData = [
-    { code : 10, desc: "Debt to equity (4/6)", val1:4, val2:6, year_one: null, year_two: null,  year_three: null, finance: false, idd: null, inp:false  },
-    { code : 11, desc: "Current ratio (3/5)", val1:3, val2:5, year_one: null, year_two: null,  year_three: null, finance: false, idd: null, inp:false  },
-    { code : 12, desc: "ROE (9/6)", val1:9, val2:6, year_one: null, year_two: null,  year_three: null, finance: false, idd: null, inp:false  },
-    { code : 13, desc: "Gross margin (8/7)", val1:8, val2:7, year_one: null, year_two: null,  year_three: null, finance: false, idd: null, inp:false  },
-    { code : 14, desc: "Asset turnover (7/(1+2)/2)", val1:7, val2:1, val3:2, year_one: null, year_two: null,  year_three: null, finance: false, idd: null, inp:false  },
+    { code : 10, desc: "Debt to equity (4/6)", val1:4, val2:6, year_one: 0, year_two: 0,  year_three: 0, finance: false, idd: null, inp:false  },
+    { code : 11, desc: "Current ratio (3/5)", val1:3, val2:5, year_one: 0, year_two: 0,  year_three: 0, finance: false, idd: null, inp:false  },
+    { code : 12, desc: "ROE (9/6)", val1:9, val2:6, year_one: 0, year_two: 0,  year_three: 0, finance: false, idd: null, inp:false  },
+    { code : 13, desc: "Gross margin (8/7)", val1:8, val2:7, year_one: 0, year_two: 0,  year_three: 0, finance: false, idd: null, inp:false  },
+    { code : 14, desc: "Asset turnover (7/(1+2)/2)", val1:7, val2:1, val3:2, year_one: 0, year_two: 0,  year_three: 0, finance: false, idd: null, inp:false  },
 ]
 
 
