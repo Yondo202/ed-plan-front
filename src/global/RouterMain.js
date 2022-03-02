@@ -16,10 +16,11 @@ import FirstPage from "components/first_page/FirstPage"
 
 const RouterMain = () => {
     const ctx = useContext(UserContext);
+    console.log(`ctx`, ctx)
     return (
         <>
             <Menu />
-            {ctx.approve?.idd?ctx.approve?.approve === true?
+            { ctx.approve?.idd? ctx.approve?.approve === true?
             <>
             <Route path="/:id/" component={Home} exact />
             <Route path="/:id/businessinfo" component={BusinessMain} />

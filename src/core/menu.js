@@ -20,7 +20,7 @@ function Menu() {
 
     const [ showVideo, setShowVideo ] = useState(false);
     const [ showExample, setShowExample ] = useState(false);
-    
+
     useEffect(()=>{
         if(parseInt(param)){
             setParamCond(param);

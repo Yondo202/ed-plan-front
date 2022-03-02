@@ -205,9 +205,6 @@ const BusTwoMain = ({ modal }) => {
         });
     }
 
-    console.log(`resultData`, resultData)
-
-    console.log(`staticData -->`, )
 
     return (
         <Container style={modal&&{padding:"0px 0px"}}>

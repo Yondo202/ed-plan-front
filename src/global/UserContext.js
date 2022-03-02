@@ -16,6 +16,7 @@ export const UserStore = (props) => {
     useEffect(()=>{
         const FetchTotal = () =>{
              axios.get(`totals?idd=${userId}`).then(res=>{
+                 console.log(`res`, res)
                  setTotal(res?.data[0]);
              });
          }
@@ -26,11 +27,18 @@ export const UserStore = (props) => {
 
     useEffect(()=>{
         const FetchApprove = () =>{
+            
              axios.get(`approves?idd=${userId}`).then(res=>{
+
+                 console.log(`res`, res)
+
                  setApprove(res?.data[0]);
-             });
+             }).catch(err=>{
+                 console.log(`err`, err)
+             })
          }
         if(userId){
+            console.log("------ hello")
             FetchApprove();
         }
     },[userId]);
@@ -82,6 +90,10 @@ export const UserStore = (props) => {
         setAlert({ color: color, text: text, cond: cond });
         setTimeout(() => { setAlert({ color: 'white', text: '', cond: false }); }, 4000);
     }
+
+    console.log(`userId`, userId)
+
+    console.log(`approve`, approve)
 
     return (
         <UserContext.Provider value={{ UserIdProvider, userId, loading, loadFunc, alert, alertFunc, total, approve, productId, setCond, setApprove, targetCountry, targetProduct, fetchProductId }}>
