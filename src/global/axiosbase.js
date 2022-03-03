@@ -14,3 +14,4 @@ export const axiosGraphql = axios.create({
   // baseURL: "https://pimis-plan.edp.mn/",  // undsen backend ed-plan - ii axiosbase
   baseURL: "http://localhost/",
 });
+
