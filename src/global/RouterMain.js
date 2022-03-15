@@ -11,12 +11,12 @@ import Marketing from 'core/contents/marketing'
 import PlanReport from "core/contents/plan_report"
 import Analysis from "core/contents/market_analysis"
 import FirstPage from "components/first_page/FirstPage"
+import FileAttach from 'components/plan_report/fileAttach';
 
 
 
 const RouterMain = () => {
     const ctx = useContext(UserContext);
-    console.log(`ctx`, ctx)
     return (
         <>
             <Menu />
@@ -30,6 +30,7 @@ const RouterMain = () => {
             <Route path="/:id/marketing" component={Marketing} />
             <Route path="/:id/report" component={PlanReport} />
             <Route path="/:id/firstpage/1" component={FirstPage} />
+            <Route path="/:id/fileattach/1" component={FileAttach} />
             </>: <LoginMsg text="Системд нэвтрээгүй байна" />:
             <div />}
         </>

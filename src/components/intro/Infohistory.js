@@ -45,7 +45,6 @@ const Infohistory = ({ modal }) => {
                         history.push(`/${param}/intro/3`);
                     }).catch(err=>ctx.alertFunc('orange','Алдаа гарлаа',true ));
                 }).catch(err=>{
-                    console.log(`err`, err.response);
                     ctx.alertFunc('orange','Алдаа гарлаа',true )
                 });
             }

@@ -62,6 +62,13 @@ function Menu() {
                 </Link>
             </PreviewTools>}
 
+            {/* {<PreviewTools >
+                <Link to={`/${paramC}`} className="Preview home attach">
+                    <div className="title">Файл хавсаргах</div>
+                    <IoHomeSharp />
+                </Link>
+            </PreviewTools>} */}
+
             {context.approve?.approve&&<PreviewTools onClick={()=>setShowModal(prev=>!prev)} margin={`11rem`}>
                 <div className="Preview see">
                     <div className="title">Урьдчилан харах</div>
@@ -128,8 +135,6 @@ const PreviewTools = styled.div`
     a{
         text-decoration:none;
     }
-
-    
     .Preview{
         transition:all 0.3s ease;
         display:flex;
@@ -174,7 +179,6 @@ const PreviewTools = styled.div`
     
     .exampleYoutube{
         margin-left:-155px;
-        // margin-top:90px;
         cursor:pointer;
         box-shadow:1px 2px 10px -8px;
         border-radius:0px 0px 3px 0px;
@@ -188,6 +192,18 @@ const PreviewTools = styled.div`
     .home{
         margin-left:-93px;
         margin-top:-42px;
+        cursor:pointer;
+        box-shadow:1px 2px 10px -8px;
+        border-radius:0px 0px 3px 0px;
+        &:hover{
+            // background-color:rgb(${props=>props.theme.textColor});
+            // color:white;
+            margin-left:-0px;
+        }
+    }
+    .attach{
+        margin-left:-117px;
+        // margin-top:-42px;
         cursor:pointer;
         box-shadow:1px 2px 10px -8px;
         border-radius:0px 0px 3px 0px;

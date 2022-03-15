@@ -328,6 +328,44 @@ const rowAnimation = keyframes`
 `
 
 
+export const TitleStyle = styled.div`
+    position:relative;
+    margin-bottom:25px;
+    font-size:18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    font-weight:500;
+    &:before{
+        content:'';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height:2px;
+        width:100%;
+        background-color: rgba(0,0,0,.1);
+    }
+    
+    .text{
+        color:${props=>props.theme.textColor};
+        display: inline-block;
+        position: relative;
+        z-index: 1;
+        padding: 5px 5px 15px 0;
+        // text-transform: uppercase;
+        &:before{
+            content:'';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height:3px;
+            width:100%;
+            background-color: ${props=>props.theme.Color};
+        }
+        
+    }
+`
+
 export const Container = styled.div`
     page-break-inside: avoid;
     animation: ${bigAnimation} 0.6s ease;

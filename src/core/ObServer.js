@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from 'react'
 import UserContext from "global/UserContext"
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import LoginMsg from "components/misc/LoginMsg"
 import styled from 'styled-components';
 import ModalMain from 'components/pdf/ModalMain';

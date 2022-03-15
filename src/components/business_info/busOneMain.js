@@ -55,7 +55,6 @@ const BusOneMain = ({ modal }) => {
     useEffect(()=>{
         void async function Fetch(){
             let app = await axios.get(`approves?idd=${ctx?.userId}`);
-            console.log(`app`, app)
             if(app.data[0]?.value){
                 setGetValue(app.data[0]?.value);
             }

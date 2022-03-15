@@ -32,7 +32,6 @@ const InfoTwo = ({ modal }) => {
 
     const fetchData = async () =>{
       await axios.get(`infotwos?idd=${param}`).then(res=>{
-          console.log(`res`, res);
           if(res.data.length){
             // setSelectedFile(res.data[0]?.edpuploads);
             setMainData(res.data[0]);
@@ -121,8 +120,6 @@ const InfoTwo = ({ modal }) => {
         }
     }
 
-
-    console.log(`reg`, reg);
 
     return (
         <Container style={modal&&{padding:"0px 0px",boxShadow:"none"}} className="contianer-fluid">

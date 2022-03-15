@@ -14,9 +14,6 @@ function Home() {
         if(parseInt(param)){ setParamCond(param);  }
     },[param]);
 
-    console.log(`ctx.total?.firstpage`, ctx.total?.firstpage)
-    console.log(`ctx.total?.buy_plan`, ctx.total?.buy_plan)
-
     useEffect(()=>{
         if(ctx.total?.buy_plan===true&&ctx.total?.firstpage!==true){
             push(`/${param}/firstpage/1`);
@@ -113,6 +110,10 @@ function Home() {
                                 <Link to={ctx.total?.m_five?`/${paramC}/report/1`:`#`} className={ctx.total?.financeplan?`itemsActive`:`items`}>Үйл ажиллагаа болон санхүүгийн төлөвлөгөө</Link>
                                 <div className="line " ></div>
                                 <Link to={ctx.total?.financeplan?`/${paramC}/report/2`:`#`} className={ctx.total?.buy_plan?`itemsActive`:`items`}>Худалдан авах ажиллагааны төлөвлөгөө</Link>
+
+                                
+                                <div className="line " ></div>
+                                <Link to={`/${paramC}/fileattach/1`} className={`itemsActive itemsActiveAttach`}>Нэмэлтээр файл хавсаргах</Link>
                             </div>
                         </div>
                     </div>
@@ -214,6 +215,13 @@ const HomeComponent = styled.div`
                         width:19px;
                         height:19px;
                         border-radius:50%;
+                    }
+                }
+                .itemsActiveAttach{
+                    &::before{
+                        content:"📁";
+                        width:23px;
+                        height:23px;
                     }
                 }
                 .line{
